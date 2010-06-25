@@ -10,133 +10,6 @@ license: MIT-style license
 */
 
 MooEditr.Actions.extend({
-
-	bold: {
-		title: MooEditr.lang.get('bold'),
-		options: {
-			shortcut: 'b'
-		},
-		states: {
-			tags: ['b', 'strong'],
-			css: {'font-weight': 'bold'}
-		},
-		events: {
-			beforeToggleView: function(){
-				if(Browser.Engine.gecko){
-					var value = this.textarea.get('value');
-					var newValue = value.replace(/<strong([^>]*)>/gi, '<b$1>').replace(/<\/strong>/gi, '</b>');
-					if (value != newValue) this.textarea.set('value', newValue);
-				}
-			},
-			attach: function(){
-				if(Browser.Engine.gecko){
-					var value = this.textarea.get('value');
-					var newValue = value.replace(/<strong([^>]*)>/gi, '<b$1>').replace(/<\/strong>/gi, '</b>');
-					if (value != newValue){
-						this.textarea.set('value', newValue);
-						this.setContent(newValue);
-					}
-				}
-			}
-		}
-	},
-	
-	italic: {
-		title: MooEditr.lang.get('italic'),
-		options: {
-			shortcut: 'i'
-		},
-		states: {
-			tags: ['i', 'em'],
-			css: {'font-style': 'italic'}
-		},
-		events: {
-			beforeToggleView: function(){
-				if (Browser.Engine.gecko){
-					var value = this.textarea.get('value');
-					var newValue = value.replace(/<embed([^>]*)>/gi, '<tmpembed$1>')
-						.replace(/<em([^>]*)>/gi, '<i$1>')
-						.replace(/<tmpembed([^>]*)>/gi, '<embed$1>')
-						.replace(/<\/em>/gi, '</i>');
-					if (value != newValue) this.textarea.set('value', newValue);
-				}
-			},
-			attach: function(){
-				if (Browser.Engine.gecko){
-					var value = this.textarea.get('value');
-					var newValue = value.replace(/<embed([^>]*)>/gi, '<tmpembed$1>')
-						.replace(/<em([^>]*)>/gi, '<i$1>')
-						.replace(/<tmpembed([^>]*)>/gi, '<embed$1>')
-						.replace(/<\/em>/gi, '</i>');
-					if (value != newValue){
-						this.textarea.set('value', newValue);
-						this.setContent(newValue);
-					}
-				}
-			}
-		}
-	},
-	
-	underline: {
-		title: MooEditr.lang.get('underline'),
-		options: {
-			shortcut: 'u'
-		},
-		states: {
-			tags: ['u'],
-			css: {'text-decoration': 'underline'}
-		}
-	},
-	
-	strikethrough: {
-		title: MooEditr.lang.get('strikethrough'),
-		options: {
-			shortcut: 's'
-		},
-		states: {
-			tags: ['s', 'strike'],
-			css: {'text-decoration': 'line-through'}
-		}
-	},
-	
-	insertunorderedlist: {
-		title: MooEditr.lang.get('unorderedList'),
-		states: {
-			tags: ['ul']
-		}
-	},
-	
-	insertorderedlist: {
-		title: MooEditr.lang.get('orderedList'),
-		states: {
-			tags: ['ol']
-		}
-	},
-	
-	indent: {
-		title: MooEditr.lang.get('indent'),
-		states: {
-			tags: ['blockquote']
-		}
-	},
-	
-	outdent: {
-		title: MooEditr.lang.get('outdent')
-	},
-	
-	undo: {
-		title: MooEditr.lang.get('undo'),
-		options: {
-			shortcut: 'z'
-		}
-	},
-	
-	redo: {
-		title: MooEditr.lang.get('redo'),
-		options: {
-			shortcut: 'y'
-		}
-	},
 	
 	unlink: {
 		title: MooEditr.lang.get('removeHyperlink')
@@ -203,22 +76,22 @@ MooEditr.Actions.extend({
 			(this.mode == 'textarea') ? this.toolbar.enable() : this.toolbar.disable('toggleview');
 			this.toggleView();
 		}
+	},
+	
+	insertHorizontalRule: {
+		title: MooEditr.lang.get('insertHorizontalRule'),
+		states: {
+			tags: ['hr']
+		},
+		command: function(){
+			this.selection.insertContent('<hr>');
+		}
 	}
 	
 });
 
 // extend the language pack
 MooEditr.lang.set({
-	bold: 'Bold',
-	italic: 'Italic',
-	underline: 'Underline',
-	strikethrough: 'Strikethrough',
-	unorderedList: 'Unordered List',
-	orderedList: 'Ordered List',
-	indent: 'Indent',
-	outdent: 'Outdent',
-	undo: 'Undo',
-	redo: 'Redo',
 	removeHyperlink: 'Remove Hyperlink',
 	addHyperlink: 'Add Hyperlink',
 	selectTextHyperlink: 'Please select the text you wish to hyperlink.',
