@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.Pagebreak.js
+script: Actions/Pagebreak.js
 
 description: Extends MooEditr with pagebreak plugin
 

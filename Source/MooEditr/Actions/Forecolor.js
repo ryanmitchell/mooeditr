@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.Forecolor.js
+script: Actions/Forecolor.js
 
 description: Extends MooEditr to change the color of the text from a list a predefined colors.
 

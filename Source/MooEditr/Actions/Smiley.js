@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.Smiley.js
+script: Actions/Smiley.js
 
 description: Extends MooEditr to insert smiley/emoticons.
 

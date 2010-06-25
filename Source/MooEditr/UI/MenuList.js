@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.UI.MenuList.js
+script: UI/MenuList.js
 
 description: UI Class to create a menu list (select) element.
 

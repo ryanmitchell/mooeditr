@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.Selection.js
+script: Selection/Selection.js
 
 description: Selection class
 

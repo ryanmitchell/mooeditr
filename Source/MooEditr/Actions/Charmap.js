@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.Charmap.js
+script: Actions/Charmap.js
 
 description: Extends MooEditr with a characters map
 

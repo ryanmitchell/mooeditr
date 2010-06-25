@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.Image.js
+script: Actions/Image.js
 
 description: Extends MooEditr to insert image with manipulation options.
 

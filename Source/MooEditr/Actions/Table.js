@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.Table.js
+script: Actions/Table.js
 
 description: Extends MooEditr to insert table with manipulation options.
 

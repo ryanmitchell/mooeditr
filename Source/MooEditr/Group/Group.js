@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.Group.js
+script: Group/Group.js
 
 description: Extends MooEditr to have multiple instances on a page controlled by one toolbar.
 

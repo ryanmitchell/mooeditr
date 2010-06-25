@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.UI.ButtonOverlay.js
+script: UI/ButtonOverlay.js
 
 description: UI Class to create a button element with a popup overlay.
 

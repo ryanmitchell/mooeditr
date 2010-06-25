@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.InsertHTML.js
+script: Actions/InsertHTML.js
 
 description: Extends MooEditr to allow HTML to be inserted
 

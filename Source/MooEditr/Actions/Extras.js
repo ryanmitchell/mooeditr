@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.Extras.js
+script: Actions/Extras.js
 
 description: Extends MooEditr to include more (simple) toolbar buttons.
 

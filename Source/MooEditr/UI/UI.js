@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.UI.js
+script: UI/UI.js
 
 description: UI elements
 

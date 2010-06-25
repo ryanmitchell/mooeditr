@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditr.Actions.js
+script: Actions/Actions.js
 
 description: Basic action set
 
