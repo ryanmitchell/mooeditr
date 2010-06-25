@@ -1,9 +1,9 @@
 /*
 ---
  
-script: MooEditable.English.US.js
+script: MooEditr.English.US.js
  
-description: MooEditable messages for US English.
+description: MooEditr messages for US English.
  
 license: MIT-style license
  
@@ -11,17 +11,17 @@ authors:
 - Lim Chee Aun
  
 requires:
-- MooEditable
+- MooEditr
 - more:1.2.4.2/Lang
 
-provides: [MooEditable.English.US]
+provides: [MooEditr.English.US]
 
 ...
 */
 
-MooTools.lang.set('en-US', 'MooEditable', {
+MooTools.lang.set('en-US', 'MooEditr', {
 	
-	// MooEditable
+	// MooEditr
 	ok: 'OK',
 	cancel: 'Cancel',
 	bold: 'Bold',
@@ -42,11 +42,11 @@ MooTools.lang.set('en-US', 'MooEditable', {
 	addImage: 'Add Image',
 	toggleView: 'Toggle View',
 	
-	// MooEditable.Charmap
+	// MooEditr.Charmap
 	insertCustomCharacter: 'Insert custom character',
 	insertCharacter: 'Insert character',
 	
-	// MooEditable.Extras
+	// MooEditr.Extras
 	blockFormatting: 'Block Formatting',
 	paragraph: 'Paragraph',
 	heading1: 'Heading 1',
@@ -59,14 +59,14 @@ MooTools.lang.set('en-US', 'MooEditable', {
 	removeFormatting: 'Remove Formatting',
 	insertHorizontalRule: 'Insert Horizontal Rule',
 	
-	// MooEditable.Flash
+	// MooEditr.Flash
 	embed: 'Enter embed code',
 	flashEmbed: 'Flash Embed',
 	
-	// MooEditable.Forecolor
+	// MooEditr.Forecolor
 	changeColor: 'Change Color',
 	
-	// MooEditable.Image
+	// MooEditr.Image
 	imageAlt: 'alt',
 	imageClass: 'class',
 	imageAlign: 'align',
@@ -76,13 +76,13 @@ MooTools.lang.set('en-US', 'MooEditable', {
 	imageAlignRight: 'right',
 	addEditImage: 'Add/Edit Image',
 	
-	// MooEditable.Pagebreak
+	// MooEditr.Pagebreak
 	pageBreak: 'Page break',
 	
-	// MooEditable.Smiley
+	// MooEditr.Smiley
 	insertSmiley: 'Insert Smiley',
 	
-	// MooEditable.Table
+	// MooEditr.Table
 	tableColumns: 'columns',
 	tableRows: 'rows',
 	tableWidth: 'width',

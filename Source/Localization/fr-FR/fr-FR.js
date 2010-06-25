@@ -1,9 +1,9 @@
 /*
 ---
  
-script: MooEditable.French.FR.js
+script: MooEditr.fr-FR.js
  
-description: MooEditable messages for FR French.
+description: MooEditr messages for FR French.
  
 license: MIT-style license
  
@@ -11,17 +11,17 @@ authors:
 - Roparz
  
 requires:
-- MooEditable
+- MooEditr
 - more:1.2.4.2/Lang
 
-provides: [MooEditable.French.FR]
+provides: [MooEditr.French.FR]
 
 ...
 */
 
-MooTools.lang.set('fr-FR', 'MooEditable', {
+MooTools.lang.set('fr-FR', 'MooEditr', {
 	
-	// MooEditable
+	// MooEditr
 	ok: 'OK',
 	cancel: 'Annuler',
 	bold: 'Gras',
@@ -42,11 +42,11 @@ MooTools.lang.set('fr-FR', 'MooEditable', {
 	addImage: 'Ajouter une image',
 	toggleView: 'Changer de vue',
 	
-	// MooEditable.Charmap
+	// MooEditr.Charmap
 	insertCustomCharacter: 'Ajouter un caratère spécial',
 	insertCharacter: 'Ajouter',
 	
-	// MooEditable.Extras
+	// MooEditr.Extras
 	blockFormatting: 'Formatage',
 	paragraph: 'Paragraphe',
 	heading1: 'Titre 1',
@@ -59,14 +59,14 @@ MooTools.lang.set('fr-FR', 'MooEditable', {
 	removeFormatting: 'Supprimer le formatage',
 	insertHorizontalRule: 'Insérer une ligne horizontale',
 	
-	// MooEditable.Flash
+	// MooEditr.Flash
 	embed: 'Entrer le code embed',
 	flashEmbed: 'Ajouter un objet flash',
 	
-	// MooEditable.Forecolor
+	// MooEditr.Forecolor
 	changeColor: 'Changer la couleur',
 	
-	// MooEditable.Image
+	// MooEditr.Image
 	imageAlt: 'alt',
 	imageClass: 'classe',
 	imageAlign: 'alignement',
@@ -76,13 +76,13 @@ MooTools.lang.set('fr-FR', 'MooEditable', {
 	imageAlignRight: 'droite',
 	addEditImage: 'Ajouter/Editer une image',
 	
-	// MooEditable.Pagebreak
+	// MooEditr.Pagebreak
 	pageBreak: 'Saut de page',
 	
-	// MooEditable.Smiley
+	// MooEditr.Smiley
 	insertSmiley: 'Ajouter un Smiley',
 	
-	// MooEditable.Table
+	// MooEditr.Table
 	tableColumns: 'colonnes',
 	tableRows: 'lignes',
 	tableWidth: 'largeur',

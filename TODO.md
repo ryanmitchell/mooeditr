@@ -6,3 +6,5 @@ TODO
 * Development a selection of plugins
 * Integration with file-manager (callback etc)
 * Layout changes
+
+* Localisations need separated out into individual files for actions
