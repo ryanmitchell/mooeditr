@@ -24,16 +24,7 @@ requires:
   - Selectors
 
 inspiration:
-- Code inspired by Stefan's work [Safari Supports Content Editing!](http://www.xs4all.nl/~hhijdra/stefan/ContentEditable.html) from [safari gets contentEditable](http://walkah.net/blog/walkah/safari-gets-contenteditable)
-- Main reference from Peter-Paul Koch's [execCommand compatibility](http://www.quirksmode.org/dom/execCommand.html)
-- Some ideas and code inspired by [TinyMCE](http://tinymce.moxiecode.com/)
-- Some functions inspired by Inviz's [Most tiny wysiwyg you ever seen](http://forum.mootools.net/viewtopic.php?id=746), [mooWyg (Most tiny WYSIWYG 2.0)](http://forum.mootools.net/viewtopic.php?id=5740)
-- Some regex from Cameron Adams's [widgEditor](http://widgeditor.googlecode.com/)
-- Some code from Juan M Martinez's [jwysiwyg](http://jwysiwyg.googlecode.com/)
-- Some reference from MoxieForge's [PunyMCE](http://punymce.googlecode.com/)
-- IE support referring Robert Bredlau's [Rich Text Editing](http://www.rbredlau.com/drupal/node/6)
-- Tango icons from the [Tango Desktop Project](http://tango.freedesktop.org/)
-- Additional Tango icons from Jimmacs' [Tango OpenOffice](http://www.gnome-look.org/content/show.php/Tango+OpenOffice?content=54799)
+- Forked from MooEditable (http://github.com/cheeaun/mooeditable)
 
 provides: [MooEditr, MooEditr.Selection, MooEditr.UI, MooEditr.Actions]
 
