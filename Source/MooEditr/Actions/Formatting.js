@@ -1,9 +1,9 @@
 /*
 ---
 
-script: Actions/Extras.js
+script: Actions/Formatting.js
 
-description: Extends MooEditr to include more (simple) toolbar buttons.
+description: Basic formatting buttons
 
 license: MIT-style license
 
@@ -17,13 +17,16 @@ requires:
 # - MooEditr.UI.MenuList
 
 provides: 
+- MooEditr.Actions.bold
+- MooEditr.Actions.italic
+- MooEditr.Actions.underline
+- MooEditr.Actions.strikethrough
 - MooEditr.Actions.formatBlock
 - MooEditr.Actions.justifyleft
 - MooEditr.Actions.justifyright
 - MooEditr.Actions.justifycenter
 - MooEditr.Actions.justifyfull
 - MooEditr.Actions.removeformat
-- MooEditr.Actions.insertHorizontalRule
 
 ...
 */
