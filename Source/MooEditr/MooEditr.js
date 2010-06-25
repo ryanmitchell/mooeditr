@@ -848,24 +848,7 @@ MooEditr.lang = {
 
 MooEditr.lang.set({
 	ok: 'OK',
-	cancel: 'Cancel',
-	bold: 'Bold',
-	italic: 'Italic',
-	underline: 'Underline',
-	strikethrough: 'Strikethrough',
-	unorderedList: 'Unordered List',
-	orderedList: 'Ordered List',
-	indent: 'Indent',
-	outdent: 'Outdent',
-	undo: 'Undo',
-	redo: 'Redo',
-	removeHyperlink: 'Remove Hyperlink',
-	addHyperlink: 'Add Hyperlink',
-	selectTextHyperlink: 'Please select the text you wish to hyperlink.',
-	enterURL: 'Enter URL',
-	enterImageURL: 'Enter image URL',
-	addImage: 'Add Image',
-	toggleView: 'Toggle View'
+	cancel: 'Cancel'
 });
 
 MooEditr.UI = {};
