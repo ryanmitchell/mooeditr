@@ -3,7 +3,7 @@
 
 script: Actions/Actions.js
 
-description: Basic action set
+description: Actions that don't fit elsewhere, most of these will be replaced elswhere, or find new homes
 
 license: MIT-style license
 
