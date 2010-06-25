@@ -51,8 +51,7 @@ MooEditr.lang.set({
 	alignRight: 'Align Right',
 	alignCenter: 'Align Center',
 	alignJustify: 'Align Justify',
-	removeFormatting: 'Remove Formatting',
-	insertHorizontalRule: 'Insert Horizontal Rule'
+	removeFormatting: 'Remove Formatting'
 });
 
 MooEditr.Actions.extend({

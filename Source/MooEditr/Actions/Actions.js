@@ -98,5 +98,6 @@ MooEditr.lang.set({
 	enterURL: 'Enter URL',
 	enterImageURL: 'Enter image URL',
 	addImage: 'Add Image',
-	toggleView: 'Toggle View'
+	toggleView: 'Toggle View',
+	insertHorizontalRule: 'Insert Horizontal Rule'
 });
