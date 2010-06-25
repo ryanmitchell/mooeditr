@@ -1,9 +1,9 @@
 /*
 ---
 
-script: MooEditable.Charmap.js
+script: MooEditr.Charmap.js
 
-description: Extends MooEditable with a characters map
+description: Extends MooEditr with a characters map
 
 license: MIT-style license
 
@@ -11,25 +11,25 @@ authors:
 - Ryan Mitchell
 
 requires:
-# - MooEditable
-# - MooEditable.UI
-# - MooEditable.Actions
+# - MooEditr
+# - MooEditr.UI
+# - MooEditr.Actions
 
-provides: [MooEditable.UI.CharacterDialog, MooEditable.Actions.charmap]
+provides: [MooEditr.UI.CharacterDialog, MooEditr.Actions.charmap]
 
 usage: |
   Add the following tags in your html
-  <link rel="stylesheet" href="MooEditable.css">
-  <link rel="stylesheet" href="MooEditable.Charmap.css">
+  <link rel="stylesheet" href="MooEditr.css">
+  <link rel="stylesheet" href="MooEditr.Charmap.css">
   <script src="mootools.js"></script>
-  <script src="MooEditable.js"></script>
-  <script src="MooEditable.Charmap.js"></script>
+  <script src="MooEditr.js"></script>
+  <script src="MooEditr.Charmap.js"></script>
 
   <script>
   window.addEvent('domready', function(){
-    var mooeditable = $('textarea-1').mooEditable({
+    var MooEditr = $('textarea-1').MooEditr({
       actions: 'bold italic underline strikethrough | charmap | toggleview',
-      externalCSS: '../../Assets/MooEditable/Editable.css'
+      externalCSS: '../../Assets/MooEditr/Editable.css'
     });
   });
   </script>
@@ -37,7 +37,7 @@ usage: |
 ...
 */
 
-MooEditable.Actions.Settings.charmap = {
+MooEditr.Actions.Settings.charmap = {
 	chars: [
 		['&nbsp;', '&#160;'],
 		['&amp;', '&#38;'],
@@ -286,22 +286,22 @@ MooEditable.Actions.Settings.charmap = {
 	]
 };
 
-MooEditable.lang.set({
+MooEditr.lang.set({
 	insertCustomCharacter: 'Insert custom character',
 	insertCharacter: 'Insert character'
 });
 
-MooEditable.UI.CharacterDialog = function(editor){
-	var html = MooEditable.lang.get('insertCharacter') + ' <select class="char">';
-	var chars = MooEditable.Actions.Settings.charmap.chars;
+MooEditr.UI.CharacterDialog = function(editor){
+	var html = MooEditr.lang.get('insertCharacter') + ' <select class="char">';
+	var chars = MooEditr.Actions.Settings.charmap.chars;
 	for (var i=0, len=chars.length; i<len; i++) {
 		html += '<option data-code="' + chars[i][0] + '">' + chars[i][1] + '</option>';
 	}
 	html += '</select>'
-		+ '<button class="dialog-button dialog-ok-button">' + MooEditable.lang.get('ok') + '</button>'
-		+ '<button class="dialog-button dialog-cancel-button">' + MooEditable.lang.get('cancel') + '</button>';
-	return new MooEditable.UI.Dialog(html, {
-		'class': 'mooeditable-charmap-dialog',
+		+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button>'
+		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
+	return new MooEditr.UI.Dialog(html, {
+		'class': 'MooEditr-charmap-dialog',
 		onClick: function(e){
 			if (e.target.tagName.toLowerCase() == 'button') e.preventDefault();
 			var button = document.id(e.target);
@@ -317,13 +317,13 @@ MooEditable.UI.CharacterDialog = function(editor){
 	});
 };
 
-MooEditable.Actions.extend({
+MooEditr.Actions.extend({
 	
 	charmap: {
-		title: MooEditable.lang.get('insertCustomCharacter'),
+		title: MooEditr.lang.get('insertCustomCharacter'),
 		dialogs: {
 			prompt: function(editor){
-				return MooEditable.UI.CharacterDialog(editor);
+				return MooEditr.UI.CharacterDialog(editor);
 			}
 		},
 		command: function() {
@@ -334,7 +334,7 @@ MooEditable.Actions.extend({
 				if (this.mode == 'textarea'){
 					var s = this.textarea.get('value');
 					// when switching from iframe to textarea, we need to convert special symbols to html entities
-					MooEditable.Actions.Settings.charmap.chars.each(function(e){
+					MooEditr.Actions.Settings.charmap.chars.each(function(e){
 						if (!['&amp;', '&gt;', '&lt;', '&quot;', '&nbsp;'].contains(e[0])){
 							var r = new RegExp(String.fromCharCode(parseInt(e[1].replace('&#', '').replace(';', ''))), 'g');
 							s = s.replace(r, e[0]);

@@ -1,9 +1,9 @@
 /*
 ---
 
-script: MooEditable.Extras.js
+script: MooEditr.Extras.js
 
-description: Extends MooEditable to include more (simple) toolbar buttons.
+description: Extends MooEditr to include more (simple) toolbar buttons.
 
 license: MIT-style license
 
@@ -12,23 +12,23 @@ authors:
 - Ryan Mitchell
 
 requires:
-# - MooEditable
-# - MooEditable.UI
-# - MooEditable.UI.MenuList
+# - MooEditr
+# - MooEditr.UI
+# - MooEditr.UI.MenuList
 
 provides: 
-- MooEditable.Actions.formatBlock
-- MooEditable.Actions.justifyleft
-- MooEditable.Actions.justifyright
-- MooEditable.Actions.justifycenter
-- MooEditable.Actions.justifyfull
-- MooEditable.Actions.removeformat
-- MooEditable.Actions.insertHorizontalRule
+- MooEditr.Actions.formatBlock
+- MooEditr.Actions.justifyleft
+- MooEditr.Actions.justifyright
+- MooEditr.Actions.justifycenter
+- MooEditr.Actions.justifyfull
+- MooEditr.Actions.removeformat
+- MooEditr.Actions.insertHorizontalRule
 
 ...
 */
 
-MooEditable.lang.set({
+MooEditr.lang.set({
 	blockFormatting: 'Block Formatting',
 	paragraph: 'Paragraph',
 	heading1: 'Heading 1',
@@ -42,17 +42,17 @@ MooEditable.lang.set({
 	insertHorizontalRule: 'Insert Horizontal Rule'
 });
 
-MooEditable.Actions.extend({
+MooEditr.Actions.extend({
 
 	formatBlock: {
-		title: MooEditable.lang.get('blockFormatting'),
+		title: MooEditr.lang.get('blockFormatting'),
 		type: 'menu-list',
 		options: {
 			list: [
-				{text: MooEditable.lang.get('paragraph'), value: 'p'},
-				{text: MooEditable.lang.get('heading1'), value: 'h1', style: 'font-size:24px; font-weight:bold;'},
-				{text: MooEditable.lang.get('heading2'), value: 'h2', style: 'font-size:18px; font-weight:bold;'},
-				{text: MooEditable.lang.get('heading3'), value: 'h3', style: 'font-size:14px; font-weight:bold;'}
+				{text: MooEditr.lang.get('paragraph'), value: 'p'},
+				{text: MooEditr.lang.get('heading1'), value: 'h1', style: 'font-size:24px; font-weight:bold;'},
+				{text: MooEditr.lang.get('heading2'), value: 'h2', style: 'font-size:18px; font-weight:bold;'},
+				{text: MooEditr.lang.get('heading3'), value: 'h3', style: 'font-size:14px; font-weight:bold;'}
 			]
 		},
 		states: {
@@ -66,21 +66,21 @@ MooEditable.Actions.extend({
 	},
 	
 	justifyleft:{
-		title: MooEditable.lang.get('alignLeft'),
+		title: MooEditr.lang.get('alignLeft'),
 		states: {
 			css: {'text-align': 'left'}
 		}
 	},
 	
 	justifyright:{
-		title: MooEditable.lang.get('alignRight'),
+		title: MooEditr.lang.get('alignRight'),
 		states: {
 			css: {'text-align': 'right'}
 		}
 	},
 	
 	justifycenter:{
-		title: MooEditable.lang.get('alignCenter'),
+		title: MooEditr.lang.get('alignCenter'),
 		states: {
 			tags: ['center'],
 			css: {'text-align': 'center'}
@@ -88,18 +88,18 @@ MooEditable.Actions.extend({
 	},
 	
 	justifyfull:{
-		title: MooEditable.lang.get('alignJustify'),
+		title: MooEditr.lang.get('alignJustify'),
 		states: {
 			css: {'text-align': 'justify'}
 		}
 	},
 	
 	removeformat: {
-		title: MooEditable.lang.get('removeFormatting')
+		title: MooEditr.lang.get('removeFormatting')
 	},
 	
 	insertHorizontalRule: {
-		title: MooEditable.lang.get('insertHorizontalRule'),
+		title: MooEditr.lang.get('insertHorizontalRule'),
 		states: {
 			tags: ['hr']
 		},

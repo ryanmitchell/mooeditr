@@ -1,9 +1,9 @@
 /*
 ---
 
-script: MooEditable.Group.js
+script: MooEditr.Group.js
 
-description: Extends MooEditable to have multiple instances on a page controlled by one toolbar.
+description: Extends MooEditr to have multiple instances on a page controlled by one toolbar.
 
 license: MIT-style license
 
@@ -11,16 +11,16 @@ authors:
 - Ryan Mitchell
 
 requires:
-# - MooEditable
-# - MooEditable.UI
-# - MooEditable.Actions
+# - MooEditr
+# - MooEditr.UI
+# - MooEditr.Actions
 
-provides: [MooEditable.Group]
+provides: [MooEditr.Group]
 
 ...
 */
 
-MooEditable.Group = new Class({
+MooEditr.Group = new Class({
 
 	Implements: [Options],
 	
@@ -32,7 +32,7 @@ MooEditable.Group = new Class({
 		this.setOptions(options);
 		this.actions = this.options.actions.clean().split(' ');
 		var self = this;
-		this.toolbar = new MooEditable.UI.Toolbar({
+		this.toolbar = new MooEditr.UI.Toolbar({
 			onItemAction: function(){
 				var args = $splat(arguments);
 				var item = args[0];
@@ -46,15 +46,15 @@ MooEditable.Group = new Class({
 	},
 
 	add: function(textarea, options){
-		return this.activeEditor = new MooEditable.Group.Item(textarea, this, $merge({toolbar: false}, this.options, options));
+		return this.activeEditor = new MooEditr.Group.Item(textarea, this, $merge({toolbar: false}, this.options, options));
 	}
 	
 });
 
 
-MooEditable.Group.Item = new Class({
+MooEditr.Group.Item = new Class({
 
-	Extends: MooEditable,
+	Extends: MooEditr,
 
 	initialize: function(textarea, group, options){
 		var self = this;

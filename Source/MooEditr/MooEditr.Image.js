@@ -1,9 +1,9 @@
 /*
 ---
 
-script: MooEditable.Image.js
+script: MooEditr.Image.js
 
-description: Extends MooEditable to insert image with manipulation options.
+description: Extends MooEditr to insert image with manipulation options.
 
 license: MIT-style license
 
@@ -11,23 +11,23 @@ authors:
 - Radovan Lozej
 
 requires:
-# - MooEditable
-# - MooEditable.UI
-# - MooEditable.Actions
+# - MooEditr
+# - MooEditr.UI
+# - MooEditr.Actions
 
-provides: [MooEditable.UI.ImageDialog, MooEditable.Actions.image]
+provides: [MooEditr.UI.ImageDialog, MooEditr.Actions.image]
 
 usage: |
   Add the following tags in your html
-  <link rel="stylesheet" href="MooEditable.css">
-  <link rel="stylesheet" href="MooEditable.Image.css">
+  <link rel="stylesheet" href="MooEditr.css">
+  <link rel="stylesheet" href="MooEditr.Image.css">
   <script src="mootools.js"></script>
-  <script src="MooEditable.js"></script>
-  <script src="MooEditable.Image.js"></script>
+  <script src="MooEditr.js"></script>
+  <script src="MooEditr.Image.js"></script>
 
   <script>
   window.addEvent('domready', function(){
-    var mooeditable = $('textarea-1').mooEditable({
+    var MooEditr = $('textarea-1').MooEditr({
       actions: 'bold italic underline strikethrough | image | toggleview'
     });
   });
@@ -36,7 +36,7 @@ usage: |
 ...
 */
 
-MooEditable.lang.set({
+MooEditr.lang.set({
 	imageAlt: 'alt',
 	imageClass: 'class',
 	imageAlign: 'align',
@@ -47,21 +47,21 @@ MooEditable.lang.set({
 	addEditImage: 'Add/Edit Image'
 });
 
-MooEditable.UI.ImageDialog = function(editor){
-	var html = MooEditable.lang.get('enterImageURL') + ' <input type="text" class="dialog-url" value="" size="15"> '
-		+ MooEditable.lang.get('imageAlt') + ' <input type="text" class="dialog-alt" value="" size="8"> '
-		+ MooEditable.lang.get('imageClass') + ' <input type="text" class="dialog-class" value="" size="8"> '
-		+ MooEditable.lang.get('imageAlign') + ' <select class="dialog-align">'
-			+ '<option>' + MooEditable.lang.get('imageAlignNone') + '</option>'
-			+ '<option>' + MooEditable.lang.get('imageAlignLeft') + '</option>'
-			+ '<option>' + MooEditable.lang.get('imageAlignCenter') + '</option>'
-			+ '<option>' + MooEditable.lang.get('imageAlignRight') + '</option>'
+MooEditr.UI.ImageDialog = function(editor){
+	var html = MooEditr.lang.get('enterImageURL') + ' <input type="text" class="dialog-url" value="" size="15"> '
+		+ MooEditr.lang.get('imageAlt') + ' <input type="text" class="dialog-alt" value="" size="8"> '
+		+ MooEditr.lang.get('imageClass') + ' <input type="text" class="dialog-class" value="" size="8"> '
+		+ MooEditr.lang.get('imageAlign') + ' <select class="dialog-align">'
+			+ '<option>' + MooEditr.lang.get('imageAlignNone') + '</option>'
+			+ '<option>' + MooEditr.lang.get('imageAlignLeft') + '</option>'
+			+ '<option>' + MooEditr.lang.get('imageAlignCenter') + '</option>'
+			+ '<option>' + MooEditr.lang.get('imageAlignRight') + '</option>'
 		+ '</select> '
-		+ '<button class="dialog-button dialog-ok-button">' + MooEditable.lang.get('ok') + '</button> '
-		+ '<button class="dialog-button dialog-cancel-button">' + MooEditable.lang.get('cancel') + '</button>';
+		+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button> '
+		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
 		
-	return new MooEditable.UI.Dialog(html, {
-		'class': 'mooeditable-image-dialog',
+	return new MooEditr.UI.Dialog(html, {
+		'class': 'MooEditr-image-dialog',
 		onOpen: function(){
 			var input = this.el.getElement('.dialog-url');
 			var node = editor.selection.getNode();
@@ -104,16 +104,16 @@ MooEditable.UI.ImageDialog = function(editor){
 	});
 };
 
-MooEditable.Actions.extend({
+MooEditr.Actions.extend({
 	
 	image: {
-		title: MooEditable.lang.get('addEditImage'),
+		title: MooEditr.lang.get('addEditImage'),
 		options: {
 			shortcut: 'm'
 		},
 		dialogs: {
 			prompt: function(editor){
-				return MooEditable.UI.ImageDialog(editor);
+				return MooEditr.UI.ImageDialog(editor);
 			}
 		},
 		command: function(){

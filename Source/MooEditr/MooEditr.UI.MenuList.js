@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditable.UI.MenuList.js
+script: MooEditr.UI.MenuList.js
 
 description: UI Class to create a menu list (select) element.
 
@@ -11,15 +11,15 @@ authors:
 - Lim Chee Aun
 
 requires:
-# - MooEditable
-# - MooEditable.UI
+# - MooEditr
+# - MooEditr.UI
 
-provides: [MooEditable.UI.MenuList]
+provides: [MooEditr.UI.MenuList]
 
 ...
 */
 
-MooEditable.UI.MenuList = new Class({
+MooEditr.UI.MenuList = new Class({
 
 	Implements: [Events, Options],
 

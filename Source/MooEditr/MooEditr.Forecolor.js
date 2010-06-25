@@ -1,9 +1,9 @@
 /*
 ---
 
-script: MooEditable.Forecolor.js
+script: MooEditr.Forecolor.js
 
-description: Extends MooEditable to change the color of the text from a list a predefined colors.
+description: Extends MooEditr to change the color of the text from a list a predefined colors.
 
 license: MIT-style license
 
@@ -11,25 +11,25 @@ authors:
 - Olivier Refalo
 
 requires:
-# - MooEditable
-# - MooEditable.UI
-# - MooEditable.UI.ButtonOverlay
-# - MooEditable.Actions
+# - MooEditr
+# - MooEditr.UI
+# - MooEditr.UI.ButtonOverlay
+# - MooEditr.Actions
 
-provides: [MooEditable.Actions.forecolor]
+provides: [MooEditr.Actions.forecolor]
 
 usage: |
   Add the following tags in your html
-  <link rel="stylesheet" href="MooEditable.css">
-  <link rel="stylesheet" href="MooEditable.Forecolor.css">
+  <link rel="stylesheet" href="MooEditr.css">
+  <link rel="stylesheet" href="MooEditr.Forecolor.css">
   <script src="mootools.js"></script>
-  <script src="MooEditable.js"></script>
-  <script src="MooEditable.UI.ButtonOverlay.js"></script>
-  <script src="MooEditable.Forecolor.js"></script>
+  <script src="MooEditr.js"></script>
+  <script src="MooEditr.UI.ButtonOverlay.js"></script>
+  <script src="MooEditr.Forecolor.js"></script>
 
   <script>
   window.addEvent('domready', function(){
-    var mooeditable = $('textarea-1').mooEditable({
+    var MooEditr = $('textarea-1').MooEditr({
       actions: 'bold italic underline strikethrough | forecolor | toggleview'
     });
   });
@@ -38,7 +38,7 @@ usage: |
 ...
 */
 
-MooEditable.Actions.Settings.forecolor = {
+MooEditr.Actions.Settings.forecolor = {
 	colors: [
 		['000000', '993300', '333300', '003300', '003366', '000077', '333399', '333333'],
 		['770000', 'ff6600', '777700', '007700', '007777', '0000ff', '666699', '777777'],
@@ -48,18 +48,18 @@ MooEditable.Actions.Settings.forecolor = {
 	]
 };
 
-MooEditable.lang.set({
+MooEditr.lang.set({
 	changeColor: 'Change Color'
 });
 
-MooEditable.Actions.forecolor = {
+MooEditr.Actions.forecolor = {
 	type: 'button-overlay',
-	title: MooEditable.lang.get('changeColor'),
+	title: MooEditr.lang.get('changeColor'),
 	options: {
 		overlaySize: {x: 'auto'},
 		overlayHTML: (function(){
 			var html = '';
-			MooEditable.Actions.Settings.forecolor.colors.each(function(row){
+			MooEditr.Actions.Settings.forecolor.colors.each(function(row){
 				row.each(function(c){
 					html += '<a href="#" class="forecolor-colorpicker-color" style="background-color: #' + c + '" title="#' + c.toUpperCase() + '"></a>'; 
 				});

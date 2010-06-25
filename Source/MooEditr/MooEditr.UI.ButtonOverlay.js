@@ -1,7 +1,7 @@
 /*
 ---
 
-script: MooEditable.UI.ButtonOverlay.js
+script: MooEditr.UI.ButtonOverlay.js
 
 description: UI Class to create a button element with a popup overlay.
 
@@ -11,17 +11,17 @@ authors:
 - Lim Chee Aun
 
 requires:
-# - MooEditable
-# - MooEditable.UI
+# - MooEditr
+# - MooEditr.UI
 
-provides: [MooEditable.UI.ButtonOverlay]
+provides: [MooEditr.UI.ButtonOverlay]
 
 ...
 */
 
-MooEditable.UI.ButtonOverlay = new Class({
+MooEditr.UI.ButtonOverlay = new Class({
 
-	Extends: MooEditable.UI.Button,
+	Extends: MooEditr.UI.Button,
 
 	options: {
 		/*
@@ -37,14 +37,14 @@ MooEditable.UI.ButtonOverlay = new Class({
 	initialize: function(options){
 		this.parent(options);
 		this.render();
-		this.el.addClass('mooeditable-ui-buttonOverlay');
+		this.el.addClass('MooEditr-ui-buttonOverlay');
 		this.renderOverlay(this.options.overlayHTML);
 	},
 	
 	renderOverlay: function(html){
 		var self = this;
 		this.overlay = new Element('div', {
-			'class': 'mooeditable-ui-button-overlay ' + self.name + '-overlay ' + self.options.overlayClass,
+			'class': 'MooEditr-ui-button-overlay ' + self.name + '-overlay ' + self.options.overlayClass,
 			html: '<div class="overlay-content ' + self.options.overlayContentClass + '">' + html + '</div>',
 			tabindex: 0,
 			styles: {
@@ -58,7 +58,7 @@ MooEditable.UI.ButtonOverlay = new Class({
 				focus: self.openOverlay.bind(self),
 				blur: self.closeOverlay.bind(self)
 			}
-		}).inject(document.body).store('MooEditable.UI.ButtonOverlay', this);
+		}).inject(document.body).store('MooEditr.UI.ButtonOverlay', this);
 		this.overlayVisible = false;
 		
 		window.addEvent('resize', function(){

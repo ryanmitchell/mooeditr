@@ -1,9 +1,9 @@
 /*
 ---
 
-script: MooEditable.Smiley.js
+script: MooEditr.Smiley.js
 
-description: Extends MooEditable to insert smiley/emoticons.
+description: Extends MooEditr to insert smiley/emoticons.
 
 license: MIT-style license
 
@@ -11,25 +11,25 @@ authors:
 - Olivier Refalo
 
 requires:
-# - MooEditable
-# - MooEditable.UI
-# - MooEditable.UI.ButtonOverlay
-# - MooEditable.Actions
+# - MooEditr
+# - MooEditr.UI
+# - MooEditr.UI.ButtonOverlay
+# - MooEditr.Actions
 
-provides: [MooEditable.Actions.smiley]
+provides: [MooEditr.Actions.smiley]
 
 usage: |
   Add the following tags in your html
-  <link rel="stylesheet" href="MooEditable.css">
-  <link rel="stylesheet" href="MooEditable.Smiley.css">
+  <link rel="stylesheet" href="MooEditr.css">
+  <link rel="stylesheet" href="MooEditr.Smiley.css">
   <script src="mootools.js"></script>
-  <script src="MooEditable.js"></script>
-  <script src="MooEditable.UI.ButtonOverlay.js"></script>
-  <script src="MooEditable.Smiley.js"></script>
+  <script src="MooEditr.js"></script>
+  <script src="MooEditr.UI.ButtonOverlay.js"></script>
+  <script src="MooEditr.Smiley.js"></script>
 
   <script>
   window.addEvent('domready', function(){
-    var mooeditable = $('textarea-1').mooEditable({
+    var MooEditr = $('textarea-1').MooEditr({
       actions: 'bold italic underline strikethrough | smiley | toggleview'
     });
   });
@@ -38,23 +38,23 @@ usage: |
 ...
 */
 
-MooEditable.Actions.Settings.smiley = {
-	imagesPath: '../../Assets/MooEditable/Smiley/',
+MooEditr.Actions.Settings.smiley = {
+	imagesPath: '../../Assets/MooEditr/Smiley/',
 	smileys: ['angryface', 'blush', 'gasp', 'grin', 'halo', 'lipsaresealed', 'smile', 'undecided', 'wink'],
 	fileExt: '.png'
 };
 
-MooEditable.lang.set({
+MooEditr.lang.set({
 	insertSmiley: 'Insert Smiley'
 });
 
-MooEditable.Actions.smiley = {
+MooEditr.Actions.smiley = {
 	type: 'button-overlay',
-	title: MooEditable.lang.get('insertSmiley'),
+	title: MooEditr.lang.get('insertSmiley'),
 	options: {
 		overlaySize: {x: 'auto'},
 		overlayHTML: (function(){
-			var settings = MooEditable.Actions.Settings.smiley;
+			var settings = MooEditr.Actions.Settings.smiley;
 			var html = '';
 			settings.smileys.each(function(s){
 				html += '<img src="'+ settings.imagesPath + s + settings.fileExt + '" alt="" class="smiley-image">'; 
