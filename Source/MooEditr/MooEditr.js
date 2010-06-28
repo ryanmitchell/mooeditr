@@ -69,6 +69,7 @@ this.MooEditr = new Class({
 		this.dialogs = {};
 		this.protectedElements = [];
 		this.cssStyles = [];
+		this.customUndo = false;
 		this.actions.each(function(action){
 			var act = MooEditr.Actions[action];
 			if (!act) return;
@@ -288,6 +289,11 @@ this.MooEditr = new Class({
 		
 		if (this.options.toggleTabs){
 			this.tabbar.setStyle('display', '').inject(this.container, 'top');
+		}
+		
+		if (!this.doc.queryCommandSupported('undo')){
+			if (console) console.log('Initiate custom undo/redo stack');
+			this.customUndo = true;
 		}
 		
 		if (this.options.disabled) this.disable();

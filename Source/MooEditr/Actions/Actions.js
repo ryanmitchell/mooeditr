@@ -9,6 +9,18 @@ license: MIT-style license
 
 */
 
+// extend the language pack
+MooEditr.lang.set({
+	removeHyperlink: 'Remove Hyperlink',
+	addHyperlink: 'Add Hyperlink',
+	selectTextHyperlink: 'Please select the text you wish to hyperlink.',
+	enterURL: 'Enter URL',
+	enterImageURL: 'Enter image URL',
+	addImage: 'Add Image',
+	toggleView: 'Toggle View',
+	insertHorizontalRule: 'Insert Horizontal Rule'
+});
+
 MooEditr.Actions.extend({
 	
 	unlink: {
@@ -88,16 +100,4 @@ MooEditr.Actions.extend({
 		}
 	}
 	
-});
-
-// extend the language pack
-MooEditr.lang.set({
-	removeHyperlink: 'Remove Hyperlink',
-	addHyperlink: 'Add Hyperlink',
-	selectTextHyperlink: 'Please select the text you wish to hyperlink.',
-	enterURL: 'Enter URL',
-	enterImageURL: 'Enter image URL',
-	addImage: 'Add Image',
-	toggleView: 'Toggle View',
-	insertHorizontalRule: 'Insert Horizontal Rule'
 });
