@@ -100,7 +100,7 @@ MooEditr.Actions.extend({
 				}, this);
 								
 				// no css styles apply
-				if (self.el.getElements('options').length < 1) self.el.adopt(new Element('option',{ html: MooEditr.lang.get('noCssStyles'), value:'-1' }));  
+				if (self.el.length < 1) self.el.adopt(new Element('option',{ html: MooEditr.lang.get('noCssStyles'), value:'-1' }));  
 			
 			}
 	
