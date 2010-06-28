@@ -47,7 +47,7 @@ this.MooEditr = new Class({
 		paragraphise: true,
 		xhtml : true,
 		semantics : true,
-		actions: 'formatBlock | bold italic underline strikethrough | justifycenter justifyfull justifyleft justifyright | insertunorderedlist insertorderedlist indent outdent | removeformat | undo redo | createlink unlink | urlimage | showhide * forecolor | inserthtml | smiley | charmap | pagebreak | inserthorizontalrule | tableadd tableedit tablerowadd tablerowedit tablerowspan tablerowsplit tablerowdelete tablecoladd tablecoledit tablecolspan tablecolsplit tablecoldelete',
+		actions: 'formatBlock cssStyles | bold italic underline strikethrough | justifycenter justifyfull justifyleft justifyright | insertunorderedlist insertorderedlist indent outdent | removeformat | undo redo | createlink unlink | urlimage | showhide * forecolor | inserthtml | smiley | charmap | pagebreak | inserthorizontalrule | tableadd tableedit tablerowadd tablerowedit tablerowspan tablerowsplit tablerowdelete tablecoladd tablecoledit tablecolspan tablecolsplit tablecoldelete',
 		handleSubmit: true,
 		handleLabel: true,
 		disabled: false,
@@ -68,7 +68,7 @@ this.MooEditr = new Class({
 		this.keys = {};
 		this.dialogs = {};
 		this.protectedElements = [];
-		this.cssStyles = {};
+		this.cssStyles = [];
 		this.actions.each(function(action){
 			var act = MooEditr.Actions[action];
 			if (!act) return;
@@ -307,7 +307,11 @@ this.MooEditr = new Class({
 						for(var c=0; c<rules.length; c++){
 							rules[c] = rules[c].trim();
 							if((rules[c].indexOf(':') == -1) && (rules[c].toLowerCase().indexOf('mooeditr') == -1)){
-								this.cssStyles[rules[c]] = rule.style.cssText;
+							
+								var cssElement = rules[c].substring(0,rule.indexOf('.'));
+								var cssClass = rules[c].substring(rule.indexOf('.') + 1);
+							
+								this.cssStyles.push({ el: cssElement.split(' '), classname: cssClass });
 							}
 						}
 					}, this);
@@ -317,7 +321,7 @@ this.MooEditr = new Class({
 			}
 			
 		}, this);
-				
+						
 		this.fireEvent('attach', this);
 		
 		return this;
@@ -518,8 +522,8 @@ this.MooEditr = new Class({
 				} else if (Browser.Engine.gecko || Browser.Engine.webkit){
 					var node = this.selection.getNode();
 					var isBlock = node.getParents().include(node).some(function(el){
-						return el.nodeName.test(blockEls);
-					});
+						return el.nodeName.test(this.blockEls);
+					}, this);
 					if (!isBlock) this.execute('insertparagraph');
 				}
 			} else {
