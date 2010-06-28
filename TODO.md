@@ -5,7 +5,6 @@ TODO
 * Inline editing
 * Development a selection of plugins
 * Integration with file-manager (callback etc)
-* Layout changes
 * Undo/redo stack
 * Make editor resizable
 * Localisations need separated out into individual files for actions
