@@ -1,0 +1,8 @@
+
+.mooeditr-ui-toolbar .showhide-item .button-icon {
+	background: transparent url(Other/arrow-down.png) no-repeat center center;
+}
+
+.mooeditr-ui-toolbar .showhide-item.active .button-icon {
+	background-image: url(Other/arrow-up.png);
+}
