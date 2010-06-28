@@ -22,7 +22,7 @@ MooEditr.UI.Toolbar= new Class({
     
 	initialize: function(options){
 		this.setOptions(options);
-		this.el = new Element('div', {'class': 'MooEditr-ui-toolbar ' + this.options['class']});
+		this.el = new Element('div', {'class': 'mooeditr-ui-toolbar ' + this.options['class']});
 		this.items = {};
 		this.content = null;
 	},
@@ -130,7 +130,7 @@ MooEditr.UI.Button = new Class({
 		var text = this.options.title || name;
 		var title = text + shortcut;
 		this.el = new Element('button', {
-			'class': 'MooEditr-ui-button ' + self.options['class'],
+			'class': 'mooeditr-ui-button ' + self.options['class'],
 			title: title,
 			html: '<span class="button-icon"></span><span class="button-text">' + text + '</span>',
 			events: {
@@ -138,7 +138,7 @@ MooEditr.UI.Button = new Class({
 				mousedown: function(e){ e.preventDefault(); }
 			}
 		});
-		if (this.options.mode != 'icon') this.el.addClass('MooEditr-ui-button-' + this.options.mode);
+		if (this.options.mode != 'icon') this.el.addClass('mooeditr-ui-button-' + this.options.mode);
 		
 		this.active = false;
 		this.disabled = false;
@@ -217,7 +217,7 @@ MooEditr.UI.Dialog = new Class({
 		
 		var self = this;
 		this.el = new Element('div', {
-			'class': 'MooEditr-ui-dialog ' + self.options['class'],
+			'class': 'mooeditr-ui-dialog ' + self.options['class'],
 			html: '<div class="dialog-content ' + self.options.contentClass + '">' + html + '</div>',
 			styles: {
 				'display': 'none'
@@ -255,7 +255,7 @@ MooEditr.UI.AlertDialog = function(alertText){
 	if (!alertText) return;
 	var html = alertText + ' <button class="dialog-ok-button">' + MooEditr.lang.get('ok') + '</button>';
 	return new MooEditr.UI.Dialog(html, {
-		'class': 'MooEditr-alert-dialog',
+		'class': 'mooeditr-alert-dialog',
 		onOpen: function(){
 			var button = this.el.getElement('.dialog-ok-button');
 			(function(){
@@ -277,7 +277,7 @@ MooEditr.UI.PromptDialog = function(questionText, answerText, fn){
 		+ '</label> <button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button>'
 		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
 	return new MooEditr.UI.Dialog(html, {
-		'class': 'MooEditr-prompt-dialog',
+		'class': 'mooeditr-prompt-dialog',
 		onOpen: function(){
 			var input = this.el.getElement('.dialog-input');
 			(function(){

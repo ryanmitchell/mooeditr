@@ -33,13 +33,13 @@ provides: [MooEditr, MooEditr.Selection, MooEditr.UI, MooEditr.Actions]
 
 (function(){
 
-var blockEls = /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|SCRIPT|NOSCRIPT|STYLE)$/i;
-var urlRegex = /^(https?|ftp|rmtp|mms):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i;
-var protectRegex = /<(script|noscript|style)[\u0000-\uFFFF]*?<\/(script|noscript|style)>/g;
-
 this.MooEditr = new Class({
 
 	Implements: [Events, Options],
+	
+	blockEls: /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|SCRIPT|NOSCRIPT|STYLE)$/i,
+	urlRegex: /^(https?|ftp|rmtp|mms):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i,
+	protectRegex: /<(script|noscript|style)[\u0000-\uFFFF]*?<\/(script|noscript|style)>/g,
 
 	options: {
 		toolbar: true,
@@ -103,19 +103,19 @@ this.MooEditr = new Class({
 		
 		// Build the container
 		this.container = new Element('div', {
-			id: (this.textarea.id) ? this.textarea.id + '-MooEditr-container' : null,
-			'class': 'MooEditr-container',
+			id: (this.textarea.id) ? this.textarea.id + '-mooeditr-container' : null,
+			'class': 'mooeditr-container',
 			styles: {
 				width: dimensions.x
 			}
 		});
 
 		// Override all textarea styles
-		this.textarea.addClass('MooEditr-textarea').setStyle('height', dimensions.y);
+		this.textarea.addClass('mooeditr-textarea').setStyle('height', dimensions.y);
 		
 		// Build the iframe
 		this.iframe = new IFrame({
-			'class': 'MooEditr-iframe',
+			'class': 'mooeditr-iframe',
 			frameBorder: 0,
 			src: 'javascript:""', // Workaround for HTTPs warning in IE6/7
 			styles: {
@@ -586,7 +586,7 @@ this.MooEditr = new Class({
 
 	setContent: function(content){
 		var protect = this.protectedElements;
-		content = content.replace(protectRegex, function(a){
+		content = content.replace(this.protectRegex, function(a){
 			protect.push(a);
 			return '<!-- MooEditr:protect:' + (protect.length-1) + ' -->';
 		});
@@ -611,7 +611,7 @@ this.MooEditr = new Class({
 			for (var i=0; i<length; i++){
 				var childNode = el.childNodes[i];
 				var nodeName = childNode.nodeName;
-				if (!nodeName.test(blockEls) && nodeName !== '#comment'){
+				if (!nodeName.test(this.blockEls) && nodeName !== '#comment'){
 					if (nodeName === '#text'){
 						if (childNode.nodeValue.trim()){
 							if (start < 0) start = i;
@@ -693,7 +693,7 @@ this.MooEditr = new Class({
 							found = true;
 						}
 					}
-					if (found || el.tagName.test(blockEls)) break;
+					if (found || el.tagName.test(this.blockEls)) break;
 				}
 				while ((el = Element.getParent(el)) != null);
 			}
@@ -866,7 +866,7 @@ Element.Properties.MooEditr = {
 
 Element.implement({
 
-	MooEditr: function(options){
+	mooEditr: function(options){
 		return this.get('MooEditr', options);
 	}
 

@@ -47,7 +47,7 @@ MooEditr.Actions.extend({
 			} else {
 				var text = selection.getText();
 				var prompt = dialogs.prompt;
-				if (urlRegex.test(text)) prompt.el.getElement('.dialog-input').set('value', text);
+				if (this.urlRegex.test(text)) prompt.el.getElement('.dialog-input').set('value', text);
 				prompt.open();
 			}
 		}
