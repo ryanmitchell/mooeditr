@@ -307,11 +307,13 @@ this.MooEditr = new Class({
 						for(var c=0; c<rules.length; c++){
 							rules[c] = rules[c].trim();
 							if((rules[c].indexOf(':') == -1) && (rules[c].toLowerCase().indexOf('mooeditr') == -1)){
-							
-								var cssElement = rules[c].substring(0,rule.indexOf('.'));
-								var cssClass = rules[c].substring(rule.indexOf('.') + 1);
-							
-								this.cssStyles.push({ el: cssElement.split(' '), classname: cssClass });
+														
+								if(rule.selectorText.indexOf('.') != -1){
+									var cssEl = rules[c].substring(0, rule.selectorText.indexOf('.'));
+									var cssCl = rules[c].substring(rule.selectorText.indexOf('.') + 1);
+									this.cssStyles.push({ el: cssEl.split(' '), classname: cssCl });
+								}
+								
 							}
 						}
 					}, this);

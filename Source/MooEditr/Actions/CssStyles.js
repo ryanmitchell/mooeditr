@@ -40,12 +40,12 @@ MooEditr.Actions.extend({
 			]
 		},
 		states: function(node, self){
-			
+					
 			if (this.cssStyles.length > 0){
 			
 				// empty select
 				self.el.empty();
-			
+							
 				// loop over styles and add them, if appropriate
 				$each(this.cssStyles, function(style) {
 																				
@@ -68,9 +68,9 @@ MooEditr.Actions.extend({
 						else styletagtag = styletagtemp[0]; // if this is '', then we only have id
 						
 						// check for match
-						if((temp.get('tag').toLowerCase() == styletagtag) || (styletagtag == '')) {
-							if((temp.get('id') == styletagid) || (styletagid == '')) {
-								if((temp.hasClass(styletagclass)) || (styletagclass == '')) {
+						if ((temp.get('tag').toLowerCase() == styletagtag) || (styletagtag == '')) {
+							if ((temp.get('id') == styletagid) || (styletagid == '')) {
+								if ((temp.hasClass(styletagclass)) || (styletagclass == '')) {
 									temp = temp.getParent();
 								}
 							}
@@ -98,9 +98,9 @@ MooEditr.Actions.extend({
 					}
 					
 				}, this);
-				
-				// no css stlyes apply
-				if (self.el.length < 1) self.el.adopt(new Element('option',{ html: ooEditr.lang.get('noCssStyles'), value:'-1' }));  
+								
+				// no css styles apply
+				if (self.el.getElements('options').length < 1) self.el.adopt(new Element('option',{ html: MooEditr.lang.get('noCssStyles'), value:'-1' }));  
 			
 			}
 	
