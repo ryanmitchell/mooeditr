@@ -183,3 +183,33 @@
 .mooeditr-ui-button-overlay .overlay-content{
 	padding: 10px;
 }
+
+.mooeditr-tabbar {
+	position: absolute;
+	margin: -24px 0 0 0;
+	left:0;
+	width:100%;
+}
+
+.mooeditr-tabbar ul {
+	padding:0 10px 0 0;
+	margin:0;
+	list-style: none;
+	float:right;
+}
+
+.mooeditr-tabbar ul li {
+	float:left; 
+	background-color: #ddd;
+	padding:5px 5px 4px 5px;
+	margin-left:10px;
+}
+
+.mooeditr-tabbar ul li.active {
+	background-color: #eee;
+}
+
+.mooeditr-tabbar ul li a {
+	text-decoration: none;
+	color: #333;
+}

@@ -47,7 +47,7 @@ this.MooEditr = new Class({
 		paragraphise: true,
 		xhtml : true,
 		semantics : true,
-		actions: 'formatBlock | bold italic underline strikethrough | justifycenter justifyfull justifyleft justifyright | insertunorderedlist insertorderedlist indent outdent | removeformat | undo redo | createlink unlink | urlimage | toggleview | showhide * forecolor | inserthtml | smiley | charmap | pagebreak | inserthorizontalrule | tableadd tableedit tablerowadd tablerowedit tablerowspan tablerowsplit tablerowdelete tablecoladd tablecoledit tablecolspan tablecolsplit tablecoldelete',
+		actions: 'formatBlock | bold italic underline strikethrough | justifycenter justifyfull justifyleft justifyright | insertunorderedlist insertorderedlist indent outdent | removeformat | undo redo | createlink unlink | urlimage | showhide * forecolor | inserthtml | smiley | charmap | pagebreak | inserthorizontalrule | tableadd tableedit tablerowadd tablerowedit tablerowspan tablerowsplit tablerowdelete tablecoladd tablecoledit tablecolspan tablecolsplit tablecoldelete',
 		handleSubmit: true,
 		handleLabel: true,
 		disabled: false,
@@ -56,7 +56,8 @@ this.MooEditr = new Class({
 		externalCSS: '',
 		html: '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">{BASEHREF}<style>{BASECSS} {EXTRACSS}</style>{EXTERNALCSS}</head><body></body></html>',
 		rootElement: 'p',
-		baseURL: ''
+		baseURL: '',
+		toggleTabs: true
 	},
 
 	initialize: function(el, options){
@@ -123,6 +124,32 @@ this.MooEditr = new Class({
 			}
 		});
 		
+		// do we want html/code tabs?
+		if (this.options.toggleTabs){
+		
+			this.tabbar = new Element('div', { html: '<ul><li class="active"><a href="#html">HTML</a></li><li><a href="#code">Code</a></li></ul>' }).addClass('mooeditr-tabbar');
+			
+			self = this;
+			this.tabbar.getElements('a').addEvent('click', function(ev){
+			
+				if (ev) ev.stop();
+				
+				this.getParent('ul').getElements('li').removeClass('active');
+				this.getParent('li').addClass('active');
+				
+				if (this.get('href').indexOf('#html')){
+					self.mode = 'iframe';
+					self.toggleView();
+				} else {
+					self.mode = 'textarea';
+					self.toggleView();			
+				}
+							
+			});
+		
+		}
+		
+		// setup toolbar
 		this.toolbar = new MooEditr.UI.Toolbar({
 			onItemAction: function(){
 				var args = $splat(arguments);
@@ -258,6 +285,10 @@ this.MooEditr = new Class({
 		if (this.options.toolbar){
 			document.id(this.toolbar).inject(this.container, 'top');
 			this.toolbar.render(this.actions);
+		}
+		
+		if (this.options.toggleTabs){
+			this.tabbar.setStyle('display', '').inject(this.container, 'top');
 		}
 		
 		if (this.options.disabled) this.disable();
