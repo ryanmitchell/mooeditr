@@ -73,7 +73,6 @@ MooEditr.Actions.forecolor = {
 		if (el.tagName.toLowerCase() != 'a') return;
 		var color = $(el).getStyle('background-color');
 		this.execute('forecolor', false, color);
-		this.focus();
 	}
 };
 
