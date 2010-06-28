@@ -36,7 +36,9 @@ MooEditr.UI.Toolbar= new Class({
 			this.el.adopt(this.content);
 		} else {
 			this.content = actions.map(function(action){
-				return (action == '|') ? this.addSeparator() : this.addItem(action);
+				if(action == '|') return this.addSeparator();
+				if(action == '*') return this.addLine();
+				return this.addItem(action);
 			}.bind(this));
 		}
 		return this;
@@ -65,6 +67,10 @@ MooEditr.UI.Toolbar= new Class({
 	
 	addSeparator: function(){
 		return new Element('span', {'class': 'toolbar-separator'}).inject(this.el);
+	},
+	
+	addLine: function(){
+		return new Element('span', {'class': 'toolbar-newline'}).inject(this.el);
 	},
 	
 	itemAction: function(){

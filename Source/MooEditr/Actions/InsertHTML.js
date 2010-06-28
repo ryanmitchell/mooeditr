@@ -75,11 +75,11 @@ MooEditr.Actions.extend({
 		title: MooEditr.lang.get('insertHTML'),
 		dialogs: {
 			prompt: function(editor){
-				return MooEditr.UI.FlashDialog(editor);
+				return MooEditr.UI.InsertHTMLDialog(editor);
 			}
 		},
 		command: function(){
-			this.dialogs.flash.prompt.open();
+			this.dialogs.inserthtml.prompt.open();
 		}
 	}
 	

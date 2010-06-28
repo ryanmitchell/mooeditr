@@ -60,12 +60,6 @@ MooEditr.UI.MenuList = new Class({
 		});
 		
 		this.disabled = false;
-
-		// add hover effect for IE
-		if (Browser.Engine.trident) this.el.addEvents({
-			mouseenter: function(e){ this.addClass('hover'); },
-			mouseleave: function(e){ this.removeClass('hover'); }
-		});
 		
 		return this;
 	},

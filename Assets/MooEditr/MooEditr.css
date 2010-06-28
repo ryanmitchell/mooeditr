@@ -107,6 +107,10 @@
 	background-color: #fafafa;
 }
 
+.mooeditr-ui-toolbar .toolbar-newline {
+	display:block;
+}
+
 .mooeditr-ui-toolbar .bold-item .button-icon{ background-position: 0 0; } 
 .mooeditr-ui-toolbar .createlink-item .button-icon{ background-position: 0 -16px; } 
 .mooeditr-ui-toolbar .indent-item .button-icon{ background-position: 0 -32px; } 

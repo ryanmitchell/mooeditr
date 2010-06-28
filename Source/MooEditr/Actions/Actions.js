@@ -78,7 +78,7 @@ MooEditr.Actions.extend({
 		}
 	},
 	
-	insertHorizontalRule: {
+	inserthorizontalrule: {
 		title: MooEditr.lang.get('insertHorizontalRule'),
 		states: {
 			tags: ['hr']

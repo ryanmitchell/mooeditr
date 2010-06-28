@@ -47,6 +47,9 @@ MooEditr.lang.set({
 	heading1: 'Heading 1',
 	heading2: 'Heading 2',
 	heading3: 'Heading 3',
+	heading4: 'Heading 4',
+	heading5: 'Heading 5',
+	heading6: 'Heading 6',
 	alignLeft: 'Align Left',
 	alignRight: 'Align Right',
 	alignCenter: 'Align Center',
@@ -55,7 +58,6 @@ MooEditr.lang.set({
 });
 
 MooEditr.Actions.extend({
-
 
 	bold: {
 		title: MooEditr.lang.get('bold'),
@@ -153,11 +155,14 @@ MooEditr.Actions.extend({
 				{text: MooEditr.lang.get('paragraph'), value: 'p'},
 				{text: MooEditr.lang.get('heading1'), value: 'h1', style: 'font-size:24px; font-weight:bold;'},
 				{text: MooEditr.lang.get('heading2'), value: 'h2', style: 'font-size:18px; font-weight:bold;'},
-				{text: MooEditr.lang.get('heading3'), value: 'h3', style: 'font-size:14px; font-weight:bold;'}
+				{text: MooEditr.lang.get('heading3'), value: 'h3', style: 'font-size:14px; font-weight:bold;'},
+				{text: MooEditr.lang.get('heading4'), value: 'h4', style: 'font-size:12px; font-weight:bold;'},
+				{text: MooEditr.lang.get('heading5'), value: 'h5', style: 'font-size:10px; font-weight:bold;'},
+				{text: MooEditr.lang.get('heading6'), value: 'h6', style: 'font-size:8px; font-weight:bold;'}
 			]
 		},
 		states: {
-			tags: ['p', 'h1', 'h2', 'h3']
+			tags: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 		},
 		command: function(menulist, name){
 			var argument = '<' + name + '>';

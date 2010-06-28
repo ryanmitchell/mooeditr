@@ -18,6 +18,15 @@
 		</style>
 
 		<link rel="stylesheet" type="text/css" href="../../Assets/MooEditr/MooEditr.css">
+		
+		<!-- eventually these will all be added to one file, but for ease of development we do it this way -->
+		<link rel="stylesheet" type="text/css" href="../../Assets/MooEditr/MooEditr.Extras.css">
+		<link rel="stylesheet" type="text/css" href="../../Assets/MooEditr/MooEditr.Forecolor.css">
+		<link rel="stylesheet" type="text/css" href="../../Assets/MooEditr/MooEditr.InsertHTML.css">
+		<link rel="stylesheet" type="text/css" href="../../Assets/MooEditr/MooEditr.Smiley.css">
+		<link rel="stylesheet" type="text/css" href="../../Assets/MooEditr/MooEditr.Charmap.css">
+		<link rel="stylesheet" type="text/css" href="../../Assets/MooEditr/MooEditr.Pagebreak.css">
+		<link rel="stylesheet" type="text/css" href="../../Assets/MooEditr/MooEditr.Table.css">
 
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
 		<script type="text/javascript" src="../../Source/MooEditr/MooEditr.js"></script>
@@ -29,11 +38,18 @@
 		<script type="text/javascript" src="../../Source/MooEditr/UI/ButtonOverlay.js"></script>
 		<script type="text/javascript" src="../../Source/MooEditr/Actions/Actions.js"></script>
 		<script type="text/javascript" src="../../Source/MooEditr/Actions/Formatting.js"></script>
-		
+		<script type="text/javascript" src="../../Source/MooEditr/Actions/Forecolor.js"></script>
+		<script type="text/javascript" src="../../Source/MooEditr/Actions/InsertHTML.js"></script>
+		<script type="text/javascript" src="../../Source/MooEditr/Actions/Smiley.js"></script>
+		<script type="text/javascript" src="../../Source/MooEditr/Actions/Charmap.js"></script>
+		<script type="text/javascript" src="../../Source/MooEditr/Actions/Pagebreak.js"></script>
+		<script type="text/javascript" src="../../Source/MooEditr/Actions/Table.js"></script>
 		
 		<script type="text/javascript">
 			window.addEvent('domready', function(){
-				$('textarea-1').mooEditr();
+				$('textarea-1').mooEditr({
+					externalCSS: '../../Assets/MooEditr/Editable.css'
+				});
 
 				// Post submit
 				$('theForm').addEvent('submit', function(e){
@@ -46,7 +62,7 @@
 	</head>
 	<body>
 
-		<h1>MooEditr basic example</h1>
+		<h1>MooEditr work in progress</h1>
 
 		<form id="theForm" method="post" action="http://form-data.appspot.com/">
 
