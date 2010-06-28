@@ -595,11 +595,13 @@ this.MooEditr = new Class({
 			this.mode = 'iframe';
 			this.iframe.setStyle('display', '');
 			this.setContent(this.textarea.value);
+			if (this.options.toggleTabs) this.toolbar.el.setStyle('display', 'block');
 			this.textarea.setStyle('display', 'none');
 		} else {
 			this.saveContent();
 			this.mode = 'textarea';
 			this.textarea.setStyle('display', '');
+			if (this.options.toggleTabs) this.toolbar.el.setStyle('display', 'none');
 			this.iframe.setStyle('display', 'none');
 		}
 		this.fireEvent('toggleView', this);
