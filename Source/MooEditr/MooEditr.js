@@ -291,10 +291,10 @@ this.MooEditr = new Class({
 			this.tabbar.setStyle('display', '').inject(this.container, 'top');
 		}
 		
-		if (!this.doc.queryCommandSupported('undo')){
-			if (console) console.log('Initiate custom undo/redo stack');
-			this.customUndo = true;
-		}
+		//if (!this.doc.queryCommandSupported('undo')){
+		//	if (console) console.log('Initiate custom undo/redo stack');
+		//	this.customUndo = true;
+		//}
 		
 		if (this.options.disabled) this.disable();
 
