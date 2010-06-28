@@ -84,13 +84,13 @@ MooEditr.Actions.extend({
 					if (found){
 	                					
 						// add choose a style if we have no other options elements
-						if (self.el.length < 1) self.el.adopt(new Element('option',{ html: MooEditr.lang.get('chooseCssStyle'), value:'' }));
+						if (self.el.length < 1) self.el.adopt(new Element('option', { html: MooEditr.lang.get('chooseCssStyle'), value:'' }));
 						
 						// create option for this style
-						var o = new Element('option',{ html:style.classname, value:style.classname });
+						var o = new Element('option', { html:style.classname, value:style.classname });
 						
 						// select if its already there
-						if (node.hasClass(style.classname)) o.setProperty('selected',true);
+						if (node.hasClass(style.classname)) o.setProperty('selected', true);
 						
 						// add to select list
 						self.el.adopt(o);
@@ -100,7 +100,7 @@ MooEditr.Actions.extend({
 				}, this);
 								
 				// no css styles apply
-				if (self.el.length < 1) self.el.adopt(new Element('option',{ html: MooEditr.lang.get('noCssStyles'), value:'-1' }));  
+				if (self.el.length < 1) self.el.adopt(new Element('option', { html: MooEditr.lang.get('noCssStyles'), value:'-1' }));  
 			
 			}
 	
