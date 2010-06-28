@@ -79,6 +79,7 @@ MooEditr.UI.ButtonOverlay = new Class({
 		this.overlay.setStyle('left', '-999em');
 		this.overlayVisible = false;
 		this.deactivate();
+		this.overlay.blur();
 		this.fireEvent('closeOverlay', this);
 		return this;
 	},

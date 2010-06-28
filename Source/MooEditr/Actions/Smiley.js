@@ -67,7 +67,6 @@ MooEditr.Actions.smiley = {
 		if (el.tagName.toLowerCase() != 'img') return;
 		var src = $(el).get('src');
 		var content = '<img style="border:0;" class="smiley" src="' + src + '" alt="">';
-		this.focus();
 		this.selection.insertContent(content);
 	},
 	events: {

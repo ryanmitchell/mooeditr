@@ -239,7 +239,7 @@ this.MooEditr = new Class({
 		if (!this.win.$family) new Window(this.win);
 		if (!this.doc.$family) new Document(this.doc);
 		document.id(this.doc.body);
-		
+				
 		this.setContent(this.textarea.get('value'));
 
 		// Bind all events
