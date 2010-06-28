@@ -54,7 +54,7 @@ this.MooEditr = new Class({
 		baseCSS: 'html{ height: 100%; cursor: text; } body{ font-family: sans-serif; }',
 		extraCSS: '',
 		externalCSS: '',
-		html: '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">{BASEHREF}<style>{BASECSS} {EXTRACSS}</style>{EXTERNALCSS}</head><body></body></html>',
+		html: '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">{BASEHREF}<style>{BASECSS} {EXTRACSS}</style>{EXTERNALCSS}{CSSPARSER}</head><body></body></html>',
 		rootElement: 'p',
 		baseURL: '',
 		toggleTabs: true
@@ -68,6 +68,7 @@ this.MooEditr = new Class({
 		this.keys = {};
 		this.dialogs = {};
 		this.protectedElements = [];
+		this.cssStyles = {};
 		this.actions.each(function(action){
 			var act = MooEditr.Actions[action];
 			if (!act) return;
@@ -133,16 +134,14 @@ this.MooEditr = new Class({
 			this.tabbar.getElements('a').addEvent('click', function(ev){
 			
 				if (ev) ev.stop();
-				
+								
 				this.getParent('ul').getElements('li').removeClass('active');
 				this.getParent('li').addClass('active');
 				
-				if (this.get('href').indexOf('#html')){
-					self.mode = 'iframe';
-					self.toggleView();
+				if (this.get('href').indexOf('#html') != -1){
+					self.toggleView('textarea');
 				} else {
-					self.mode = 'textarea';
-					self.toggleView();			
+					self.toggleView('iframe');			
 				}
 							
 			});
@@ -219,13 +218,13 @@ this.MooEditr = new Class({
 		// contentWindow and document references
 		this.win = this.iframe.contentWindow;
 		this.doc = this.win.document;
-
+		
 		// Build the content of iframe
 		var docHTML = this.options.html.substitute({
 			BASECSS: this.options.baseCSS,
 			EXTRACSS: this.options.extraCSS,
 			EXTERNALCSS: (this.options.externalCSS) ? '<link rel="stylesheet" href="' + this.options.externalCSS + '">': '',
-			BASEHREF: (this.options.baseURL) ? '<base href="' + this.options.baseURL + '" />': '',
+			BASEHREF: (this.options.baseURL) ? '<base href="' + this.options.baseURL + '" />': ''
 		});
 		this.doc.open();
 		this.doc.write(docHTML);
@@ -297,6 +296,28 @@ this.MooEditr = new Class({
 		
 		this.oldContent = this.getContent();
 		
+		// parse CSS styles
+		$each(this.doc.styleSheets, function(ss){
+				
+			try {
+				if (ss.cssRules || ss.rules){
+					it = ss.cssRules ? ss.cssRules : ss.rules;
+					$each(it, function(rule){
+						var rules = rule.selectorText.split(',');
+						for(var c=0; c<rules.length; c++){
+							rules[c] = rules[c].trim();
+							if((rules[c].indexOf(':') == -1) && (rules[c].toLowerCase().indexOf('mooeditr') == -1)){
+								this.cssStyles[rules[c]] = rule.style.cssText;
+							}
+						}
+					}, this);
+				}
+			} catch(e){
+				// firefox doesn't give us the cssRules of <link> elements, any workaround?
+			}
+			
+		}, this);
+				
 		this.fireEvent('attach', this);
 		
 		return this;
@@ -589,13 +610,14 @@ this.MooEditr = new Class({
 		return false;
 	},
 
-	toggleView: function(){
+	toggleView: function(mode){
 		this.fireEvent('beforeToggleView', this);
+		if (mode) this.mode = mode;
 		if (this.mode == 'textarea'){
 			this.mode = 'iframe';
 			this.iframe.setStyle('display', '');
-			this.setContent(this.textarea.value);
 			if (this.options.toggleTabs) this.toolbar.el.setStyle('display', 'block');
+			this.setContent(this.textarea.value);
 			this.textarea.setStyle('display', 'none');
 		} else {
 			this.saveContent();
