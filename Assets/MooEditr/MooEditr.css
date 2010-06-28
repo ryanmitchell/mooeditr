@@ -7,6 +7,7 @@
 	color: inherit;
 	background-color: #eee;
 	padding: 2px;
+	font-size:0;
 }
 
 .mooeditr-ui-toolbar:after{
@@ -27,13 +28,14 @@
 .mooeditr-ui-toolbar .mooeditr-ui-button{
 	cursor: pointer;
 	border: 0;
-	width: auto;
+	width: 20px;
 	height: auto;
 	margin: 2px;
 	padding: 2px;
 	vertical-align: middle;
 	color: inherit;
 	background-color: transparent;
+	outline: 0;
 }
 * html .mooeditr-ui-toolbar .mooeditr-ui-button{ /* IE6 */
 	width: 24px;
@@ -96,6 +98,11 @@
 .mooeditr-ui-toolbar .mooeditr-ui-button-icon-text .button-text{
 	display: inline;
 	margin-left: 4px;
+}
+
+.mooeditr-ui-toolbar select { 
+	max-width: 100px;
+	margin:0 5px 0 0;
 }
 
 .mooeditr-ui-toolbar .toolbar-separator{
