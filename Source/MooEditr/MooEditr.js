@@ -656,6 +656,8 @@ this.MooEditr = new Class({
 			if (this.options.toggleTabs){
 				this.textarea.setStyle('height', this.iframe.getSize().y + this.toolbar.el.getSize().y - 3);
 				this.toolbar.el.setStyle('display', 'none');
+			} else {
+				this.textarea.setStyle('height', this.iframe.getSize().y - 3);
 			}
 			this.iframe.setStyle('display', 'none');
 		}
