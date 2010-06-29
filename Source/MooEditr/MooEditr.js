@@ -628,14 +628,19 @@ this.MooEditr = new Class({
 		if (this.mode == 'textarea'){
 			this.mode = 'iframe';
 			this.iframe.setStyle('display', '');
-			if (this.options.toggleTabs) this.toolbar.el.setStyle('display', 'block');
+			if (this.options.toggleTabs){
+				this.toolbar.el.setStyle('display', 'block');
+			}
 			this.setContent(this.textarea.value);
 			this.textarea.setStyle('display', 'none');
 		} else {
 			this.saveContent();
 			this.mode = 'textarea';
 			this.textarea.setStyle('display', '');
-			if (this.options.toggleTabs) this.toolbar.el.setStyle('display', 'none');
+			if (this.options.toggleTabs){
+				this.textarea.setStyle('height', this.iframe.getSize().y + this.toolbar.el.getSize().y - 3);
+				this.toolbar.el.setStyle('display', 'none');
+			}
 			this.iframe.setStyle('display', 'none');
 		}
 		this.fireEvent('toggleView', this);
