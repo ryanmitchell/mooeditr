@@ -57,7 +57,9 @@ this.MooEditr = new Class({
 		html: '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">{BASEHREF}<style>{BASECSS} {EXTRACSS}</style>{EXTERNALCSS}</head><body></body></html>',
 		rootElement: 'p',
 		baseURL: '',
-		toggleTabs: true
+		toggleTabs: true,
+		resizable: true,
+		resizeLimits: false // see limit option on MooTools More Drag class
 	},
 
 	initialize: function(el, options){
@@ -147,6 +149,11 @@ this.MooEditr = new Class({
 							
 			});
 		
+		}
+		
+		// resizable? requires Drag from more
+		if (this.options.resizable){
+			this.dragHandle = new Element('div').addClass('mooeditr-draghandle');		
 		}
 		
 		// setup toolbar
@@ -289,6 +296,15 @@ this.MooEditr = new Class({
 		
 		if (this.options.toggleTabs){
 			this.tabbar.setStyle('display', '').inject(this.container, 'top');
+		}
+		
+		if (this.options.resizable){
+			try {
+				this.dragHandle.inject(this.container, 'top');
+				this.iframe.makeResizable({ handle: this.dragHandle, limit: this.options.resizeLimits });
+			} catch (e){
+				throw 'Resizable required the Drag class from MooTools More';
+			}
 		}
 		
 		//if (!this.doc.queryCommandSupported('undo')){

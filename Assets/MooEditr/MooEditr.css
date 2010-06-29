@@ -220,3 +220,12 @@
 	text-decoration: none;
 	color: #333;
 }
+
+.mooeditr-draghandle {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	background: url(Other/resizer.gif) no-repeat;
+	width:11px;
+	height: 20px;
+}
