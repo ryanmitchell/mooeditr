@@ -168,6 +168,7 @@ MooEditr.Actions.extend({
 			var argument = '<' + name + '>';
 			this.focus();
 			this.execute('formatBlock', false, argument);
+			this.checkStates();
 		}
 	},
 	
