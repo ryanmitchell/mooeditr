@@ -65,23 +65,6 @@ MooEditr.Actions.extend({
 		}
 	},
 
-	urlimage: {
-		title: MooEditr.lang.get('addImage'),
-		options: {
-			shortcut: 'm'
-		},
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.PromptDialog(MooEditr.lang.get('enterImageURL'), 'http://', function(url){
-					editor.execute('insertimage', false, url.trim());
-				});
-			}
-		},
-		command: function(){
-			this.dialogs.urlimage.prompt.open();
-		}
-	},
-
 	toggleview: {
 		title: MooEditr.lang.get('toggleView'),
 		command: function(){
