@@ -1,9 +1,9 @@
 /*
 ---
 
-script: Actions/Actions.js
+script: Actions/Toggle.js
 
-description: Actions that don't fit elsewhere, most of these will be replaced elswhere, or find new homes
+description: Toggle the view
 
 license: MIT-style license
 
@@ -11,8 +11,7 @@ license: MIT-style license
 
 // extend the language pack
 MooEditr.lang.set({
-	toggleView: 'Toggle View',
-	insertHorizontalRule: 'Insert Horizontal Rule'
+	toggleView: 'Toggle View'
 });
 
 MooEditr.Actions.extend({
@@ -22,16 +21,6 @@ MooEditr.Actions.extend({
 		command: function(){
 			(this.mode == 'textarea') ? this.toolbar.enable() : this.toolbar.disable('toggleview');
 			this.toggleView();
-		}
-	},
-	
-	inserthorizontalrule: {
-		title: MooEditr.lang.get('insertHorizontalRule'),
-		states: {
-			tags: ['hr']
-		},
-		command: function(){
-			this.selection.insertContent('<hr>');
 		}
 	}
 	

@@ -27,6 +27,7 @@ provides:
 - MooEditr.Actions.justifycenter
 - MooEditr.Actions.justifyfull
 - MooEditr.Actions.removeformat
+- MooEditr.Actions.inserthorizontalrule
 
 ...
 */
@@ -54,7 +55,8 @@ MooEditr.lang.set({
 	alignRight: 'Align Right',
 	alignCenter: 'Align Center',
 	alignJustify: 'Align Justify',
-	removeFormatting: 'Remove Formatting'
+	removeFormatting: 'Remove Formatting',
+	insertHorizontalRule: 'Insert Horizontal Rule'
 });
 
 MooEditr.Actions.extend({
@@ -242,5 +244,16 @@ MooEditr.Actions.extend({
 		options: {
 			shortcut: 'y'
 		}
+	},
+	
+	inserthorizontalrule: {
+		title: MooEditr.lang.get('insertHorizontalRule'),
+		states: {
+			tags: ['hr']
+		},
+		command: function(){
+			this.selection.insertContent('<hr>');
+		}
 	}
+	
 });
