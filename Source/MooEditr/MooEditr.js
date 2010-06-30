@@ -47,7 +47,7 @@ this.MooEditr = new Class({
 		paragraphise: true,
 		xhtml : true,
 		semantics : true,
-		actions: 'formatBlock cssStyles | bold italic underline strikethrough | justifycenter justifyfull justifyleft justifyright | insertunorderedlist insertorderedlist indent outdent | removeformat | undo redo | createlink unlink | image | showhide * forecolor | inserthtml | smiley | charmap | pagebreak | inserthorizontalrule | tableadd tableedit tablerowadd tablerowedit tablerowspan tablerowsplit tablerowdelete tablecoladd tablecoledit tablecolspan tablecolsplit tablecoldelete',
+		actions: 'formatBlock cssStyles | bold italic underline strikethrough | justifycenter justifyfull justifyleft justifyright | insertunorderedlist insertorderedlist indent outdent | removeformat | undo redo | link unlink | image | showhide * forecolor | inserthtml | smiley | charmap | pagebreak | inserthorizontalrule | tableadd tableedit tablerowadd tablerowedit tablerowspan tablerowsplit tablerowdelete tablecoladd tablecoledit tablecolspan tablecolsplit tablecoldelete',
 		handleSubmit: true,
 		handleLabel: true,
 		disabled: false,
