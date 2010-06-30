@@ -16,7 +16,6 @@ MooEditr.lang.set({
 	selectTextHyperlink: 'Please select the text you wish to hyperlink.',
 	enterURL: 'Enter URL',
 	enterImageURL: 'Enter image URL',
-	addImage: 'Add Image',
 	toggleView: 'Toggle View',
 	insertHorizontalRule: 'Insert Horizontal Rule'
 });
