@@ -28,7 +28,7 @@ usage: |
   <script>
   window.addEvent('domready', function(){
     var MooEditr = $('textarea-1').MooEditr({
-      actions: 'bold italic underline strikethrough | pagebreak | toggleview',
+      actions: 'bold italic underline strikethrough | wordpaste | toggleview',
       externalCSS: '../../Assets/MooEditr/Editable.css'
     });
   });
@@ -118,7 +118,6 @@ MooEditr.UI.WordpasteDialog = function(editor){
 				// set content
 				editor.setContent(editor.cleanup(str.trim()));
 				
-				console.log(editor.cleanup(str.trim()));
 			}
 		}
 	});

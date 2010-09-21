@@ -45,11 +45,14 @@ MooEditr.lang.set({
 	imageAlignCenter: 'center',
 	imageAlignRight: 'right',
 	addEditImage: 'Add/Edit Image',
-	enterImageURL: 'Image URL:'
+	enterImageURL: 'Image URL:',
+	browse: 'Browse',
+	noImageGiven: 'Please choose an image!'
 });
 
 MooEditr.UI.ImageDialog = function(editor){
-	var html = MooEditr.lang.get('enterImageURL') + ' <input type="text" class="dialog-url" value="" size="15"> '
+	var html = MooEditr.lang.get('enterImageURL') + ' <input type="text" class="dialog-url" value="" size="15">'
+		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
 		+ MooEditr.lang.get('imageAlt') + ' <input type="text" class="dialog-alt" value="" size="8"> '
 		+ MooEditr.lang.get('imageClass') + ' <input type="text" class="dialog-class" value="" size="8"> '
 		+ MooEditr.lang.get('imageAlign') + ' <select class="dialog-align">'
@@ -100,6 +103,42 @@ MooEditr.UI.ImageDialog = function(editor){
 					}).inject(div);
 					editor.selection.insertContent(div.get('html'));
 				}
+			} else if (button.hasClass('dialog-browse-button')){
+
+				// define callback function for file manager
+				callback = function(args){
+				
+                    // only if we are an image
+                    if (args.type == 'image' && args.properties){
+                            
+                        // do we have src 
+                        if (args.properties.url){ 
+                    		this.el.getElement('.img-input').set('value', args.properties.url);
+                        }
+                        
+                        // do we have width 
+                        if (args.properties.width){ 
+                            this.el.getElement('input.img-input-width').set('value', args.properties.width);
+							this.el.getElement('input.img-input-width-hidden').set('value', args.properties.width);
+                        }
+
+                        // do we have height 
+                        if (args.properties.height){ 
+                            this.el.getElement('input.img-input-height').set('value', args.properties.height);
+							this.el.getElement('input.img-input-height-hidden').set('value', args.properties.height);
+                        }
+                        
+                        this.el.getElement('.img-input').focus();
+
+                    } else {
+                        MooEditr.lang.get('noImageGiven');	
+                    }
+				
+				}
+			
+				// call file manager, passing 2 args, first that we are looking for an image, second our callback function
+				editor.options.fileManager.attempt(['image', callback], this);
+			
 			}
 		}
 	});
