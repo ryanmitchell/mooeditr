@@ -44,7 +44,8 @@ MooEditr.lang.set({
 	imageAlignLeft: 'left',
 	imageAlignCenter: 'center',
 	imageAlignRight: 'right',
-	addEditImage: 'Add/Edit Image'
+	addEditImage: 'Add/Edit Image',
+	enterImageURL: 'Image URL:'
 });
 
 MooEditr.UI.ImageDialog = function(editor){
@@ -69,7 +70,7 @@ MooEditr.UI.ImageDialog = function(editor){
 				this.el.getElement('.dialog-url').set('value', node.get('src'));
 				this.el.getElement('.dialog-alt').set('value', node.get('alt'));
 				this.el.getElement('.dialog-class').set('value', node.className);
-				this.el.getElement('.dialog-align').set('align', node.get('align'));
+				this.el.getElement('.dialog-align').set('value', node.get('align'));
 			}
 			(function(){
 				input.focus();
