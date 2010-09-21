@@ -47,7 +47,7 @@ this.MooEditr = new Class({
 		paragraphise: true,
 		xhtml : true,
 		semantics : true,
-		actions: 'formatBlock cssStyles | bold italic underline strikethrough | justifycenter justifyfull justifyleft justifyright | insertunorderedlist insertorderedlist indent outdent | removeformat | undo redo | link unlink | image | showhide * forecolor | inserthtml | smiley | charmap | pagebreak | inserthorizontalrule | tableadd tableedit tablerowadd tablerowedit tablerowspan tablerowsplit tablerowdelete tablecoladd tablecoledit tablecolspan tablecolsplit tablecoldelete',
+		actions: 'formatBlock cssStyles | bold italic underline strikethrough | justifycenter justifyfull justifyleft justifyright | insertunorderedlist insertorderedlist indent outdent | removeformat | undo redo | link unlink | image | showhide * forecolor | inserthtml | smiley | charmap | pagebreak | wordpaste | inserthorizontalrule | tableadd tableedit tablerowadd tablerowedit tablerowspan tablerowsplit tablerowdelete tablecoladd tablecoledit tablecolspan tablecolsplit tablecoldelete',
 		handleSubmit: true,
 		handleLabel: true,
 		disabled: false,
@@ -899,6 +899,9 @@ this.MooEditr = new Class({
 			source = source.replace(/<pre[^>]*>.*?<\/pre>/gi, function(match){
 				return match.replace(/<br ?\/?>/gi, '\n');
 			});
+			
+			// empty p's need &nbsp;
+			source = source.replace(/<p([^>]*)>(\s?)<\/p>/g, '<p$1>&nbsp;</p>'); // break after paragraphs
 
 			// Final trim
 			source = source.trim();

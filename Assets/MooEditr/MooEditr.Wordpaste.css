@@ -1,0 +1,10 @@
+
+.mooeditr-ui-toolbar .wordpaste-item .button-icon {
+	background: transparent url(Other/word.png) no-repeat center center;
+}
+
+.mooeditr-ui-dialog div.wpinput {
+	height:120px; 
+	border:1px solid #000;
+	overflow:auto;
+}
