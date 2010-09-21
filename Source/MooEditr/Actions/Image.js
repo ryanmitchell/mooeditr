@@ -108,15 +108,15 @@ MooEditr.UI.ImageDialog = function(editor){
 				// define callback function for file manager
 				callback = function(args){
 				
-                    // only if we are an image
+                    // only if we are an image, allows the same file manager function for multiple file types
                     if (args.type == 'image' && args.properties){
                             
                         // do we have src 
                         if (args.properties.url){ 
-                    		this.el.getElement('.img-input').set('value', args.properties.url);
+                    		this.el.getElement('.dialog-url').set('value', args.properties.url);
                         }
                         
-                        // do we have width 
+                        /* coming soon - do we have width 
                         if (args.properties.width){ 
                             this.el.getElement('input.img-input-width').set('value', args.properties.width);
 							this.el.getElement('input.img-input-width-hidden').set('value', args.properties.width);
@@ -126,9 +126,9 @@ MooEditr.UI.ImageDialog = function(editor){
                         if (args.properties.height){ 
                             this.el.getElement('input.img-input-height').set('value', args.properties.height);
 							this.el.getElement('input.img-input-height-hidden').set('value', args.properties.height);
-                        }
+                        } */
                         
-                        this.el.getElement('.img-input').focus();
+                        this.el.getElement('.dialog-url').focus();
 
                     } else {
                         MooEditr.lang.get('noImageGiven');	
