@@ -60,7 +60,7 @@ this.MooEditr = new Class({
 		toggleTabs: true,
 		resizable: true,
 		resizeLimits: false, // see limit option on MooTools More Drag class
-		fileManager: null // function for handling files
+		fileManager: $empty // function for handling files
 	},
 
 	initialize: function(el, options){
