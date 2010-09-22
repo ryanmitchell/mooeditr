@@ -38,7 +38,6 @@ this.MooEditr = new Class({
 	Implements: [Events, Options],
 	
 	blockEls: /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|SCRIPT|NOSCRIPT|STYLE)$/i,
-	urlRegex: /^(https?|ftp|rmtp|mms):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i,
 	protectRegex: /<(script|noscript|style)[\u0000-\uFFFF]*?<\/(script|noscript|style)>/g,
 
 	options: {
