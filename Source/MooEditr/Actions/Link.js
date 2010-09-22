@@ -57,7 +57,8 @@ MooEditr.lang.set({
 	selemail: 'Email',
 	selanchor: 'Anchor',
 	windowsame: 'Same',
-	windownew: 'New'
+	windownew: 'New',
+	noFileGiven: 'No file selected!'
 });
 
 MooEditr.UI.LinkDialog = function(editor){
@@ -159,7 +160,7 @@ MooEditr.UI.LinkDialog = function(editor){
 						this.el.getElement('.dialog-file').set('value', args.properties.url);
 						(function(){ this.el.getElement('input.dialog-file').focus(); }.delay(100,this));
 					} else {
-						MooEditr.lang.get('noImageGiven');	
+						MooEditr.lang.get('noFileGiven');	
 					}
 				
 				}
