@@ -119,7 +119,6 @@
 }
 
 .mooeditr-ui-toolbar .bold-item .button-icon{ background-position: 0 0; } 
-.mooeditr-ui-toolbar .link-item .button-icon{ background-position: 0 -16px; } 
 .mooeditr-ui-toolbar .indent-item .button-icon{ background-position: 0 -32px; } 
 .mooeditr-ui-toolbar .insertorderedlist-item .button-icon{ background-position: 0 -48px; } 
 .mooeditr-ui-toolbar .insertunorderedlist-item .button-icon{ background-position: 0 -64px; } 
@@ -130,8 +129,6 @@
 .mooeditr-ui-toolbar .toggleview-item .button-icon{ background-position: 0 -144px; } 
 .mooeditr-ui-toolbar .underline-item .button-icon{ background-position: 0 -160px; } 
 .mooeditr-ui-toolbar .undo-item .button-icon{ background-position: 0 -176px; } 
-.mooeditr-ui-toolbar .unlink-item .button-icon{ background-position: 0 -192px; } 
-.mooeditr-ui-toolbar .urlimage-item .button-icon{ background-position: 0 -208px; } 
 
 .mooeditr-iframe{
 	margin: 0;
