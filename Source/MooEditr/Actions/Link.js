@@ -149,18 +149,18 @@ MooEditr.UI.LinkDialog = function(editor){
 				var div = new Element('div').adopt(el);
 				editor.selection.insertContent(div.get('html')); 
 			} else if (button.hasClass('browse')){
-                e.stop();
+				e.stop();
                 
 				// define callback function for file manager
 				callback = function(args){
 				
-                    // only if we are an image, allows the same file manager function for multiple file types
-                    if (args.properties && args.properties.url){
+					// only if we are an image, allows the same file manager function for multiple file types
+					if (args.properties && args.properties.url){
 						this.el.getElement('.dialog-file').set('value', args.properties.url);
 						(function(){ this.el.getElement('input.dialog-file').focus(); }.delay(100,this));
-                    } else {
-                        MooEditr.lang.get('noImageGiven');	
-                    }
+					} else {
+						MooEditr.lang.get('noImageGiven');	
+					}
 				
 				}
 			
