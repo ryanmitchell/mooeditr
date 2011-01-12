@@ -98,13 +98,16 @@ MooEditr.UI.LinkDialog = function(editor){
             		} else if (href.substr(0,7) == 'mailto:'){
             			value = 'email';
             			this.el.getElement('input.dialog-email').set('value',href.substr(7));	
+            			(function(){ this.el.getElement('input.dialog-email').focus(); }.delay(10, this));
             		} else if (href.split('.').length > 1 && !MooEditr.Actions.Settings.link.extensions.contains(href.split('.')[1])){
             			value = 'file';
             			this.el.getElement('input.dialog-file').set('value',href);
+            			(function(){ this.el.getElement('input.dialog-file').focus(); }.delay(10, this));
             			if (node.getProperty('target')) this.el.getElement('input.dialog-file-window').set('value',node.getProperty('target'));	
             		} else {
             			value = 'url';
             			this.el.getElement('input.dialog-url').set('value',href);	
+            			(function(){ this.el.getElement('input.dialog-url').focus(); }.delay(10, this));
             			if (node.getProperty('target')) this.el.getElement('input.dialog-window').set('value',node.getProperty('target'));
             		}
             		this.el.getElement('select.dialog-type').set('value',value);
@@ -113,7 +116,8 @@ MooEditr.UI.LinkDialog = function(editor){
             } else {
             	this.el.getElement('select.dialog-type').set('value','url');
             	this.el.getElement('select.dialog-type').fireEvent('change');
-            	this.el.getElement('input.dialog-url').set('value','');
+            	this.el.getElement('input.dialog-url').set('value', '');
+            	(function(){ this.el.getElement('input.dialog-url').focus(); }.delay(10, this));
             	this.el.getElement('select.dialog-window').set('value','');
             	this.el.getElement('select.dialog-anchor').set('value','');		
             	this.el.getElement('input.dialog-email').set('value','');	
@@ -140,6 +144,7 @@ MooEditr.UI.LinkDialog = function(editor){
 					// do we proceed?
 					if (errors.length > 0){
 						errormsg = 'Please enter a url';
+						this.el.getElement('input.dialog-url').focus();
 					} else {
 						url = this.el.getElement('input.dialog-url').get('value').trim();
 						target = this.el.getElement('select.dialog-window').get('value');
@@ -156,6 +161,7 @@ MooEditr.UI.LinkDialog = function(editor){
 					// do we proceed?
 					if (errors.length > 0){
 						errormsg = 'Please choose a file';
+						this.el.getElement('input.dialog-file').focus();
 					} else {
 						url = this.el.getElement('input.dialog-file').get('value');
 						target = this.el.getElement('select.dialog-file-window').get('value');
@@ -169,6 +175,7 @@ MooEditr.UI.LinkDialog = function(editor){
 					// do we proceed?
 					if (errors.length > 0){
 						errormsg = 'Please enter an email';
+						this.el.getElement('input.dialog-email').focus();
 					} else {
 						url = 'mailto:' + this.el.getElement('input.dialog-email').get('value').trim();
 						target = '_top';
