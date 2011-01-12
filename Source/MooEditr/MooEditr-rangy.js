@@ -134,7 +134,8 @@ this.MooEditr = new Class({
 			this.tabbar = new Element('div', { html: '<ul><li class="active"><a href="#html">HTML</a></li><li><a href="#code">Code</a></li></ul>' }).addClass('mooeditr-tabbar');
 			
 			self = this;
-			this.tabbar.getElements('a').addEvent('click', function(ev){
+			this.tabbar.getElements('a')
+			.addEvent('click', function(ev){
 			
 				if (ev) ev.stop();
 								
@@ -318,7 +319,7 @@ this.MooEditr = new Class({
 				this.dragHandle.inject(this.container, 'top');
 				this.iframe.makeResizable({ handle: this.dragHandle, limit: this.options.resizeLimits });
 			} catch (e){
-				throw 'Resizable required the Drag class from MooTools More';
+				//throw 'Resizable required the Drag class from MooTools More';
 			}
 		}
 		
@@ -646,7 +647,7 @@ this.MooEditr = new Class({
 	action: function(command, args){
 		var action = MooEditr.Actions[command];
 		if (action.command && typeOf(action.command) == 'function'){
-			action.command.run(args, this);
+			action.command.apply(this, args);
 		} else {
 			this.focus();
 			this.execute(command, false, args);
@@ -955,7 +956,7 @@ MooEditr.lang = {
 	
 	set: function(members){
 		if (MooTools.lang) MooTools.lang.set('en-US', 'MooEditr', members);
-		$extend(phrases, members);
+		Object.append(phrases, members);
 	},
 	
 	get: function(key){

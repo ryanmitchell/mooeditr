@@ -50,7 +50,7 @@ MooEditr.UI.Toolbar= new Class({
 		if (!act) return;
 		var type = act.type || 'button';
 		var options = act.options || {};
-		var item = new MooEditr.UI[type.camelCase().capitalize()]($extend(options, {
+		var item = new MooEditr.UI[type.camelCase().capitalize()](Object.append(options, {
 			name: action,
 			'class': action + '-item toolbar-item',
 			title: act.title,
@@ -78,14 +78,14 @@ MooEditr.UI.Toolbar= new Class({
 	},
 
 	disable: function(except){
-		$each(this.items, function(item){
+		Object.each(this.items, function(item){
 			(item.name == except) ? item.activate() : item.deactivate().disable();
 		});
 		return this;
 	},
 
 	enable: function(){
-		$each(this.items, function(item){
+		Object.each(this.items, function(item){
 			item.enable();
 		});
 		return this;
@@ -150,7 +150,7 @@ MooEditr.UI.Button = new Class({
 		this.disabled = false;
 
 		// add hover effect for IE
-		if (Browser.Engine.trident) this.el.addEvents({
+		if (Browser.ie) this.el.addEvents({
 			mouseenter: function(e){ this.addClass('hover'); },
 			mouseleave: function(e){ this.removeClass('hover'); }
 		});
@@ -165,7 +165,7 @@ MooEditr.UI.Button = new Class({
 	},
 	
 	action: function(){
-		this.fireEvent('action', [this].concat($A(arguments)));
+		this.fireEvent('action', [this].concat(Array.from(arguments)));
 	},
 	
 	enable: function(){
