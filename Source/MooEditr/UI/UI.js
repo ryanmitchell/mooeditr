@@ -207,6 +207,33 @@ MooEditr.UI.Button = new Class({
 MooEditr.UI.Dialog = new Class({
 
 	Implements: [Events, Options],
+	
+	// validations for form fields
+	validations: {
+	
+		alerts : {
+			required: "This field is required.",
+			alpha: "This field accepts alphabetic characters only.",
+			alphanum: "This field accepts alphanumeric characters only.",
+			nodigit: "No digits are accepted.",
+			digit: "Please enter a valid integer.",
+			number: "Please enter a valid number.",
+			email: "Please enter a valid email.",
+			url: "Please enter a valid url."
+		},
+		
+		regexp : {
+			required : /[^.*]/,
+			alpha : /^[a-z ._-]+$/i,
+			alphanum : /^[a-z0-9 ._-]+$/i,
+			digit : /^[-+]?[0-9]+$/,
+			nodigit : /^[^0-9]+$/,
+			number : /^[-+]?\d*\.?\d+$/,
+			email : /^[a-z0-9._%-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
+			url : /^(http|https|ftp)\:\/\/[a-z0-9\-\.]+\.[a-z]{2,3}(:[a-z0-9]*)?\/?([a-z0-9\-\._\?\,\'\/\\\+&amp;%\$#\=~])*$/i
+		}
+
+	},
 
 	options:{
 		/*
@@ -256,6 +283,30 @@ MooEditr.UI.Dialog = new Class({
 		this.el.setStyle('display', 'none');
 		this.fireEvent('close', this);
 		return this;
+	},
+	
+	// validate a form field
+	validateField: function(el){
+		var errors = [];
+		el.getProperty("class").split(' ').each(function(classX) {
+			if (classX.match(/^validate(\[.+\])$/)){
+				var validators = eval(classX.match(/^validate(\[.+\])$/)[1]);
+				for (var i = 0; i < validators.length; i++){
+					m = this.validateRegex(el, validators[i]);
+					if (m != '') errors.push(m);
+				}
+			}
+		}, this);
+		return errors;
+	},
+	
+	// carry out a regex validation, adapted from formcheck
+	validateRegex : function(el, ruleMethod) {
+		var msg = '';
+		if (this.validations.regexp[ruleMethod].test(el.value) == false){
+			msg = this.validations.alerts[ruleMethod];
+		}
+		return msg;
 	}
 
 });

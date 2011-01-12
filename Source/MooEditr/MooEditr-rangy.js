@@ -39,7 +39,7 @@ this.MooEditr = new Class({
 	
 	blockEls: /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|SCRIPT|NOSCRIPT|STYLE)$/i,
 	protectRegex: /<(script|noscript|style)[\u0000-\uFFFF]*?<\/(script|noscript|style)>/g,
-
+		
 	options: {
 		toolbar: true,
 		cleanup: true,
@@ -492,11 +492,7 @@ this.MooEditr = new Class({
 	},
 	
 	editorKeyUp: function(e){
-	
-		if (e){
-			console.log(e.target);
-		}
-		
+			
 		if (this.editorDisabled){
 			e.stop();
 			return;
@@ -810,7 +806,6 @@ this.MooEditr = new Class({
 			}.bind(this));
 			
 		} catch(e){
-			console.log(e);
 			return;
 		}
 	},
