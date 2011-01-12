@@ -989,7 +989,9 @@ Element.Properties.MooEditr = {
 Element.implement({
 
 	mooEditr: function(options){
-		return this.get('MooEditr', options);
+		var me = this.get('MooEditr', options);
+		if (!me) me = new MooEditr(this, options);
+		return me;
 	}
 
 });
