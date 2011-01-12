@@ -54,12 +54,12 @@ MooEditr.lang.set({
 MooEditr.UI.VideoDialog = function(editor){
 	var html = '<form>' + MooEditr.lang.get('enterPosterURL') + ' <input type="text" class="dialog-url" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
-		+ MooEditr.lang.get('enterWebMURL') + ' <input type="text" class="dialog-webm" value="" size="15">'
+		+ MooEditr.lang.get('enterWebMURL') + ' <input type="text" class="dialog-webm validate[\'required\']" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
 		+ MooEditr.lang.get('enterMP4URL') + ' <input type="text" class="dialog-mp4" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
-		+ MooEditr.lang.get('videoWidth') + ' <input type="text" class="dialog-width" value="" size="4"><input type="hidden" class="dialog-width-hidden" value=""> '
-		+ MooEditr.lang.get('videoHeight') + ' <input type="text" class="dialog-height" value="" size="4"><input type="hidden" class="dialog-height-hidden" value=""> '
+		+ MooEditr.lang.get('videoWidth') + ' <input type="text" class="dialog-width validate[\'required\',\'digit\']" value="" size="4"><input type="hidden" class="dialog-width-hidden" value=""> '
+		+ MooEditr.lang.get('videoHeight') + ' <input type="text" class="dialog-height validate[\'required\',\'digit\']" value="" size="4"><input type="hidden" class="dialog-height-hidden" value=""> '
 		+ MooEditr.lang.get('videoConstrain') + '<input type="checkbox" class="dialog-constrain" />'
 		+ MooEditr.lang.get('videoFallback') + ' <input type="text" class="dialog-fallback" value="" size="15">'
 		+ MooEditr.lang.get('videoAutoplay') + '<input type="checkbox" class="dialog-autoplay" /> '
@@ -125,27 +125,91 @@ MooEditr.UI.VideoDialog = function(editor){
 			if (button.hasClass('dialog-cancel-button')){
 				this.close();
 			} else if (button.hasClass('dialog-ok-button')){
-				this.close();
+			
+				// validation errors
+				var errors = [];	
+				var errormsg = '';
 				
-				// create html
-				html = '<video width="' + this.el.getElement('.dialog-width').get('value') + '" height="' + this.el.getElement('.dialog-height').get('value') + '"' + ( this.el.getElement('.dialog-url').get('value').trim() != '' ? ' poster="' + this.el.getElement('.dialog-url').get('value').trim() + '"' : '' ) + ( this.el.getElement('.dialog-controls').get('checked') ? ' controls="controls"' : '' ) + ( this.el.getElement('.dialog-autoplay').get('checked') ? ' autoplay="autoplay"' : '' ) + '>';
-				if (this.el.getElement('.dialog-webm').get('value').trim() != '')  html += '<source type="video/webm" src="' + this.el.getElement('.dialog-webm').get('value').trim() + '">';
-				if (this.el.getElement('.dialog-mp4').get('value').trim() != '')  html += '<source src="' + this.el.getElement('.dialog-mp4').get('value').trim() + '">';
-				html += this.el.getElement('.dialog-fallback').get('value');
-				html += '</video>'
-                                        
-                // add to replacement bank
-                editor.videoReplacements.push(html);
-                                
-                // insert image instead of flash
-                editor.selection.insertContent('<img class="mooeditr-visual-aid mooeditr-video" width="'+this.el.getElement('.dialog-width').get('value')+'" height="'+this.el.getElement('.dialog-height').get('value')+'" id="mooeditr-video-replacement-'+(editor.videoReplacements.length - 1)+'"' + ( this.el.getElement('.dialog-url').get('value').trim() != '' ? ' style="background-image:url(' + this.el.getElement('.dialog-url').get('value').trim() + ');"' : '' )+ ' />');
-                
-                // reset values
-                this.el.getElement('.dialog-url').set('value','');
-                this.el.getElement('.dialog-webm').set('value','');
-                this.el.getElement('.dialog-mp4').set('value','');
-                this.el.getElement('.dialog-width').set('value','');
-                this.el.getElement('.dialog-height').set('value','');
+				// validate
+				errors = this.validateField(this.el.getElement('input.dialog-webm'));
+				
+				// do we proceed?
+				if (errors.length > 0){
+					errormsg = 'Please choose a WebM format video';
+					this.el.getElement('input.dialog-webm').focus();
+				}
+				
+				// sequential error handling
+				if (errors.length < 1){
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-width'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter a width';
+						this.el.getElement('input.dialog-width').focus();
+					}
+				
+				}
+				
+				// sequential error handling
+				if (errors.length < 1){
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-height'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter a height';
+						this.el.getElement('input.dialog-height').focus();
+					}
+				
+				}
+				
+				// sequential error handling
+				if (errors.length < 1){
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-fallback'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter fallback text';
+						this.el.getElement('input.dialog-fallback').focus();
+					}
+				
+				}
+				
+				// do we have errors?
+				if (errors.length < 1){
+			
+					// close window
+					this.close();
+					
+					// create html
+					html = '<video width="' + this.el.getElement('.dialog-width').get('value') + '" height="' + this.el.getElement('.dialog-height').get('value') + '"' + ( this.el.getElement('.dialog-url').get('value').trim() != '' ? ' poster="' + this.el.getElement('.dialog-url').get('value').trim() + '"' : '' ) + ( this.el.getElement('.dialog-controls').get('checked') ? ' controls="controls"' : '' ) + ( this.el.getElement('.dialog-autoplay').get('checked') ? ' autoplay="autoplay"' : '' ) + '>';
+					if (this.el.getElement('.dialog-webm').get('value').trim() != '')  html += '<source type="video/webm" src="' + this.el.getElement('.dialog-webm').get('value').trim() + '">';
+					if (this.el.getElement('.dialog-mp4').get('value').trim() != '')  html += '<source src="' + this.el.getElement('.dialog-mp4').get('value').trim() + '">';
+					html += this.el.getElement('.dialog-fallback').get('value');
+					html += '</video>'
+	                                        
+	                // add to replacement bank
+	                editor.videoReplacements.push(html);
+	                                
+	                // insert image instead of flash
+	                editor.selection.insertContent('<img class="mooeditr-visual-aid mooeditr-video" width="'+this.el.getElement('.dialog-width').get('value')+'" height="'+this.el.getElement('.dialog-height').get('value')+'" id="mooeditr-video-replacement-'+(editor.videoReplacements.length - 1)+'"' + ( this.el.getElement('.dialog-url').get('value').trim() != '' ? ' style="background-image:url(' + this.el.getElement('.dialog-url').get('value').trim() + ');"' : '' )+ ' />');
+	                
+	                // reset values
+	                this.el.getElement('.dialog-url').set('value','');
+	                this.el.getElement('.dialog-webm').set('value','');
+	                this.el.getElement('.dialog-mp4').set('value','');
+	                this.el.getElement('.dialog-width').set('value','');
+	                this.el.getElement('.dialog-height').set('value','');
+	                
+	           } else {
+	           		alert(errormsg);
+	           }
 
 			} else if (button.hasClass('dialog-browse-button')){
 

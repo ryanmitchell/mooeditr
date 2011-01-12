@@ -43,7 +43,7 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.InsertHTMLDialog = function(editor){
-	var html = '<form>' + MooEditr.lang.get('embed') + ' <textarea class="dialog-f" value="" rows="2" cols="40"></textarea> '
+	var html = '<form>' + MooEditr.lang.get('embed') + ' <textarea class="dialog-f validate[\'required\']" value="" rows="2" cols="40"></textarea> '
 		+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button> '
 		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 	return new MooEditr.UI.Dialog(html, {
@@ -61,9 +61,26 @@ MooEditr.UI.InsertHTMLDialog = function(editor){
 			if (button.hasClass('dialog-cancel-button')){
 				this.close();
 			} else if (button.hasClass('dialog-ok-button')){
-				this.close();
-				var div = new Element('div').set('html', this.el.getElement('.dialog-f').get('value').trim());
-				editor.selection.insertContent(div.get('html'));
+			
+				// validation errors
+				var errors = [];	
+				var errormsg = '';
+				
+				// validate
+				errors = this.validateField(this.el.getElement('.dialog-f'));
+				
+				// do we proceed?
+				if (errors.length > 0){
+					alert('Please enter some HTML');
+					this.el.getElement('.dialog-f').focus();
+				} else {
+				
+					// close window
+					this.close();
+					var div = new Element('div').set('html', this.el.getElement('.dialog-f').get('value').trim());
+					editor.selection.insertContent(div.get('html'));
+				
+				}
 			}
 		}
 	});

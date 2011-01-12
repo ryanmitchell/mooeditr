@@ -83,8 +83,8 @@ MooEditr.lang.set({
 
 MooEditr.UI.TableDialog = function(editor, dialog){
 	var html = {
-		tableadd: MooEditr.lang.get('tableColumns') + ' <input type="text" class="table-c" value="" size="4"> '
-			+ MooEditr.lang.get('tableRows') + ' <input type="text" class="table-r" value="" size="4"> ',
+		tableadd: MooEditr.lang.get('tableColumns') + ' <input type="text" class="table-c validate[\'required\',\'digit\']" value="" size="4"> '
+			+ MooEditr.lang.get('tableRows') + ' <input type="text" class="table-r validate[\'required\',\'digit\']" value="" size="4"> ',
 		tableedit: MooEditr.lang.get('tableWidth') + ' <input type="text" class="table-w" value="" size="4"> '
 			+ MooEditr.lang.get('tableClass') + ' <input type="text" class="table-c" value="" size="15"> ',
 		tablerowedit: MooEditr.lang.get('tableClass') + ' <input type="text" class="table-c" value="" size="15"> '
@@ -113,18 +113,56 @@ MooEditr.UI.TableDialog = function(editor, dialog){
 	var action = {
 		tableadd: {
 			click: function(e){
-				var col = this.el.getElement('.table-c').value.toInt();
-				var row = this.el.getElement('.table-r').value.toInt();
-				if (!(row>0 && col>0)) return;
-				var div, table, tbody, ro = [];
-				div = new Element('tdiv');
-				table = new Element('table').set('border', 0).set('width', '100%').inject(div);
-				tbody = new Element('tbody').inject(table);
-				for (var r = 0; r<row; r++){
-					ro[r] = new Element('tr').inject(tbody, 'bottom');
-					for (var c=0; c<col; c++) new Element('td').set('html', '&nbsp;').inject(ro[r], 'bottom');
+			
+				// validation errors
+				var errors = [];	
+				var errormsg = '';
+				
+				// validate
+				errors = this.validateField(this.el.getElement('.table-c'));
+				
+				// do we proceed?
+				if (errors.length > 0){
+					errormsg = 'Enter a number of columns';
+					this.el.getElement('input.table-c').focus();
 				}
-				editor.selection.insertContent(div.get('html'));
+				
+				// sequential error handling
+				if (errors.length < 1){
+				
+					// validate
+					errors = this.validateField(this.el.getElement('.table-r'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Enter a number of rows';
+						this.el.getElement('.table-r').focus();
+					}
+				
+				} 
+				
+				// do we have errors to show
+				if (errors.length < 1){
+				
+					// close
+				
+					var col = this.el.getElement('.table-c').value.toInt();
+					var row = this.el.getElement('.table-r').value.toInt();
+					if (!(row>0 && col>0)) return;
+					var div, table, tbody, ro = [];
+					div = new Element('tdiv');
+					table = new Element('table').set('border', 0).set('width', '100%').inject(div);
+					tbody = new Element('tbody').inject(table);
+					for (var r = 0; r<row; r++){
+						ro[r] = new Element('tr').inject(tbody, 'bottom');
+						for (var c=0; c<col; c++) new Element('td').set('html', '&nbsp;').inject(ro[r], 'bottom');
+					}
+					editor.selection.insertContent(div.get('html'));
+				
+				} else {
+					alert(errormsg);
+				}
+				
 			}
 		},
 		tableedit: {
