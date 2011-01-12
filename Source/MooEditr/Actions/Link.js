@@ -63,9 +63,9 @@ MooEditr.lang.set({
 
 MooEditr.UI.LinkDialog = function(editor){
 	var html = '<form>' + MooEditr.lang.get('type') + ' <select class="dialog-type"><option value="url">' + MooEditr.lang.get('selurl') + '</option><option value="file">' + MooEditr.lang.get('selfile') + '</option><option value="email">' + MooEditr.lang.get('selemail') + '</option><option value="anchor">' + MooEditr.lang.get('selanchor') + '</option></select>'
-	+ ' <span class="type url">' + MooEditr.lang.get('enterURL') + ' <input type="text" class="dialog-url" /> ' + MooEditr.lang.get('window') + ' <select class="dialog-window"><option value="_top">' + MooEditr.lang.get('windowsame') + '</option><option value="_blank">' + MooEditr.lang.get('windownew') + '</option></select></span>'
+	+ ' <span class="type url">' + MooEditr.lang.get('enterURL') + ' <input type="text" class="dialog-url validate[\'required\']" /> ' + MooEditr.lang.get('window') + ' <select class="dialog-window"><option value="_top">' + MooEditr.lang.get('windowsame') + '</option><option value="_blank">' + MooEditr.lang.get('windownew') + '</option></select></span>'
 	+ ' <span class="type anchor" style="display:none;">' + MooEditr.lang.get('anchor') + ' <select class="dialog-anchor"><option value="">' + MooEditr.lang.get('noanchors') + '</option></select></span>'
-	+ ' <span class="type email" style="display:none;">' + MooEditr.lang.get('email') + ' <input type="text" class="dialog-email" /></span>'
+	+ ' <span class="type email" style="display:none;">' + MooEditr.lang.get('email') + ' <input type="text" class="dialog-email validate[\'required\',\'email\']"" /></span>'
 	+ ' <span class="type file" style="display:none;">' + MooEditr.lang.get('file') + ' <input type="text" class="dialog-file" style="margin-right:0px;" />' + (editor.options.fileManager ? '<input type="button" value="' + MooEditr.lang.get('browse') + '" class="dialog-file-browse browse" />' : '' ) + ' ' + MooEditr.lang.get('window') + ' <select class="dialog-file-window"><option value="_top">' + MooEditr.lang.get('windowsame') + '</option><option value="_blank">' + MooEditr.lang.get('windownew') + '</option></select></span>'
 	+ ' <button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button>'
 	+ ' <button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
@@ -127,28 +127,74 @@ MooEditr.UI.LinkDialog = function(editor){
 			if (button.hasClass('dialog-cancel-button')){
 				this.close();
 			} else if (button.hasClass('dialog-ok-button')){
-				this.close();
+			
+				// validation errors
+				var errors = [];	
+				var errormsg = '';		
+			
 				if (this.el.getElement('span.url').getStyle('display') != 'none'){
-					url = this.el.getElement('input.dialog-url').get('value').trim();
-					target = this.el.getElement('select.dialog-window').get('value');
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-url'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter a url';
+					} else {
+						url = this.el.getElement('input.dialog-url').get('value').trim();
+						target = this.el.getElement('select.dialog-window').get('value');
+					}
+					
 				} else if (this.el.getElement('span.anchor').getStyle('display') != 'none'){
 					url = '#' + this.el.getElement('select.dialog-anchor').get('value');
 					target = '_top';
 				} else if (this.el.getElement('span.file').getStyle('display') != 'none'){
-					url = this.el.getElement('input.dialog-file').get('value');
-					target = this.el.getElement('select.dialog-file-window').get('value');
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-file'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please choose a file';
+					} else {
+						url = this.el.getElement('input.dialog-file').get('value');
+						target = this.el.getElement('select.dialog-file-window').get('value');
+					}
+					
 				} else {
-					url = 'mailto:' + this.el.getElement('input.dialog-email').get('value').trim();
-					target = '_top';
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-email'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter an email';
+					} else {
+						url = 'mailto:' + this.el.getElement('input.dialog-email').get('value').trim();
+						target = '_top';
+					}
+					
 				}
-				var node = editor.selection.getNode(); 
-				// stops empty paragraph issues
-				var ctnt = editor.selection.getContent().replace(/<p><\/p>/g, '');
-				var el = (node.get('tag') == 'a') ? node : new Element('a', { html: ctnt });
-				el.setProperty('href',url);
-				if(target != '_top') el.setProperty('target',target);
-				var div = new Element('div').adopt(el);
-				editor.selection.insertContent(div.get('html')); 
+				
+				// if there are no errors
+				if (errors.length < 1){
+				
+					// close
+					this.close();
+					
+					var node = editor.selection.getNode(); 
+					// stops empty paragraph issues
+					var ctnt = editor.selection.getContent().replace(/<p><\/p>/g, '');
+					var el = (node.get('tag') == 'a') ? node : new Element('a', { html: ctnt });
+					el.setProperty('href',url);
+					if(target != '_top') el.setProperty('target',target);
+					var div = new Element('div').adopt(el);
+					editor.selection.insertContent(div.get('html')); 
+				
+				} else {
+					alert(errormsg);
+				}
+				
 			} else if (button.hasClass('browse')){
 				e.stop();
                 
