@@ -92,7 +92,11 @@ MooEditr.UI.WordpasteDialog = function(editor){
 				str = str.replace(/<\/div([^>]*)>/gi, "");
 				
 				// remove comments
-				str = str.replace(/<!--([^>]*-->)>/gi, "");
+				str = str.replace(/<!--([^>]*)-->/gi, "");
+				
+				// remove spans
+				str = str.replace(/<span([^>]*)>/gi, "");
+				str = str.replace(/<\/span([^>]*)>/gi, "");
 				
 				// remove any style tags
 				str = str.replace(/<style[^>]*>[^<]*<\/style>/gi, "");

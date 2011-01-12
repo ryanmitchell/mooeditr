@@ -314,10 +314,10 @@ this.MooEditr = new Class({
 		
 		if (this.options.disabled) this.disable();
 
-		//this.selection = new MooEditr.Selection(this.win);
-	    rangy.init();
-		this.selection = rangy;
+		// initialize selection api
+		this.selection = new MooEditr.Selection(this.win, this.doc);
 		
+		// save old content
 		this.oldContent = this.getContent();
 		
 		// parse CSS styles
@@ -737,59 +737,70 @@ this.MooEditr = new Class({
 	},
 
 	checkStates: function(){
-		var element = this.selection.getNode();
-		if (!element) return;
-		if ($type(element) != 'element') return;
+	
+		try {
 		
-		this.actions.each(function(action){
-			var item = this.toolbar.getItem(action);
-			if (!item) return;
-			item.deactivate();
-
-			var states = MooEditr.Actions[action]['states'];
-			if (!states) return;
+			// get selection range
+			var element = this.selection.getNode();
+		
+			if (!element) return;
+						
+			if ($type(element) != 'element') return;
 			
-			// custom checkState
-			if ($type(states) == 'function'){
-				states.attempt([document.id(element), item], this);
-				return;
-			}
-			
-			try{
-				if (this.doc.queryCommandState(action)){
-					item.activate();
+			this.actions.each(function(action){
+				var item = this.toolbar.getItem(action);
+				if (!item) return;
+				item.deactivate();
+	
+				var states = MooEditr.Actions[action]['states'];
+				if (!states) return;
+				
+				// custom checkState
+				if ($type(states) == 'function'){
+					states.attempt([document.id(element), item], this);
 					return;
 				}
-			} catch(e){}
-			
-			if (states.tags){
-				var el = element;
-				do {
-					var tag = el.tagName.toLowerCase();
-					if (states.tags.contains(tag)){
-						item.activate(tag);
-						break;
+				
+				try{
+					if (this.doc.queryCommandState(action)){
+						item.activate();
+						return;
 					}
-				}
-				while ((el = Element.getParent(el)) != null);
-			}
-
-			if (states.css){
-				var el = element;
-				do {
-					var found = false;
-					for (var prop in states.css){
-						var css = states.css[prop];
-						if (Element.getStyle(el, prop).contains(css)){
-							item.activate(css);
-							found = true;
+				} catch(e){}
+				
+				if (states.tags){
+					var el = element;
+					do {
+						var tag = el.tagName.toLowerCase();
+						if (states.tags.contains(tag)){
+							item.activate(tag);
+							break;
 						}
 					}
-					if (found || el.tagName.test(this.blockEls)) break;
+					while ((el = Element.getParent(el)) != null);
 				}
-				while ((el = Element.getParent(el)) != null);
-			}
-		}.bind(this));
+	
+				if (states.css){
+					var el = element;
+					do {
+						var found = false;
+						for (var prop in states.css){
+							var css = states.css[prop];
+							if (Element.getStyle(el, prop).contains(css)){
+								item.activate(css);
+								found = true;
+							}
+						}
+						if (found || el.tagName.test(this.blockEls)) break;
+					}
+					while ((el = Element.getParent(el)) != null);
+				}
+			}.bind(this));
+			
+		} catch(e){
+			console.log(e);
+			return;
+		}
 	},
 
 	cleanup: function(source){

@@ -75,7 +75,7 @@ MooEditr.UI.ImageDialog = function(editor){
 		onOpen: function(){
 			var input = this.el.getElement('.dialog-url');
 			var node = editor.selection.getNode();
-			if (node.get('tag') == 'img'){
+			if (node.get('tag') == 'img' && !node.hasClass('mooeditr-visual-aid')){
 				this.el.getElement('.dialog-url').set('value', node.get('src'));
 				this.el.getElement('.dialog-alt').set('value', node.get('alt'));
 				this.el.getElement('.dialog-class').set('value', node.className);
