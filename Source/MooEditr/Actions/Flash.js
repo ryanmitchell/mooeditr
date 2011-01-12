@@ -48,10 +48,10 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.FlashDialog = function(editor){
-	var html = '<form>' + MooEditr.lang.get('enterFlashURL') + ' <input type="text" class="dialog-url" value="" size="15">'
+	var html = '<form>' + MooEditr.lang.get('enterFlashURL') + ' <input type="text" class="dialog-url validate[\'required\']" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
-		+ MooEditr.lang.get('flashWidth') + ' <input type="text" class="dialog-width" value="" size="4"><input type="hidden" class="dialog-width-hidden" value=""> '
-		+ MooEditr.lang.get('flashHeight') + ' <input type="text" class="dialog-height" value="" size="4"><input type="hidden" class="dialog-height-hidden" value=""> '
+		+ MooEditr.lang.get('flashWidth') + ' <input type="text" class="dialog-width validate[\'required\',\'digit\']" value="" size="4"><input type="hidden" class="dialog-width-hidden" value=""> '
+		+ MooEditr.lang.get('flashHeight') + ' <input type="text" class="dialog-height validate[\'required\',\'digit\']" value="" size="4"><input type="hidden" class="dialog-height-hidden" value=""> '
 		+ MooEditr.lang.get('flashConstrain') + '<input type="checkbox" class="dialog-constrain" /><br />'
 		+ MooEditr.lang.get('flashWmode') + ' <select class="dialog-wmode">'
 			+ '<option>window</option>'
@@ -102,24 +102,74 @@ MooEditr.UI.FlashDialog = function(editor){
 			if (button.hasClass('dialog-cancel-button')){
 				this.close();
 			} else if (button.hasClass('dialog-ok-button')){
-				this.close();
+			
+				// validation errors
+				var errors = [];	
+				var errormsg = '';
 				
-                // create flash object
-                var obj = new Element('div',{
-                    html: '<object width="'+this.el.getElement('.dialog-width').get('value')+'" height="'+this.el.getElement('.dialog-height').get('value')+'"><param name="movie" value="' + this.el.getElement('.dialog-url').get('value') + '"></param><param name="wmode" value="' + this.el.getElement('.dialog-wmode').get('value') + '"></param><embed src="'+this.el.getElement('.dialog-url').get('value')+'" width="'+this.el.getElement('.dialog-width').get('value')+'" height="'+this.el.getElement('.dialog-height').get('value')+'" wmode="' + this.el.getElement('.dialog-wmode').get('value') + '"></embed></object>'
-                });
-                                        
-                // add to replacement bank
-                editor.flashReplacements.push(obj.get('html'));
-                
-                // insert image instead of flash
-                editor.selection.insertContent('<img class="mooeditr-visual-aid mooeditr-flash" width="'+this.el.getElement('.dialog-width').get('value')+'" height="'+this.el.getElement('.dialog-height').get('value')+'" id="mooeditr-flash-replacement-'+(editor.flashReplacements.length - 1)+'" />');
-                
-                // reset values
-                this.el.getElement('.dialog-url').set('value','');
-                this.el.getElement('.dialog-width').set('value','');
-                this.el.getElement('.dialog-height').set('value','');
-                this.el.getElement('.dialog-wmode').set('value','');
+				// validate
+				errors = this.validateField(this.el.getElement('input.dialog-url'));
+				
+				// do we proceed?
+				if (errors.length > 0){
+					errormsg = 'Please choose an flash file';
+					this.el.getElement('input.dialog-url').focus();
+				}
+				
+				// sequential error handling
+				if (errors.length < 1){
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-width'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter a width';
+						this.el.getElement('input.dialog-width').focus();
+					}
+				
+				}
+				
+				// sequential error handling
+				if (errors.length < 1){
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-height'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter a height';
+						this.el.getElement('input.dialog-height').focus();
+					}
+				
+				}
+				
+				// do we have errors?
+				if (errors.length < 1){
+			
+					// close window
+					this.close();
+					
+	                // create flash object
+	                var obj = new Element('div',{
+	                    html: '<object width="'+this.el.getElement('.dialog-width').get('value')+'" height="'+this.el.getElement('.dialog-height').get('value')+'"><param name="movie" value="' + this.el.getElement('.dialog-url').get('value') + '"></param><param name="wmode" value="' + this.el.getElement('.dialog-wmode').get('value') + '"></param><embed src="'+this.el.getElement('.dialog-url').get('value')+'" width="'+this.el.getElement('.dialog-width').get('value')+'" height="'+this.el.getElement('.dialog-height').get('value')+'" wmode="' + this.el.getElement('.dialog-wmode').get('value') + '"></embed></object>'
+	                });
+	                                        
+	                // add to replacement bank
+	                editor.flashReplacements.push(obj.get('html'));
+	                
+	                // insert image instead of flash
+	                editor.selection.insertContent('<img class="mooeditr-visual-aid mooeditr-flash" width="'+this.el.getElement('.dialog-width').get('value')+'" height="'+this.el.getElement('.dialog-height').get('value')+'" id="mooeditr-flash-replacement-'+(editor.flashReplacements.length - 1)+'" />');
+	                
+	                // reset values
+	                this.el.getElement('.dialog-url').set('value','');
+	                this.el.getElement('.dialog-width').set('value','');
+	                this.el.getElement('.dialog-height').set('value','');
+	                this.el.getElement('.dialog-wmode').set('value','');
+	                
+	           } else {
+	           		alert(errormsg);
+	           }
 
 			} else if (button.hasClass('dialog-browse-button')){
 
