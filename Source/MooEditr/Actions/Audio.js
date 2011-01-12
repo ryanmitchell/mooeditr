@@ -48,11 +48,11 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.AudioDialog = function(editor){
-	var html = '<form>' + MooEditr.lang.get('enterAudioURL') + ' <input type="text" class="dialog-url" value="" size="15">'
+	var html = '<form>' + MooEditr.lang.get('enterAudioURL') + ' <input type="text" class="dialog-url validate[\'required\']" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
 		+ MooEditr.lang.get('enterAudioURL2') + ' <input type="text" class="dialog-url2" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button2">' + MooEditr.lang.get('browse') + '</button> ' : '' )
-		+ MooEditr.lang.get('audioFallback') + ' <input type="text" class="dialog-fallback" value="" size="15">'
+		+ MooEditr.lang.get('audioFallback') + ' <input type="text" class="dialog-fallback validate[\'required\']" value="" size="15">'
 		+ MooEditr.lang.get('audioAutoplay') + '<input type="checkbox" class="dialog-autoplay" /> '
 		+ MooEditr.lang.get('audioControls') + '<input type="checkbox" class="dialog-controls" /> '
 		+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button> '
@@ -112,27 +112,63 @@ MooEditr.UI.AudioDialog = function(editor){
 			if (button.hasClass('dialog-cancel-button')){
 				this.close();
 			} else if (button.hasClass('dialog-ok-button')){
-				this.close();
+			
+				// validation errors
+				var errors = [];	
+				var errormsg = '';
 				
-				// create html
-				html = '<audio' + ( this.el.getElement('.dialog-controls').get('checked') ? ' controls="controls"' : '' ) + ( this.el.getElement('.dialog-autoplay').get('checked') ? ' autoplay="autoplay"' : '' ) + '>';
-				if (this.el.getElement('.dialog-url').get('value').trim() != '')  html += '<source src="' + this.el.getElement('.dialog-url').get('value').trim() + '">';
-				if (this.el.getElement('.dialog-url2').get('value').trim() != '')  html += '<source src="' + this.el.getElement('.dialog-url2').get('value').trim() + '">';
-				html += this.el.getElement('.dialog-fallback').get('value');
-				html += '</audio>'
-                                        
-                // add to replacement bank
-                editor.audioReplacements.push(html);
+				// validate
+				errors = this.validateField(this.el.getElement('input.dialog-url'));
+				
+				// do we proceed?
+				if (errors.length > 0){
+					errormsg = 'Please choose a file';
+					this.el.getElement('input.dialog-url').focus();
+				}
+				
+				// sequential error handling
+				if (errors.length < 1){
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-fallback'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter some fallback text';
+						this.el.getElement('input.dialog-fallback').focus();
+					}
+				
+				}
+
+				// no errors
+				if (errors.length < 1){
+				
+					// close window
+					this.close();
+					
+					// create html
+					html = '<audio' + ( this.el.getElement('.dialog-controls').get('checked') ? ' controls="controls"' : '' ) + ( this.el.getElement('.dialog-autoplay').get('checked') ? ' autoplay="autoplay"' : '' ) + '>';
+					if (this.el.getElement('.dialog-url').get('value').trim() != '')  html += '<source src="' + this.el.getElement('.dialog-url').get('value').trim() + '">';
+					if (this.el.getElement('.dialog-url2').get('value').trim() != '')  html += '<source src="' + this.el.getElement('.dialog-url2').get('value').trim() + '">';
+					html += this.el.getElement('.dialog-fallback').get('value');
+					html += '</audio>'
+	                                        
+	                // add to replacement bank
+	                editor.audioReplacements.push(html);
+	                
+	                // insert image instead of flash
+	                editor.selection.insertContent('<img class="mooeditr-visual-aid mooeditr-audio" width="100" height="20" id="mooeditr-audio-replacement-'+(editor.audioReplacements.length - 1)+'" />');
+	                
+	                // reset values
+	                this.el.getElement('.dialog-url').set('value','');
+	                this.el.getElement('.dialog-url2').set('value','');
+	                this.el.getElement('.dialog-fallback').set('value','');
+	                this.el.getElement('.dialog-autoplay').set('checked', false);
+	                this.el.getElement('.dialog-controls').set('checked', true);
                 
-                // insert image instead of flash
-                editor.selection.insertContent('<img class="mooeditr-visual-aid mooeditr-audio" width="100" height="20" id="mooeditr-audio-replacement-'+(editor.audioReplacements.length - 1)+'" />');
-                
-                // reset values
-                this.el.getElement('.dialog-url').set('value','');
-                this.el.getElement('.dialog-url2').set('value','');
-                this.el.getElement('.dialog-fallback').set('value','');
-                this.el.getElement('.dialog-autoplay').set('checked', false);
-                this.el.getElement('.dialog-controls').set('checked', true);
+                } else {
+                	alert(errormsg);
+                }
 
 			} else if (button.hasClass('dialog-browse-button')){
 
