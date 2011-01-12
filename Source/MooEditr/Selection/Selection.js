@@ -40,8 +40,8 @@ MooEditr.Selection = new Class({
 
 	selectNode: function(node, collapse){
 		try {
-			var r = this.rangy.createRange(this.windoc);
-			r.selectNode(el);
+			var r = this.rangy.createRange(this.doc);
+			r.selectNode(node);
 			this.rangy.getSelection(this.win).setSingleRange(r);
 			return true;
 		} catch(e){
