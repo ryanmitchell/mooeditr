@@ -85,9 +85,9 @@ MooEditr.Selection = new Class({
 			if (!r) throw 'No range could be made';
 						
 			// get first node
-			var element = r.getNodes()[0].parentElement;
+			var element = r.getNodes()[0].parentNode;
 			
-			return element;
+			return document.id(element);
 		
 		} catch(e){
 			return;
