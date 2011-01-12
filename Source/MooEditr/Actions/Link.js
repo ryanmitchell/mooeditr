@@ -183,12 +183,19 @@ MooEditr.UI.LinkDialog = function(editor){
 MooEditr.Actions.extend({
 
 	unlink: {
-		title: MooEditr.lang.get('removeHyperlink')
+		title: MooEditr.lang.get('removeHyperlink'),
+		states: function(node, button){
+			if (node.get('tag') == 'a'){
+				if (node.getProperty('href')){
+					button.el.addClass('onActive');
+				}
+			}
+		}
 	},
 	
 	link: {
 		title: MooEditr.lang.get('addHyperlink'),
-		mode:'text',
+		mode: 'text',
 		states: function(node, button){
 			if (node.get('tag') == 'a'){
 				if (node.getProperty('href')){
