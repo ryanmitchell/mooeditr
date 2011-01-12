@@ -145,6 +145,7 @@ MooEditr.UI.TableDialog = function(editor, dialog){
 				if (errors.length < 1){
 				
 					// close
+					this.close();
 				
 					var col = this.el.getElement('.table-c').value.toInt();
 					var row = this.el.getElement('.table-r').value.toInt();
@@ -172,9 +173,27 @@ MooEditr.UI.TableDialog = function(editor, dialog){
 				this.el.getElement('.table-c').set('value', node.className);
 			},
 			click: function(e){
-				var node = editor.selection.getNode().getParent('table');
-				node.set('width', this.el.getElement('.table-w').value);
-				node.className = this.el.getElement('.table-c').value;
+			
+				// validation errors
+				var errors = [];	
+				var errormsg = '';
+				
+				// validate
+				errors = this.validateField(this.el.getElement('.table-w'));
+				
+				// do we proceed?
+				if (errors.length > 0){
+					alert('Enter a width');
+					this.el.getElement('input.table-w').focus();
+				} else {
+			
+					this.close();
+					var node = editor.selection.getNode().getParent('table');
+					node.set('width', this.el.getElement('.table-w').value);
+					node.className = this.el.getElement('.table-c').value;
+				
+				}
+				
 			}
 		},
 		tablerowedit: {
@@ -184,6 +203,7 @@ MooEditr.UI.TableDialog = function(editor, dialog){
 				this.el.getElement('.table-c-type').set('value', editor.selection.getNode().get('tag'));
 			},
 			click: function(e){
+				this.close();
 				var node = editor.selection.getNode().getParent('tr');
 				node.className = this.el.getElement('.table-c').value;
 				node.getElements('td, th').each(function(c){
@@ -204,6 +224,7 @@ MooEditr.UI.TableDialog = function(editor, dialog){
 				this.el.getElement('.table-va').set('value', node.get('valign'));
 			},
 			click: function(e){
+				this.close();
 				var node = editor.selection.getNode();
 				if (node.get('tag') != 'td') node = node.getParent('td');
 				node.set('width', this.el.getElement('.table-w').value);
@@ -227,7 +248,6 @@ MooEditr.UI.TableDialog = function(editor, dialog){
 			if (button.hasClass('dialog-cancel-button')){
 				this.close();
 			} else if (button.hasClass('dialog-ok-button')){
-				this.close();
 				action[dialog].click.apply(this);
 			}
 		}
