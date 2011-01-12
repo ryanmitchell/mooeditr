@@ -46,7 +46,7 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.AnchorDialog = function(editor){
-	var html = '<form>' + MooEditr.lang.get('name') + ' <input class="dialog-name" type="text" />'
+	var html = '<form>' + MooEditr.lang.get('name') + ' <input class="dialog-name validate[\'required\']" type="text" />'
 	+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button>'
 	+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 	return new MooEditr.UI.Dialog(html, {
@@ -63,14 +63,30 @@ MooEditr.UI.AnchorDialog = function(editor){
 			if (button.hasClass('dialog-cancel-button')){
 				this.close();
 			} else if (button.hasClass('dialog-ok-button')){
-				this.close();
-				var node = editor.selection.getNode();
-				if(node.get('tag') == 'a'){
-					node.setProperty('name',this.el.getElement('input.dialog-name').get('value'));
+			
+				// validation errors
+				var errors = [];	
+				var errormsg = '';
+				
+				// validate
+				errors = this.validateField(this.el.getElement('input.dialog-name'));
+				
+				// do we proceed?
+				if (errors.length > 0){
+					alert('Please enter a name');
+					this.el.getElement('input.dialog-name').focus();
 				} else {
-					var div = new Element('div').set('html', '<a name="' + this.el.getElement('input.dialog-name').get('value') + '">'+ editor.selection.getContent() +'</a>');
-					editor.selection.insertContent(div.get('html'));
-				}				
+
+					this.close();
+					var node = editor.selection.getNode();
+					if(node.get('tag') == 'a'){
+						node.setProperty('name',this.el.getElement('input.dialog-name').get('value'));
+					} else {
+						var div = new Element('div').set('html', '<a name="' + this.el.getElement('input.dialog-name').get('value') + '">'+ editor.selection.getContent() +'</a>');
+						editor.selection.insertContent(div.get('html'));
+					}	
+				
+				}			
 			}
 		}
 	});
