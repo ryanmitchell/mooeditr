@@ -243,10 +243,19 @@ this.MooEditr = new Class({
 		(Browser.Engine.trident) ? this.doc.body.contentEditable = true : this.doc.designMode = 'On';
 
 		// Mootoolize window, document and body
-		if (!this.win.$family) new Window(this.win);
-		if (!this.doc.$family) new Document(this.doc);
-		document.id(this.doc.body);
-				
+		Object.append(this.win, new Window);
+		Object.append(this.doc, new Document);
+		if (Browser.Element){
+			var winElement = this.win.Element.prototype;
+			for (var method in Element){ // methods from Element generics
+				if (!method.test(/^[A-Z]|\$|prototype|mooEditable/)){
+					winElement[method] = Element.prototype[method];
+				}
+			}
+		} else {
+			document.id(this.doc.body);
+		}
+						
 		this.setContent(this.textarea.get('value'));
 
 		// Bind all events
