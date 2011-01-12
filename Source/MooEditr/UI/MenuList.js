@@ -47,7 +47,7 @@ MooEditr.UI.MenuList = new Class({
 		var self = this;
 		var html = '';
 		this.options.list.each(function(item){
-			html += '<option value="{value}" style="{style}">{text}</option>'.substitute(item);
+			html += '<option value="{value}" style="{style}">{text}</option>'.toString().substitute(item);
 		});
 		this.el = new Element('select', {
 			'class': self.options['class'],
@@ -72,7 +72,7 @@ MooEditr.UI.MenuList = new Class({
 	},
 	
 	action: function(){
-		this.fireEvent('action', [this].concat($A(arguments)));
+		this.fireEvent('action', [this].concat(Array.from(arguments)));
 	},
 	
 	enable: function(){
