@@ -127,28 +127,25 @@ MooEditr.UI.WordpasteDialog = function(editor){
 	});
 };
 
-MooEditr.Actions.extend({
+MooEditr.Actions.wordpaste = {
 	
-	wordpaste: {
-		title: MooEditr.lang.get('wordPaste'),
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.WordpasteDialog(editor);
-			}
-		},
-		command: function(){
-			this.dialogs.wordpaste.prompt.open();
-		},
-        events: {
-            editorKeyDown: function(e) {
-				var key = (Browser.Platform.mac) ? e.meta : e.control;
-				if (!key)return;
-				if(e.key == 'v'){
-					e.stop();
-					this.dialogs.wordpaste.prompt.open();
-				}            
-			}				
-        }
-	}
-		
-});
+	title: MooEditr.lang.get('wordPaste'),
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.WordpasteDialog(editor);
+		}
+	},
+	command: function(){
+		this.dialogs.wordpaste.prompt.open();
+	},
+    events: {
+        editorKeyDown: function(e) {
+			var key = (Browser.Platform.mac) ? e.meta : e.control;
+			if (!key)return;
+			if(e.key == 'v'){
+				e.stop();
+				this.dialogs.wordpaste.prompt.open();
+			}            
+		}				
+    }
+};

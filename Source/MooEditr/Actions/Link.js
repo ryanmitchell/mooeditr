@@ -233,40 +233,39 @@ MooEditr.UI.LinkDialog = function(editor){
 
 };
 
-MooEditr.Actions.extend({
+MooEditr.Actions.unlink = {
 
-	unlink: {
-		title: MooEditr.lang.get('removeHyperlink'),
-		states: function(node, button){
-			if (node.get('tag') == 'a'){
-				if (node.getProperty('href')){
-					button.el.addClass('onActive');
-				}
+	states: function(node, button){
+		if (node.get('tag') == 'a'){
+			if (node.getProperty('href')){
+				button.el.addClass('onActive');
+			}
+		}
+	}
+};
+
+	
+MooEditr.Actions.link = {
+
+	title: MooEditr.lang.get('addHyperlink'),
+	mode: 'text',
+	states: function(node, button){
+		if (node.get('tag') == 'a'){
+			if (node.getProperty('href')){
+				button.el.addClass('onActive');
 			}
 		}
 	},
-	
-	link: {
-		title: MooEditr.lang.get('addHyperlink'),
-		mode: 'text',
-		states: function(node, button){
-			if (node.get('tag') == 'a'){
-				if (node.getProperty('href')){
-					button.el.addClass('onActive');
-				}
-			}
-		},
-		dialogs: {
-			alert: MooEditr.UI.AlertDialog.pass(MooEditr.lang.get('selectTextHyperlink')),
-			prompt: function(editor){ return MooEditr.UI.LinkDialog(editor) }
-		},
-		command: function() {
-			if (this.selection.isCollapsed()){
-				this.dialogs.link.alert.open();
-			} else {
-				this.dialogs.link.prompt.open();
-			}
+	dialogs: {
+		alert: MooEditr.UI.AlertDialog.pass(MooEditr.lang.get('selectTextHyperlink')),
+		prompt: function(editor){ return MooEditr.UI.LinkDialog(editor) }
+	},
+	command: function() {
+		if (this.selection.isCollapsed()){
+			this.dialogs.link.alert.open();
+		} else {
+			this.dialogs.link.prompt.open();
 		}
-    }
+	}
     	
-});
+};

@@ -259,28 +259,24 @@ MooEditr.UI.ImageDialog = function(editor){
 	return dialog;
 };
 
-MooEditr.Actions.extend({
-	
-	image: {
-		title: MooEditr.lang.get('addEditImage'),
-		states: function(sel, button) {
-			if(sel.get('tag') == 'img') {
-				if(!sel.hasClass('mooeditr-visual-aid')) {
-					button.el.addClass('onActive');
-				}
+MooEditr.Actions.image = {
+	title: MooEditr.lang.get('addEditImage'),
+	states: function(sel, button) {
+		if(sel.get('tag') == 'img') {
+			if(!sel.hasClass('mooeditr-visual-aid')) {
+				button.el.addClass('onActive');
 			}
-		},
-		options: {
-			shortcut: 'm'
-		},
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.ImageDialog(editor);
-			}
-		},
-		command: function(){
-			this.dialogs.image.prompt.open();
 		}
+	},
+	options: {
+		shortcut: 'm'
+	},
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.ImageDialog(editor);
+		}
+	},
+	command: function(){
+		this.dialogs.image.prompt.open();
 	}
-	
-});
+};

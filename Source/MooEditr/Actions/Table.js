@@ -254,184 +254,181 @@ MooEditr.UI.TableDialog = function(editor, dialog){
 	});
 };
 
-MooEditr.Actions.extend({
+MooEditr.Actions.tableadd = {
 
-	tableadd:{
-		title: MooEditr.lang.get('addTable'),
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.TableDialog(editor, 'tableadd');
-			}
-		},
-		command: function(){
-			this.dialogs.tableadd.prompt.open();
+	title: MooEditr.lang.get('addTable'),
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.TableDialog(editor, 'tableadd');
 		}
 	},
+	command: function(){
+		this.dialogs.tableadd.prompt.open();
+	}
+};
 	
-	tableedit:{
-		title: MooEditr.lang.get('editTable'),
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.TableDialog(editor, 'tableedit');
-			}
-		},
-		command: function(){
-			if (this.selection.getNode().getParent('table')) this.dialogs.tableedit.prompt.open();
+MooEditr.Actions.tableedit = {
+	title: MooEditr.lang.get('editTable'),
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.TableDialog(editor, 'tableedit');
 		}
 	},
+	command: function(){
+		if (this.selection.getNode().getParent('table')) this.dialogs.tableedit.prompt.open();
+	}
+};
 	
-	tablerowadd:{
-		title: 'Add Row',
-		command: function(){
-			var node = this.selection.getNode().getParent('tr');
-			if (node) node.clone().inject(node, 'after');
-		}
-	},
+MooEditr.Actions.tablerowadd = {
+	title: 'Add Row',
+	command: function(){
+		var node = this.selection.getNode().getParent('tr');
+		if (node) node.clone().inject(node, 'after');
+	}
+};
 	
-	tablerowedit:{
-		title: MooEditr.lang.get('editTableRow'),
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.TableDialog(editor, 'tablerowedit');
-			}
-		},
-		command: function(){
-			if (this.selection.getNode().getParent('table')) this.dialogs.tablerowedit.prompt.open();
+MooEditr.Actions.tablerowedit = {
+	title: MooEditr.lang.get('editTableRow'),
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.TableDialog(editor, 'tablerowedit');
 		}
 	},
+	command: function(){
+		if (this.selection.getNode().getParent('table')) this.dialogs.tablerowedit.prompt.open();
+	}
+};
 	
-	tablerowspan:{
-		title: MooEditr.lang.get('mergeTableRow'),
-		command: function(){
-			var node = this.selection.getNode();
-			if (node.get('tag') != 'td') node = node.getParent('td');
-			if (node){
-				var index = node.cellIndex;
-				var row = node.getParent().rowIndex;
-				if (node.getParent().getParent().childNodes[row+node.rowSpan]){
-					node.getParent().getParent().childNodes[row+node.rowSpan].deleteCell(index);
-					node.rowSpan++;
-				}
-			}
-		}
-	},
-	
-	tablerowsplit:{
-		title: MooEditr.lang.get('splitTableRow'),
-		command: function(){
-			var node = this.selection.getNode();
-			if (node.get('tag') != 'td') node = node.getParent('td');
-			if (node){
-				var index = node.cellIndex;
-				var row = node.getParent().rowIndex;
-				if (node.getProperty('rowspan')){
-					var rows = parseInt(node.getProperty('rowspan'));
-					for (i=1; i<rows; i++){
-						node.getParent().getParent().childNodes[row+i].insertCell(index);
-					}
-					node.removeProperty('rowspan');
-				}
-			}
-		},
-		states: function(node){
-			if (node.get('tag') != 'td') return;
-			if (node){
-				if (node.getProperty('rowspan') && parseInt(node.getProperty('rowspan')) > 1){
-					this.el.addClass('onActive');
-				}
-			}
-		}
-	},
-	
-	tablerowdelete:{
-		title: MooEditr.lang.get('deleteTableRow'),
-		command: function(){
-			var node = this.selection.getNode().getParent('tr');
-			if (node) node.getParent().deleteRow(node.rowIndex);
-		}
-	},
-	
-	tablecoladd:{
-		title: MooEditr.lang.get('addTableCol'),
-		command: function(){
-			var node = this.selection.getNode();
-			if (node.get('tag') != 'td') node = node.getParent('td');
-			if (node){
-				var index = node.cellIndex;
-				var len = node.getParent().getParent().childNodes.length;
-				for (var i=0; i<len; i++){
-					var ref = $(node.getParent().getParent().childNodes[i].childNodes[index]);
-					ref.clone().inject(ref, 'after');
-				}
-			}
-		}
-	},
-	
-	tablecoledit:{
-		title: MooEditr.lang.get('editTableCol'),
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.TableDialog(editor, 'tablecoledit');
-			}
-		},
-		command: function(){
-			if (this.selection.getNode().getParent('table')) this.dialogs.tablecoledit.prompt.open();
-		}
-	},
-	
-	tablecolspan:{
-		title: MooEditr.lang.get('mergeTableCell'),
-		command: function(){
-			var node = this.selection.getNode();
-			if (node.get('tag')!='td') node = node.getParent('td');
-			if (node){
-				var index = node.cellIndex + 1;
-				if (node.getParent().childNodes[index]){
-					node.getParent().deleteCell(index);
-					node.colSpan++;
-				}
-			}
-		}
-	},
-		
-	tablecolsplit:{
-		title: MooEditr.lang.get('splitTableCell'),
-		command: function(){
-			var node = this.selection.getNode();
-			if (node.get('tag')!='td') node = node.getParent('td');
-			if (node){
-				var index = node.cellIndex + 1;
-				if(node.getProperty('colspan')){
-					var cols = parseInt(node.getProperty('colspan'));
-					for (i=1;i<cols;i++){
-						node.getParent().insertCell(index+i);
-					}
-					node.removeProperty('colspan');
-				}
-			}
-		},
-		states: function(node){
-			if (node.get('tag')!='td') return;
-			if (node){
-				if (node.getProperty('colspan') && parseInt(node.getProperty('colspan')) > 1){
-					this.el.addClass('onActive');
-				}
-			}
-		}
-	},
-	
-	tablecoldelete:{
-		title: MooEditr.lang.get('deleteTableCol'),
-		command: function(){
-			var node = this.selection.getNode();
-			if (node.get('tag') != 'td') node = node.getParent('td');
-			if (node){
-				var len = node.getParent().getParent().childNodes.length;
-				var index = node.cellIndex;
-				var tt = node.getParent().getParent();
-				for (var i=0; i<len; i++) tt.childNodes[i].deleteCell(index);
+MooEditr.Actions.tablerowspan = {
+	title: MooEditr.lang.get('mergeTableRow'),
+	command: function(){
+		var node = this.selection.getNode();
+		if (node.get('tag') != 'td') node = node.getParent('td');
+		if (node){
+			var index = node.cellIndex;
+			var row = node.getParent().rowIndex;
+			if (node.getParent().getParent().childNodes[row+node.rowSpan]){
+				node.getParent().getParent().childNodes[row+node.rowSpan].deleteCell(index);
+				node.rowSpan++;
 			}
 		}
 	}
+};
 	
-});
+MooEditr.Actions.tablerowsplit = {
+	title: MooEditr.lang.get('splitTableRow'),
+	command: function(){
+		var node = this.selection.getNode();
+		if (node.get('tag') != 'td') node = node.getParent('td');
+		if (node){
+			var index = node.cellIndex;
+			var row = node.getParent().rowIndex;
+			if (node.getProperty('rowspan')){
+				var rows = parseInt(node.getProperty('rowspan'));
+				for (i=1; i<rows; i++){
+					node.getParent().getParent().childNodes[row+i].insertCell(index);
+				}
+				node.removeProperty('rowspan');
+			}
+		}
+	},
+	states: function(node){
+		if (node.get('tag') != 'td') return;
+		if (node){
+			if (node.getProperty('rowspan') && parseInt(node.getProperty('rowspan')) > 1){
+				this.el.addClass('onActive');
+			}
+		}
+	}
+};
+	
+MooEditr.Actions.tablerowdelete = {
+	title: MooEditr.lang.get('deleteTableRow'),
+	command: function(){
+		var node = this.selection.getNode().getParent('tr');
+		if (node) node.getParent().deleteRow(node.rowIndex);
+	}
+};
+	
+MooEditr.Actions.tablecoladd = {
+	title: MooEditr.lang.get('addTableCol'),
+	command: function(){
+		var node = this.selection.getNode();
+		if (node.get('tag') != 'td') node = node.getParent('td');
+		if (node){
+			var index = node.cellIndex;
+			var len = node.getParent().getParent().childNodes.length;
+			for (var i=0; i<len; i++){
+				var ref = $(node.getParent().getParent().childNodes[i].childNodes[index]);
+				ref.clone().inject(ref, 'after');
+			}
+		}
+	}
+};
+	
+MooEditr.Actions.tablecoledit = {
+	title: MooEditr.lang.get('editTableCol'),
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.TableDialog(editor, 'tablecoledit');
+		}
+	},
+	command: function(){
+		if (this.selection.getNode().getParent('table')) this.dialogs.tablecoledit.prompt.open();
+	}
+};
+	
+MooEditr.Actions.tablecolspan ={
+	title: MooEditr.lang.get('mergeTableCell'),
+	command: function(){
+		var node = this.selection.getNode();
+		if (node.get('tag')!='td') node = node.getParent('td');
+		if (node){
+			var index = node.cellIndex + 1;
+			if (node.getParent().childNodes[index]){
+				node.getParent().deleteCell(index);
+				node.colSpan++;
+			}
+		}
+	}
+};
+		
+MooEditr.Actions.tablecolsplit = {
+	title: MooEditr.lang.get('splitTableCell'),
+	command: function(){
+		var node = this.selection.getNode();
+		if (node.get('tag')!='td') node = node.getParent('td');
+		if (node){
+			var index = node.cellIndex + 1;
+			if(node.getProperty('colspan')){
+				var cols = parseInt(node.getProperty('colspan'));
+				for (i=1;i<cols;i++){
+					node.getParent().insertCell(index+i);
+				}
+				node.removeProperty('colspan');
+			}
+		}
+	},
+	states: function(node){
+		if (node.get('tag')!='td') return;
+		if (node){
+			if (node.getProperty('colspan') && parseInt(node.getProperty('colspan')) > 1){
+				this.el.addClass('onActive');
+			}
+		}
+	}
+};
+	
+MooEditr.Actions.tablecoldelete = {
+	title: MooEditr.lang.get('deleteTableCol'),
+	command: function(){
+		var node = this.selection.getNode();
+		if (node.get('tag') != 'td') node = node.getParent('td');
+		if (node){
+			var len = node.getParent().getParent().childNodes.length;
+			var index = node.cellIndex;
+			var tt = node.getParent().getParent();
+			for (var i=0; i<len; i++) tt.childNodes[i].deleteCell(index);
+		}
+	}
+};

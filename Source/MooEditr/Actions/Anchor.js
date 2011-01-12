@@ -93,30 +93,27 @@ MooEditr.UI.AnchorDialog = function(editor){
 
 };
 
-MooEditr.Actions.extend({
-	
-	anchor: {
-		title: MooEditr.lang.get('insertanchor'),
-		mode:'text',
-		states: function(node, button){
-			if (node.get('tag') == 'a'){
-				if (node.getProperty('name')){
-					button.el.addClass('onActive');
-				}
-			}
-		},
-		dialogs: {
-			prompt: function(editor){ return MooEditr.UI.AnchorDialog(editor) }
-		},
-		command: function() {
-			this.dialogs.anchor.prompt.open();
-		},
-		events: {
-			render: function(){
-				this.options.extraCSS = 'a[name]{ display:inline-block; padding-left:13px; border:1px dashed red; background: url('
-					+ MooEditr.Actions.Settings.anchor.imageFile + ')  #ffffcc no-repeat; }'
-					+ this.options.extraCSS;
+MooEditr.Actions.anchor = {
+	title: MooEditr.lang.get('insertanchor'),
+	mode:'text',
+	states: function(node, button){
+		if (node.get('tag') == 'a'){
+			if (node.getProperty('name')){
+				button.el.addClass('onActive');
 			}
 		}
-    }	
-});
+	},
+	dialogs: {
+		prompt: function(editor){ return MooEditr.UI.AnchorDialog(editor) }
+	},
+	command: function() {
+		this.dialogs.anchor.prompt.open();
+	},
+	events: {
+		render: function(){
+			this.options.extraCSS = 'a[name]{ display:inline-block; padding-left:13px; border:1px dashed red; background: url('
+				+ MooEditr.Actions.Settings.anchor.imageFile + ')  #ffffcc no-repeat; }'
+				+ this.options.extraCSS;
+		}
+	}
+};

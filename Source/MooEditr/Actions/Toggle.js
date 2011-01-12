@@ -14,14 +14,12 @@ MooEditr.lang.set({
 	toggleView: 'Toggle View'
 });
 
-MooEditr.Actions.extend({
+MooEditr.Actions.toggleview = {
 	
-	toggleview: {
-		title: MooEditr.lang.get('toggleView'),
-		command: function(){
-			(this.mode == 'textarea') ? this.toolbar.enable() : this.toolbar.disable('toggleview');
-			this.toggleView();
-		}
+	title: MooEditr.lang.get('toggleView'),
+	command: function(){
+		(this.mode == 'textarea') ? this.toolbar.enable() : this.toolbar.disable('toggleview');
+		this.toggleView();
 	}
 	
-});
+};

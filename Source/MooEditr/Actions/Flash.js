@@ -245,37 +245,96 @@ MooEditr.UI.FlashDialog = function(editor){
 	
 	return dialog;
 };
-
-MooEditr.Actions.extend({
 	
-	flash: {
-		title: MooEditr.lang.get('addEditFlash'),
-		states: function(sel, button) {
-			if(sel.get('tag') == 'img') {
-				if(sel.hasClass('mooeditr-visual-aid') && sel.hasClass('mooeditr-flash')) {
-					button.el.addClass('onActive');
-				}
+MooEditr.Actions.flash = {
+	title: MooEditr.lang.get('addEditFlash'),
+	states: function(sel, button) {
+		if(sel.get('tag') == 'img') {
+			if(sel.hasClass('mooeditr-visual-aid') && sel.hasClass('mooeditr-flash')) {
+				button.el.addClass('onActive');
 			}
-		},
-		options: {
-			shortcut: 'f'
-		},
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.FlashDialog(editor);
-			}
-		},
-		command: function(){
-			this.dialogs.flash.prompt.open();
-		},
-        events: {
-            attach: function(){ 
+		}
+	},
+	options: {
+		shortcut: 'f'
+	},
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.FlashDialog(editor);
+		}
+	},
+	command: function(){
+		this.dialogs.flash.prompt.open();
+	},
+    events: {
+        attach: function(){ 
+        
+        	// set up a flash replacements array
+        	this.flashReplacements = new Array(); 
+        	
+        	// get content
+            var s = this.getContent();
+            var replacementCount = 0;
+            var matches;
             
-            	// set up a flash replacements array
-            	this.flashReplacements = new Array(); 
-            	
+            // replace all objects with image placeholder
+            matches = s.match(/<object([^>]*)>([\s\S]*)<\/object>/gi);
+            if (matches){
+                matches.each(function(e){ 
+                	if (e.indexOf('name="movie"') != -1){
+                        var obj = new Element('div', { html: e }).getChildren()[0];
+                        this.flashReplacements[replacementCount] = e;
+                        s = s.replace(e, '<img class="mooeditr-visual-aid mooeditr-flash" id="mooeditr-flash-replacement-'+replacementCount+'" width="'+obj.getProperty("width")+'" height="'+obj.getProperty("height")+'" />');
+                        replacementCount++; 
+                        delete obj;
+                    }
+                },this);
+            }
+            
+            // set content
+            this.setContent(s);
+        },
+        beforeToggleView: function() {
+        
+        	// moving from iframe to textarea
+            if(this.mode == 'iframe') {
+            
             	// get content
                 var s = this.getContent();
+                
+                // replace image placeholders with actual elements
+                var matches = s.match(/<img([^>]*)id="mooeditr-flash-replacement-([^\"]*)"([^>]*)>/gi);
+                if (matches){
+                    matches.each(function(e){
+                    
+                        // create a div element, make image its child, then get child
+                        var img = new Element('div', {html: e}).getChildren('img')[0];	                                                                        
+                    
+                    	// get replacement
+                    	var replacement = this.flashReplacements[parseInt(img.getProperty('id').replace('mooeditr-flash-replacement-',''))];
+							
+						// do we have a replacement?
+						if (replacement){ 
+						                                             
+                            // replace img with actual form element
+                            s = s.replace(e, replacement);
+                        
+                        }
+                        
+                    },this);
+                }
+                
+                // set content
+                this.setContent(s);
+                
+            } else {
+            	// moving from textarea to iframe
+            
+            	// get content
+                var s = this.textarea.get('value');
+                
+                // reset replacements
+                this.flashReplacements = Array();
                 var replacementCount = 0;
                 var matches;
                 
@@ -294,71 +353,8 @@ MooEditr.Actions.extend({
                 }
                 
                 // set content
-                this.setContent(s);
-            },
-            beforeToggleView: function() {
-            
-            	// moving from iframe to textarea
-                if(this.mode == 'iframe') {
-                
-                	// get content
-                    var s = this.getContent();
-                    
-                    // replace image placeholders with actual elements
-                    var matches = s.match(/<img([^>]*)id="mooeditr-flash-replacement-([^\"]*)"([^>]*)>/gi);
-                    if (matches){
-                        matches.each(function(e){
-                        
-                            // create a div element, make image its child, then get child
-                            var img = new Element('div', {html: e}).getChildren('img')[0];	                                                                        
-                        
-                        	// get replacement
-                        	var replacement = this.flashReplacements[parseInt(img.getProperty('id').replace('mooeditr-flash-replacement-',''))];
-								
-							// do we have a replacement?
-							if (replacement){ 
-							                                             
-	                            // replace img with actual form element
-	                            s = s.replace(e, replacement);
-                            
-                            }
-                            
-                        },this);
-                    }
-                    
-                    // set content
-                    this.setContent(s);
-                    
-                } else {
-                	// moving from textarea to iframe
-                
-                	// get content
-                    var s = this.textarea.get('value');
-                    
-                    // reset replacements
-                    this.flashReplacements = Array();
-                    var replacementCount = 0;
-                    var matches;
-                    
-                    // replace all objects with image placeholder
-                    matches = s.match(/<object([^>]*)>([\s\S]*)<\/object>/gi);
-                    if (matches){
-	                    matches.each(function(e){ 
-	                    	if (e.indexOf('name="movie"') != -1){
-		                        var obj = new Element('div', { html: e }).getChildren()[0];
-		                        this.flashReplacements[replacementCount] = e;
-		                        s = s.replace(e, '<img class="mooeditr-visual-aid mooeditr-flash" id="mooeditr-flash-replacement-'+replacementCount+'" width="'+obj.getProperty("width")+'" height="'+obj.getProperty("height")+'" />');
-		                        replacementCount++; 
-		                        delete obj;
-	                        }
-	                    },this);
-                    }
-                    
-                    // set content
-                    this.textarea.set('value',s);
-                }
+                this.textarea.set('value',s);
             }
         }
-	}
-	
-});
+    }
+};

@@ -317,33 +317,29 @@ MooEditr.UI.CharacterDialog = function(editor){
 	});
 };
 
-MooEditr.Actions.extend({
-	
-	charmap: {
-		title: MooEditr.lang.get('insertCustomCharacter'),
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.CharacterDialog(editor);
-			}
-		},
-		command: function() {
-			this.dialogs.charmap.prompt.open();
-		},
-		events: {
-			toggleView: function(){
-				if (this.mode == 'textarea'){
-					var s = this.textarea.get('value');
-					// when switching from iframe to textarea, we need to convert special symbols to html entities
-					MooEditr.Actions.Settings.charmap.chars.each(function(e){
-						if (!['&amp;', '&gt;', '&lt;', '&quot;', '&nbsp;'].contains(e[0])){
-							var r = new RegExp(String.fromCharCode(parseInt(e[1].replace('&#', '').replace(';', ''))), 'g');
-							s = s.replace(r, e[0]);
-						}
-					}, this);
-					this.textarea.set('value', s);
-				}
+MooEditr.Actions.charmap = {
+	title: MooEditr.lang.get('insertCustomCharacter'),
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.CharacterDialog(editor);
+		}
+	},
+	command: function() {
+		this.dialogs.charmap.prompt.open();
+	},
+	events: {
+		toggleView: function(){
+			if (this.mode == 'textarea'){
+				var s = this.textarea.get('value');
+				// when switching from iframe to textarea, we need to convert special symbols to html entities
+				MooEditr.Actions.Settings.charmap.chars.each(function(e){
+					if (!['&amp;', '&gt;', '&lt;', '&quot;', '&nbsp;'].contains(e[0])){
+						var r = new RegExp(String.fromCharCode(parseInt(e[1].replace('&#', '').replace(';', ''))), 'g');
+						s = s.replace(r, e[0]);
+					}
+				}, this);
+				this.textarea.set('value', s);
 			}
 		}
 	}
-	
-});
+};

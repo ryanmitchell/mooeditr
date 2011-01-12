@@ -86,18 +86,15 @@ MooEditr.UI.InsertHTMLDialog = function(editor){
 	});
 };
 
-MooEditr.Actions.extend({
-	
-	inserthtml: {
-		title: MooEditr.lang.get('insertHTML'),
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.InsertHTMLDialog(editor);
-			}
-		},
-		command: function(){
-			this.dialogs.inserthtml.prompt.open();
+
+MooEditr.Actions.inserthtml = {
+	title: MooEditr.lang.get('insertHTML'),
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.InsertHTMLDialog(editor);
 		}
+	},
+	command: function(){
+		this.dialogs.inserthtml.prompt.open();
 	}
-	
-});
+};

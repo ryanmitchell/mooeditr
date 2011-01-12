@@ -224,42 +224,99 @@ MooEditr.UI.AudioDialog = function(editor){
 	
 	return dialog;
 };
-
-MooEditr.Actions.extend({
 	
-	audio: {
-		title: MooEditr.lang.get('addEditAudio'),
-		states: function(sel, button) {
-			if(sel.get('tag') == 'img') {
-				if(sel.hasClass('mooeditr-visual-aid') && sel.hasClass('mooeditr-audio')) {
-					button.el.addClass('onActive');
-				}
+MooEditr.Actions.audio = {
+	title: MooEditr.lang.get('addEditAudio'),
+	states: function(sel, button) {
+		if(sel.get('tag') == 'img') {
+			if(sel.hasClass('mooeditr-visual-aid') && sel.hasClass('mooeditr-audio')) {
+				button.el.addClass('onActive');
 			}
-		},
-		options: {
-			shortcut: 'f'
-		},
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.AudioDialog(editor);
-			}
-		},
-		command: function(){
-			this.dialogs.audio.prompt.open();
-		},
-        events: {
-            attach: function(){ 
+		}
+	},
+	options: {
+		shortcut: 'f'
+	},
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.AudioDialog(editor);
+		}
+	},
+	command: function(){
+		this.dialogs.audio.prompt.open();
+	},
+    events: {
+        attach: function(){ 
+        
+        	// set up a audio replacements array
+        	this.audioReplacements = new Array(); 
+        	
+        	// get content
+            var s = this.getContent();
+            var replacementCount = 0;
+            var matches;
             
-            	// set up a audio replacements array
-            	this.audioReplacements = new Array(); 
-            	
+            // replace all audio with image placeholder
+           	matches = s.match(/<audio([^>]*)>([\s\S]*)<\/audio>/gi);
+            if (matches){
+                matches.each(function(e){ 
+                    var obj = new Element('div', { html: e }).getChildren()[0];
+                    this.audioReplacements[replacementCount] = e;
+                    s = s.replace(e, '<img class="mooeditr-visual-aid mooeditr-audio" id="mooeditr-audio-replacement-'+replacementCount+'" width="100" height="20" />');
+                    replacementCount++; 
+                    delete obj;
+                },this);
+            }
+            
+            // set content
+            this.setContent(s);
+        },
+        beforeToggleView: function() {
+        
+        	// moving from iframe to textarea
+            if(this.mode == 'iframe') {
+            
             	// get content
                 var s = this.getContent();
+                
+                // replace image placeholders with actual elements
+                var matches = s.match(/<img([^>]*)id="mooeditr-audio-replacement-([^\"]*)"([^>]*)>/gi);
+                if (matches){
+                    matches.each(function(e){
+                    
+                        // create a div element, make image its child, then get child
+                        var img = new Element('div', {html: e}).getChildren('img')[0];	                                                                        
+                    
+                    	// get replacement
+                    	var replacement = this.audioReplacements[parseInt(img.getProperty('id').replace('mooeditr-audio-replacement-',''))];
+							
+						// do we have a replacement?
+						if (replacement){ 
+						                                             
+                            // replace img with actual form element
+                            s = s.replace(e, replacement);
+                        
+                        }
+                        
+                    },this);
+                }
+                
+                // set content
+                this.setContent(s);
+                
+            } else {
+            	// moving from textarea to iframe
+            
+            	// get content
+                var s = this.textarea.get('value');
+                
+                // reset replacements
+                this.audioReplacements = Array();
                 var replacementCount = 0;
                 var matches;
                 
-                // replace all audio with image placeholder
-               	matches = s.match(/<audio([^>]*)>([\s\S]*)<\/audio>/gi);
+                // replace all objects with image placeholder
+           		matches = s.match(/<audio([^>]*)>([\s\S]*)<\/audio>/gi);
                 if (matches){
                     matches.each(function(e){ 
                         var obj = new Element('div', { html: e }).getChildren()[0];
@@ -269,71 +326,10 @@ MooEditr.Actions.extend({
                         delete obj;
                     },this);
                 }
-                
+                                    
                 // set content
-                this.setContent(s);
-            },
-            beforeToggleView: function() {
-            
-            	// moving from iframe to textarea
-                if(this.mode == 'iframe') {
-                
-                	// get content
-                    var s = this.getContent();
-                    
-                    // replace image placeholders with actual elements
-                    var matches = s.match(/<img([^>]*)id="mooeditr-audio-replacement-([^\"]*)"([^>]*)>/gi);
-                    if (matches){
-                        matches.each(function(e){
-                        
-                            // create a div element, make image its child, then get child
-                            var img = new Element('div', {html: e}).getChildren('img')[0];	                                                                        
-                        
-                        	// get replacement
-                        	var replacement = this.audioReplacements[parseInt(img.getProperty('id').replace('mooeditr-audio-replacement-',''))];
-								
-							// do we have a replacement?
-							if (replacement){ 
-							                                             
-	                            // replace img with actual form element
-	                            s = s.replace(e, replacement);
-                            
-                            }
-                            
-                        },this);
-                    }
-                    
-                    // set content
-                    this.setContent(s);
-                    
-                } else {
-                	// moving from textarea to iframe
-                
-                	// get content
-                    var s = this.textarea.get('value');
-                    
-                    // reset replacements
-                    this.audioReplacements = Array();
-                    var replacementCount = 0;
-                    var matches;
-                    
-                    // replace all objects with image placeholder
-               		matches = s.match(/<audio([^>]*)>([\s\S]*)<\/audio>/gi);
-                    if (matches){
-	                    matches.each(function(e){ 
-	                        var obj = new Element('div', { html: e }).getChildren()[0];
-	                        this.audioReplacements[replacementCount] = e;
-	                        s = s.replace(e, '<img class="mooeditr-visual-aid mooeditr-audio" id="mooeditr-audio-replacement-'+replacementCount+'" width="100" height="20" />');
-	                        replacementCount++; 
-	                        delete obj;
-	                    },this);
-                    }
-                                        
-                    // set content
-                    this.textarea.set('value',s);
-                }
+                this.textarea.set('value',s);
             }
         }
-	}
-	
-});
+    }
+};

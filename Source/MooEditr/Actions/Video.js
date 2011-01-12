@@ -286,36 +286,96 @@ MooEditr.UI.VideoDialog = function(editor){
 	return dialog;
 };
 
-MooEditr.Actions.extend({
-	
-	video: {
-		title: MooEditr.lang.get('addEditVideo'),
-		states: function(sel, button) {
-			if(sel.get('tag') == 'img') {
-				if(sel.hasClass('mooeditr-visual-aid') && sel.hasClass('mooeditr-video')) {
-					button.el.addClass('onActive');
-				}
+MooEditr.Actions.video = {	
+
+	title: MooEditr.lang.get('addEditVideo'),
+	states: function(sel, button) {
+		if(sel.get('tag') == 'img') {
+			if(sel.hasClass('mooeditr-visual-aid') && sel.hasClass('mooeditr-video')) {
+				button.el.addClass('onActive');
 			}
-		},
-		options: {
-			shortcut: 'f'
-		},
-		dialogs: {
-			prompt: function(editor){
-				return MooEditr.UI.VideoDialog(editor);
-			}
-		},
-		command: function(){
-			this.dialogs.video.prompt.open();
-		},
-        events: {
-            attach: function(){ 
+		}
+	},
+	options: {
+		shortcut: 'f'
+	},
+	dialogs: {
+		prompt: function(editor){
+			return MooEditr.UI.VideoDialog(editor);
+		}
+	},
+	command: function(){
+		this.dialogs.video.prompt.open();
+	},
+    events: {
+        attach: function(){ 
+        
+        	// set up a flash replacements array
+        	this.videoReplacements = new Array(); 
+        	
+        	// get content
+            var s = this.getContent();
+            var replacementCount = 0;
+            var matches;
             
-            	// set up a flash replacements array
-            	this.videoReplacements = new Array(); 
-            	
+            // replace all objects with image placeholder
+            matches = s.match(/<video([^>]*)>([\s\S]*)<\/video>/gi);
+            if (matches){
+                matches.each(function(e){ 
+                    var obj = new Element('div', { html: e }).getChildren()[0];
+                    this.videoReplacements[replacementCount] = e;
+                    poster = '';
+                    if (obj.getProperty('poster')) poster = obj.getProperty('poster');
+                    s = s.replace(e, '<img class="mooeditr-visual-aid mooeditr-video" id="mooeditr-video-replacement-'+replacementCount+'" width="'+obj.getProperty("width")+'" height="'+obj.getProperty("height")+'"' + ( poster != '' ? ' style="background-image:url(' + poster + ');"' : '' )+ ' />');
+                    replacementCount++; 
+                    delete obj;
+                },this);
+            }
+            
+            // set content
+            this.setContent(s);
+        },
+        beforeToggleView: function() {
+        
+        	// moving from iframe to textarea
+            if(this.mode == 'iframe') {
+            
             	// get content
                 var s = this.getContent();
+                
+                // replace image placeholders with actual elements
+                var matches = s.match(/<img([^>]*)id="mooeditr-video-replacement-([^\"]*)"([^>]*)>/gi);
+                if (matches){
+                    matches.each(function(e){
+                    
+                        // create a div element, make image its child, then get child
+                        var img = new Element('div', {html: e}).getChildren('img')[0];	                                                                        
+                    
+                    	// get replacement
+                    	var replacement = this.videoReplacements[parseInt(img.getProperty('id').replace('mooeditr-video-replacement-',''))];
+							
+						// do we have a replacement?
+						if (replacement){ 
+						                                             
+                            // replace img with actual form element
+                            s = s.replace(e, replacement);
+                        
+                        }
+                        
+                    },this);
+                }
+                
+                // set content
+                this.setContent(s);
+                
+            } else {
+            	// moving from textarea to iframe
+            
+            	// get content
+                var s = this.textarea.get('value');
+                
+                // reset replacements
+                this.videoReplacements = Array();
                 var replacementCount = 0;
                 var matches;
                 
@@ -334,71 +394,8 @@ MooEditr.Actions.extend({
                 }
                 
                 // set content
-                this.setContent(s);
-            },
-            beforeToggleView: function() {
-            
-            	// moving from iframe to textarea
-                if(this.mode == 'iframe') {
-                
-                	// get content
-                    var s = this.getContent();
-                    
-                    // replace image placeholders with actual elements
-                    var matches = s.match(/<img([^>]*)id="mooeditr-video-replacement-([^\"]*)"([^>]*)>/gi);
-                    if (matches){
-                        matches.each(function(e){
-                        
-                            // create a div element, make image its child, then get child
-                            var img = new Element('div', {html: e}).getChildren('img')[0];	                                                                        
-                        
-                        	// get replacement
-                        	var replacement = this.videoReplacements[parseInt(img.getProperty('id').replace('mooeditr-video-replacement-',''))];
-								
-							// do we have a replacement?
-							if (replacement){ 
-							                                             
-	                            // replace img with actual form element
-	                            s = s.replace(e, replacement);
-                            
-                            }
-                            
-                        },this);
-                    }
-                    
-                    // set content
-                    this.setContent(s);
-                    
-                } else {
-                	// moving from textarea to iframe
-                
-                	// get content
-                    var s = this.textarea.get('value');
-                    
-                    // reset replacements
-                    this.videoReplacements = Array();
-                    var replacementCount = 0;
-                    var matches;
-                    
-                    // replace all objects with image placeholder
-                    matches = s.match(/<video([^>]*)>([\s\S]*)<\/video>/gi);
-                    if (matches){
-	                    matches.each(function(e){ 
-	                        var obj = new Element('div', { html: e }).getChildren()[0];
-	                        this.videoReplacements[replacementCount] = e;
-	                        poster = '';
-	                        if (obj.getProperty('poster')) poster = obj.getProperty('poster');
-	                        s = s.replace(e, '<img class="mooeditr-visual-aid mooeditr-video" id="mooeditr-video-replacement-'+replacementCount+'" width="'+obj.getProperty("width")+'" height="'+obj.getProperty("height")+'"' + ( poster != '' ? ' style="background-image:url(' + poster + ');"' : '' )+ ' />');
-	                        replacementCount++; 
-	                        delete obj;
-	                    },this);
-                    }
-                    
-                    // set content
-                    this.textarea.set('value',s);
-                }
+                this.textarea.set('value',s);
             }
         }
-	}
-	
-});
+    }
+};

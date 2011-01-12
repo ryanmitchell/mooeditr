@@ -59,7 +59,7 @@ MooEditr.lang.set({
 	insertHorizontalRule: 'Insert Horizontal Rule'
 });
 
-MooEditr.Actions.extend({
+Object.append(MooEditr.Actions, {
 
 	bold: {
 		title: MooEditr.lang.get('bold'),
@@ -72,14 +72,14 @@ MooEditr.Actions.extend({
 		},
 		events: {
 			beforeToggleView: function(){
-				if(Browser.Engine.gecko){
+				if(Browser.firefox){
 					var value = this.textarea.get('value');
 					var newValue = value.replace(/<strong([^>]*)>/gi, '<b$1>').replace(/<\/strong>/gi, '</b>');
 					if (value != newValue) this.textarea.set('value', newValue);
 				}
 			},
 			attach: function(){
-				if(Browser.Engine.gecko){
+				if(Browser.firefox){
 					var value = this.textarea.get('value');
 					var newValue = value.replace(/<strong([^>]*)>/gi, '<b$1>').replace(/<\/strong>/gi, '</b>');
 					if (value != newValue){
@@ -102,7 +102,7 @@ MooEditr.Actions.extend({
 		},
 		events: {
 			beforeToggleView: function(){
-				if (Browser.Engine.gecko){
+				if (Browser.firefox){
 					var value = this.textarea.get('value');
 					var newValue = value.replace(/<embed([^>]*)>/gi, '<tmpembed$1>')
 						.replace(/<em([^>]*)>/gi, '<i$1>')
@@ -112,7 +112,7 @@ MooEditr.Actions.extend({
 				}
 			},
 			attach: function(){
-				if (Browser.Engine.gecko){
+				if (Browser.firefox){
 					var value = this.textarea.get('value');
 					var newValue = value.replace(/<embed([^>]*)>/gi, '<tmpembed$1>')
 						.replace(/<em([^>]*)>/gi, '<i$1>')
