@@ -43,9 +43,9 @@ MooEditr.Actions.cssStyles = {
 		
 			// empty select
 			self.el.empty();
-						
+									
 			// loop over styles and add them, if appropriate
-			$each(this.cssStyles, function(style) {
+			Array.each(this.cssStyles, function(style){
 																			
 				// found?
 				var found = false;
@@ -53,20 +53,23 @@ MooEditr.Actions.cssStyles = {
 				// temp holder
 				var temp = node;
 				
-				for(i=style.el.length-1;i>=0;i--) {
+				for (i=style.el.length-1;i>=0;i--){
 									
-					var styletagid,styletagtag,styletagclass = '';
+					var styletagid = '', styletagtag = '', styletagclass = '';
 					
 					// split tag down into parts
 					styletagtemp = style.el[i].split('.');
-					if(styletagtemp.length > 0) styletagclass = styletagtemp[1];
+					if (styletagtemp.length > 0) styletagclass = styletagtemp[1];
 					styletagtag = styletagtemp[0];
 					styletagtemp = styletagtag.split('#');
-					if(styletagtemp.length > 0) styletagid = styletagtemp[1];
+					if (styletagtemp.length > 0) styletagid = styletagtemp[1];
 					else styletagtag = styletagtemp[0]; // if this is '', then we only have id
 					
+					if (!styletagid) styletagid = '';
+					if (!styletagclass) styletagclass = '';
+															
 					// check for match
-					if ((temp.get('tag').toLowerCase() == styletagtag) || (styletagtag == '')) {
+					if ((temp.get('tag').toLowerCase() == styletagtag.toLowerCase()) || (styletagtag == '')) {
 						if ((temp.get('id') == styletagid) || (styletagid == '')) {
 							if ((temp.hasClass(styletagclass)) || (styletagclass == '')) {
 								temp = temp.getParent();
@@ -75,11 +78,16 @@ MooEditr.Actions.cssStyles = {
 					} else {
 						break;	
 					}
-					if(i==0) found = true;
+					
+					
+					if (i==0){
+						found = true;
+					}
 				}
                 									  
 				// are we the right tag?
 				if (found){
+				
                 					
 					// add choose a style if we have no other options elements
 					if (self.el.length < 1) self.el.adopt(new Element('option', { html: MooEditr.lang.get('chooseCssStyle'), value:'' }));
