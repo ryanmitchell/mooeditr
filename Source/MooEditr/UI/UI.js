@@ -212,14 +212,14 @@ MooEditr.UI.Dialog = new Class({
 	validations: {
 	
 		alerts : {
-			required: "This field is required.",
-			alpha: "This field accepts alphabetic characters only.",
-			alphanum: "This field accepts alphanumeric characters only.",
-			nodigit: "No digits are accepted.",
-			digit: "Please enter a valid integer.",
-			number: "Please enter a valid number.",
-			email: "Please enter a valid email.",
-			url: "Please enter a valid url."
+			required: "required",
+			alpha: "alpha",
+			alphanum: "alphanum",
+			nodigit: "nodigit",
+			digit: "digit",
+			number: "number",
+			email: "email",
+			url: "url"
 		},
 		
 		regexp : {
