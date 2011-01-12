@@ -54,12 +54,12 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.ImageDialog = function(editor){
-	var html = '<form>' + MooEditr.lang.get('enterImageURL') + ' <input type="text" class="dialog-url" value="" size="15">'
+	var html = '<form>' + MooEditr.lang.get('enterImageURL') + ' <input type="text" class="dialog-url validate[\'required\']" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
-		+ MooEditr.lang.get('imageWidth') + ' <input type="text" class="dialog-width" value="" size="4"><input type="hidden" class="dialog-width-hidden" value=""> '
-		+ MooEditr.lang.get('imageHeight') + ' <input type="text" class="dialog-height" value="" size="4"><input type="hidden" class="dialog-height-hidden" value=""> '
+		+ MooEditr.lang.get('imageWidth') + ' <input type="text" class="dialog-width validate[\'required\',\'digit\']" value="" size="4"><input type="hidden" class="dialog-width-hidden" value=""> '
+		+ MooEditr.lang.get('imageHeight') + ' <input type="text" class="dialog-height validate[\'required\',\'digit\']" value="" size="4"><input type="hidden" class="dialog-height-hidden" value=""> '
 		+ MooEditr.lang.get('imageConstrain') +'<input type="checkbox" class="dialog-constrain" /><br />'
-		+ MooEditr.lang.get('imageAlt') + ' <input type="text" class="dialog-alt" value="" size="8"> '
+		+ MooEditr.lang.get('imageAlt') + ' <input type="text" class="dialog-alt validate[\'required\']" value="" size="8"> '
 		+ MooEditr.lang.get('imageAlign') + ' <select class="dialog-align">'
 			+ '<option>' + MooEditr.lang.get('imageAlignNone') + '</option>'
 			+ '<option>' + MooEditr.lang.get('imageAlignLeft') + '</option>'
@@ -97,27 +97,93 @@ MooEditr.UI.ImageDialog = function(editor){
 			if (button.hasClass('dialog-cancel-button')){
 				this.close();
 			} else if (button.hasClass('dialog-ok-button')){
-				this.close();
-				var node = editor.selection.getNode();
-				if (node.get('tag') == 'img'){
-					node.set('src', this.el.getElement('.dialog-url').get('value').trim());
-					node.set('alt', this.el.getElement('.dialog-alt').get('value').trim());
-					node.className = this.el.getElement('.dialog-class').get('value').trim();
-					node.set('align', this.el.getElement('.dialog-align').get('value'));
-					node.set('width', parseInt(this.el.getElement('.dialog-width').get('value')));
-					node.set('height', parseInt(this.el.getElement('.dialog-height').get('value')));
-				} else {
-					var div = new Element('div');
-					new Element('img', {
-						src: this.el.getElement('.dialog-url').get('value').trim(),
-						alt: this.el.getElement('.dialog-alt').get('value').trim(),
-						'class': this.el.getElement('.dialog-class').get('value').trim(),
-						align: this.el.getElement('.dialog-align').get('value'),
-						width: parseInt(this.el.getElement('.dialog-width').get('value')),
-						height: parseInt(this.el.getElement('.dialog-height').get('value'))
-					}).inject(div);
-					editor.selection.insertContent(div.get('html'));
+			
+				// validation errors
+				var errors = [];	
+				var errormsg = '';
+				
+				// validate
+				errors = this.validateField(this.el.getElement('input.dialog-url'));
+				
+				// do we proceed?
+				if (errors.length > 0){
+					errormsg = 'Please choose an image';
+					this.el.getElement('input.dialog-url').focus();
 				}
+				
+				// sequential error handling
+				if (errors.length < 1){
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-width'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter a width';
+						this.el.getElement('input.dialog-width').focus();
+					}
+				
+				}
+				
+				// sequential error handling
+				if (errors.length < 1){
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-height'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter a height';
+						this.el.getElement('input.dialog-height').focus();
+					}
+				
+				}
+				
+				// sequential error handling
+				if (errors.length < 1){
+				
+					// validate
+					errors = this.validateField(this.el.getElement('input.dialog-alt'));
+					
+					// do we proceed?
+					if (errors.length > 0){
+						errormsg = 'Please enter fallback text';
+						this.el.getElement('input.dialog-alt').focus();
+					}
+				
+				}
+				
+				// do we have errors?
+				if (errors.length < 1){
+				
+					// close window
+					this.close();
+			
+					var node = editor.selection.getNode();
+					if (node.get('tag') == 'img'){
+						node.set('src', this.el.getElement('.dialog-url').get('value').trim());
+						node.set('alt', this.el.getElement('.dialog-alt').get('value').trim());
+						node.className = this.el.getElement('.dialog-class').get('value').trim();
+						node.set('align', this.el.getElement('.dialog-align').get('value'));
+						node.set('width', parseInt(this.el.getElement('.dialog-width').get('value')));
+						node.set('height', parseInt(this.el.getElement('.dialog-height').get('value')));
+					} else {
+						var div = new Element('div');
+						new Element('img', {
+							src: this.el.getElement('.dialog-url').get('value').trim(),
+							alt: this.el.getElement('.dialog-alt').get('value').trim(),
+							'class': this.el.getElement('.dialog-class').get('value').trim(),
+							align: this.el.getElement('.dialog-align').get('value'),
+							width: parseInt(this.el.getElement('.dialog-width').get('value')),
+							height: parseInt(this.el.getElement('.dialog-height').get('value'))
+						}).inject(div);
+						editor.selection.insertContent(div.get('html'));
+					}
+				
+				} else {
+					alert(errormsg);
+				}
+				
 			} else if (button.hasClass('dialog-browse-button')){
 
 				// define callback function for file manager
