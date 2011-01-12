@@ -52,7 +52,7 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.VideoDialog = function(editor){
-	var html = MooEditr.lang.get('enterPosterURL') + ' <input type="text" class="dialog-url" value="" size="15">'
+	var html = '<form>' + MooEditr.lang.get('enterPosterURL') + ' <input type="text" class="dialog-url" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
 		+ MooEditr.lang.get('enterWebMURL') + ' <input type="text" class="dialog-webm" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
@@ -65,7 +65,7 @@ MooEditr.UI.VideoDialog = function(editor){
 		+ MooEditr.lang.get('videoAutoplay') + '<input type="checkbox" class="dialog-autoplay" /> '
 		+ MooEditr.lang.get('videoControls') + '<input type="checkbox" class="dialog-controls" /> '
 		+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button> '
-		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
+		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 		
 	var dialog = new MooEditr.UI.Dialog(html, {
 		'class': 'MooEditr-video-dialog',

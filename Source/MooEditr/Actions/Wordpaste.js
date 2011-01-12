@@ -42,9 +42,9 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.WordpasteDialog = function(editor){
-	var html = 'text <div contenteditable class="wpinput"></div>'
+	var html = '<form> text <div contenteditable class="wpinput"></div>'
 		+ '<button class="dialog-button dialog-ok-button">OK</button> '
-		+ '<button class="dialog-button dialog-cancel-button">Cancel</button>';
+		+ '<button class="dialog-button dialog-cancel-button">Cancel</button></form>';
 	return new MooEditr.UI.Dialog(html, {
 		'class': 'mooeditr-prompt-dialog',
 		onOpen: function(){
@@ -120,7 +120,7 @@ MooEditr.UI.WordpasteDialog = function(editor){
 				str = str.replace(String.fromCharCode(8230),"...");			
 				
 				// set content
-				editor.setContent(editor.cleanup(str.trim()));
+				editor.selection.insertContent(editor.cleanup(str.trim()));
 				
 			}
 		}

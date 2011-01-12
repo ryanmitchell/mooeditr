@@ -48,7 +48,7 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.FlashDialog = function(editor){
-	var html = MooEditr.lang.get('enterFlashURL') + ' <input type="text" class="dialog-url" value="" size="15">'
+	var html = '<form>' + MooEditr.lang.get('enterFlashURL') + ' <input type="text" class="dialog-url" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
 		+ MooEditr.lang.get('flashWidth') + ' <input type="text" class="dialog-width" value="" size="4"><input type="hidden" class="dialog-width-hidden" value=""> '
 		+ MooEditr.lang.get('flashHeight') + ' <input type="text" class="dialog-height" value="" size="4"><input type="hidden" class="dialog-height-hidden" value=""> '
@@ -59,7 +59,7 @@ MooEditr.UI.FlashDialog = function(editor){
 			+ '<option>transparent</option>'
 		+ '</select> '
 		+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button> '
-		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
+		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 		
 	var dialog = new MooEditr.UI.Dialog(html, {
 		'class': 'MooEditr-flash-dialog',

@@ -292,14 +292,14 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.CharacterDialog = function(editor){
-	var html = MooEditr.lang.get('insertCharacter') + ' <select class="char">';
+	var html = '<form>' + MooEditr.lang.get('insertCharacter') + ' <select class="char">';
 	var chars = MooEditr.Actions.Settings.charmap.chars;
 	for (var i=0, len=chars.length; i<len; i++) {
 		html += '<option data-code="' + chars[i][0] + '">' + chars[i][1] + '</option>';
 	}
 	html += '</select>'
 		+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button>'
-		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
+		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 	return new MooEditr.UI.Dialog(html, {
 		'class': 'MooEditr-charmap-dialog',
 		onClick: function(e){

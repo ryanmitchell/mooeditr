@@ -107,8 +107,8 @@ MooEditr.UI.TableDialog = function(editor, dialog){
 				+ '<option>' + MooEditr.lang.get('tableValignBottom') + '</option>'
 			+ '</select> '
 	};
-	html[dialog] += '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button>'
-		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
+	html[dialog] = '<form>' + html[dialog] + '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button>'
+		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 		
 	var action = {
 		tableadd: {

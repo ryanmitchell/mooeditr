@@ -480,6 +480,7 @@ this.MooEditr = new Class({
 	},
 	
 	editorKeyPress: function(e){
+		
 		if (this.editorDisabled){
 			e.stop();
 			return;
@@ -491,6 +492,11 @@ this.MooEditr = new Class({
 	},
 	
 	editorKeyUp: function(e){
+	
+		if (e){
+			console.log(e.target);
+		}
+		
 		if (this.editorDisabled){
 			e.stop();
 			return;
@@ -511,6 +517,7 @@ this.MooEditr = new Class({
 	},
 	
 	editorKeyDown: function(e){
+		
 		if (this.editorDisabled){
 			e.stop();
 			return;
@@ -529,7 +536,7 @@ this.MooEditr = new Class({
 					// Place caret after BR
 					r.setStartAfter(br);
 					r.setEndAfter(br);
-					s.setRange(r);
+					s.getSelection().setSingleRange(r);
 					
 					// Could not place caret after BR then insert an nbsp entity and move the caret
 					if (s.getSelection().focusNode == br.previousSibling){
@@ -541,10 +548,15 @@ this.MooEditr = new Class({
 						s.collapse(1);
 					}
 					
+					// work out line height for scrolling
+					var lh = parseInt(document.id(r.startContainer).getStyle('line-height'));
+					if (isNaN(lh)) lh = parseInt(document.id(r.startContainer).getStyle('font-size')) * 1.15;
+																														
 					// Scroll to new position, scrollIntoView can't be used due to bug: http://bugs.webkit.org/show_bug.cgi?id=16117
-					this.win.scrollTo(0, Element.getOffsets(s.getRange().startContainer).y);
+					this.win.scrollTo(0, this.win.getScroll().y + lh);
 					
 					e.preventDefault();
+					
 				} else if (Browser.Engine.gecko || Browser.Engine.webkit){
 					var node = this.selection.getNode();
 					var isBlock = node.getParents().include(node).some(function(el){

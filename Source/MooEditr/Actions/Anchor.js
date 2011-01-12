@@ -46,9 +46,9 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.AnchorDialog = function(editor){
-	var html = '' + MooEditr.lang.get('name') + ' <input class="dialog-name" type="text" />'
+	var html = '<form>' + MooEditr.lang.get('name') + ' <input class="dialog-name" type="text" />'
 	+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button>'
-	+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
+	+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 	return new MooEditr.UI.Dialog(html, {
 		'class': 'mooeditable-prompt-dialog',
 		onOpen: function(){

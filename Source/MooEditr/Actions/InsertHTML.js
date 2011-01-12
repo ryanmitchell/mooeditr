@@ -43,9 +43,9 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.InsertHTMLDialog = function(editor){
-	var html = MooEditr.lang.get('embed') + ' <textarea class="dialog-f" value="" rows="2" cols="40"></textarea> '
+	var html = '<form>' + MooEditr.lang.get('embed') + ' <textarea class="dialog-f" value="" rows="2" cols="40"></textarea> '
 		+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button> '
-		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
+		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 	return new MooEditr.UI.Dialog(html, {
 		'class': 'MooEditr-flash-dialog',
 		onOpen: function(){

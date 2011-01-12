@@ -48,7 +48,7 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.AudioDialog = function(editor){
-	var html = MooEditr.lang.get('enterAudioURL') + ' <input type="text" class="dialog-url" value="" size="15">'
+	var html = '<form>' + MooEditr.lang.get('enterAudioURL') + ' <input type="text" class="dialog-url" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
 		+ MooEditr.lang.get('enterAudioURL2') + ' <input type="text" class="dialog-url2" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button2">' + MooEditr.lang.get('browse') + '</button> ' : '' )
@@ -56,7 +56,7 @@ MooEditr.UI.AudioDialog = function(editor){
 		+ MooEditr.lang.get('audioAutoplay') + '<input type="checkbox" class="dialog-autoplay" /> '
 		+ MooEditr.lang.get('audioControls') + '<input type="checkbox" class="dialog-controls" /> '
 		+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button> '
-		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
+		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 		
 	var dialog = new MooEditr.UI.Dialog(html, {
 		'class': 'MooEditr-audio-dialog',

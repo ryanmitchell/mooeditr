@@ -54,7 +54,7 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.ImageDialog = function(editor){
-	var html = MooEditr.lang.get('enterImageURL') + ' <input type="text" class="dialog-url" value="" size="15">'
+	var html = '<form>' + MooEditr.lang.get('enterImageURL') + ' <input type="text" class="dialog-url" value="" size="15">'
 		+ (editor.options.fileManager ? '<button class="dialog-button dialog-browse-button">' + MooEditr.lang.get('browse') + '</button> ' : '' )
 		+ MooEditr.lang.get('imageWidth') + ' <input type="text" class="dialog-width" value="" size="4"><input type="hidden" class="dialog-width-hidden" value=""> '
 		+ MooEditr.lang.get('imageHeight') + ' <input type="text" class="dialog-height" value="" size="4"><input type="hidden" class="dialog-height-hidden" value=""> '
@@ -68,7 +68,7 @@ MooEditr.UI.ImageDialog = function(editor){
 		+ '</select> '
 		+ MooEditr.lang.get('imageClass') + ' <input type="text" class="dialog-class" value="" size="8"> '
 		+ '<button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button> '
-		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
+		+ '<button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 		
 	var dialog = new MooEditr.UI.Dialog(html, {
 		'class': 'MooEditr-image-dialog',

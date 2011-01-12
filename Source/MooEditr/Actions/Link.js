@@ -62,13 +62,13 @@ MooEditr.lang.set({
 });
 
 MooEditr.UI.LinkDialog = function(editor){
-	var html = MooEditr.lang.get('type') + ' <select class="dialog-type"><option value="url">' + MooEditr.lang.get('selurl') + '</option><option value="file">' + MooEditr.lang.get('selfile') + '</option><option value="email">' + MooEditr.lang.get('selemail') + '</option><option value="anchor">' + MooEditr.lang.get('selanchor') + '</option></select>'
+	var html = '<form>' + MooEditr.lang.get('type') + ' <select class="dialog-type"><option value="url">' + MooEditr.lang.get('selurl') + '</option><option value="file">' + MooEditr.lang.get('selfile') + '</option><option value="email">' + MooEditr.lang.get('selemail') + '</option><option value="anchor">' + MooEditr.lang.get('selanchor') + '</option></select>'
 	+ ' <span class="type url">' + MooEditr.lang.get('enterURL') + ' <input type="text" class="dialog-url" /> ' + MooEditr.lang.get('window') + ' <select class="dialog-window"><option value="_top">' + MooEditr.lang.get('windowsame') + '</option><option value="_blank">' + MooEditr.lang.get('windownew') + '</option></select></span>'
 	+ ' <span class="type anchor" style="display:none;">' + MooEditr.lang.get('anchor') + ' <select class="dialog-anchor"><option value="">' + MooEditr.lang.get('noanchors') + '</option></select></span>'
 	+ ' <span class="type email" style="display:none;">' + MooEditr.lang.get('email') + ' <input type="text" class="dialog-email" /></span>'
 	+ ' <span class="type file" style="display:none;">' + MooEditr.lang.get('file') + ' <input type="text" class="dialog-file" style="margin-right:0px;" />' + (editor.options.fileManager ? '<input type="button" value="' + MooEditr.lang.get('browse') + '" class="dialog-file-browse browse" />' : '' ) + ' ' + MooEditr.lang.get('window') + ' <select class="dialog-file-window"><option value="_top">' + MooEditr.lang.get('windowsame') + '</option><option value="_blank">' + MooEditr.lang.get('windownew') + '</option></select></span>'
 	+ ' <button class="dialog-button dialog-ok-button">' + MooEditr.lang.get('ok') + '</button>'
-	+ ' <button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button>';
+	+ ' <button class="dialog-button dialog-cancel-button">' + MooEditr.lang.get('cancel') + '</button></form>';
 	var d = new MooEditr.UI.Dialog(html, {
 		'class': 'mooeditr-prompt-dialog',
 		onOpen: function(e){
@@ -171,7 +171,7 @@ MooEditr.UI.LinkDialog = function(editor){
 		}
 	});
 	
-	$(d).getElement('select.dialog-type').addEvent('change',function(e){
+	document.id(d).getElement('select.dialog-type').addEvent('change',function(e){
 		d.el.getElements('span.type').setStyle('display','none');
 		d.el.getElement('span.'+d.el.getElement('select.dialog-type').get('value')).setStyle('display','inline');
 	}.bind(this));
