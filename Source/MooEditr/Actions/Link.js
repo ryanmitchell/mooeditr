@@ -89,7 +89,7 @@ MooEditr.UI.LinkDialog = function(editor){
             }
             // update values
             var node = editor.selection.getNode();
-            if (node.get('tag') == 'a'){
+            if (node && node.get('tag') == 'a'){
             	if (node.getProperty('href') != ''){
             		var href = node.getProperty('href').trim();
             		if (href.substr(0,1) == '#'){
@@ -189,14 +189,24 @@ MooEditr.UI.LinkDialog = function(editor){
 					// close
 					this.close();
 					
+					// get current node
 					var node = editor.selection.getNode(); 
+					
 					// stops empty paragraph issues
 					var ctnt = editor.selection.getContent().replace(/<p><\/p>/g, '');
-					var el = (node.get('tag') == 'a') ? node : new Element('a', { html: ctnt });
+					
+					// if editing, get the node we're editing
+					var el = (node && node.get('tag') == 'a') ? node : new Element('a', { html: ctnt });
+					
+					// set href and target if necessary
 					el.setProperty('href',url);
-					if(target != '_top') el.setProperty('target',target);
-					var div = new Element('div').adopt(el);
-					editor.selection.insertContent(div.get('html')); 
+					if (target != '_top') el.setProperty('target', target);
+					
+					// not editing we need to insert
+					if (!(node && node.get('tag') == 'a')){
+						var div = new Element('div').adopt(el);
+						editor.selection.insertContent(div.get('html')); 
+					}
 				
 				} else {
 					alert(errormsg);
