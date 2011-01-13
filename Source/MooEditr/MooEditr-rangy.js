@@ -666,6 +666,7 @@ this.MooEditr = new Class({
 
 	toggleView: function(mode){
 		this.fireEvent('beforeToggleView', this);
+		this.closeAllDialogs();
 		if (mode) this.mode = mode;
 		if (this.mode == 'textarea'){
 			this.mode = 'iframe';
@@ -690,6 +691,16 @@ this.MooEditr = new Class({
 		this.fireEvent('toggleView', this);
 		this.focus.delay(10, this);
 		return this;
+	},
+	
+	closeAllDialogs: function(){
+	
+		Object.each(this.dialogs, function(act){
+			Object.each(act, function(d){
+				if (d.close) d.close();
+			});
+		});
+	
 	},
 
 	getContent: function(){
