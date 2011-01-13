@@ -159,26 +159,17 @@ MooEditr.UI.ImageDialog = function(editor){
 					// close window
 					this.close();
 			
-					var node = editor.selection.getNode();
-					if (node.get('tag') == 'img'){
-						node.set('src', this.el.getElement('.dialog-url').get('value').trim());
-						node.set('alt', this.el.getElement('.dialog-alt').get('value').trim());
-						node.className = this.el.getElement('.dialog-class').get('value').trim();
-						node.set('align', this.el.getElement('.dialog-align').get('value'));
-						node.set('width', parseInt(this.el.getElement('.dialog-width').get('value')));
-						node.set('height', parseInt(this.el.getElement('.dialog-height').get('value')));
-					} else {
-						var div = new Element('div');
-						new Element('img', {
-							src: this.el.getElement('.dialog-url').get('value').trim(),
-							alt: this.el.getElement('.dialog-alt').get('value').trim(),
-							'class': this.el.getElement('.dialog-class').get('value').trim(),
-							align: this.el.getElement('.dialog-align').get('value'),
-							width: parseInt(this.el.getElement('.dialog-width').get('value')),
-							height: parseInt(this.el.getElement('.dialog-height').get('value'))
-						}).inject(div);
-						editor.selection.insertContent(div.get('html'));
-					}
+					// create new div and insert
+					var div = new Element('div');
+					new Element('img', {
+						src: this.el.getElement('.dialog-url').get('value').trim(),
+						alt: this.el.getElement('.dialog-alt').get('value').trim(),
+						'class': this.el.getElement('.dialog-class').get('value').trim(),
+						align: this.el.getElement('.dialog-align').get('value'),
+						width: parseInt(this.el.getElement('.dialog-width').get('value')),
+						height: parseInt(this.el.getElement('.dialog-height').get('value'))
+					}).inject(div);
+					editor.selection.insertContent(div.get('html'));
 				
 				} else {
 					alert(errormsg);
