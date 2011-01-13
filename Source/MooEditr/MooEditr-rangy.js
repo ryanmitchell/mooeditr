@@ -665,8 +665,18 @@ this.MooEditr = new Class({
 	},
 
 	toggleView: function(mode){
+	
+		// save position before anything is changed
+		if (mode == 'iframe'){
+			this.selection.position = this.selection.rangy.serializeSelection(this.selection.getSelection());
+		}
+	
+		// fire before toggle view, this happens here as it changes selection
 		this.fireEvent('beforeToggleView', this);
+		
+		// close dialogs
 		this.closeAllDialogs();
+		
 		if (mode) this.mode = mode;
 		if (this.mode == 'textarea'){
 			this.mode = 'iframe';
@@ -675,6 +685,10 @@ this.MooEditr = new Class({
 				this.toolbar.el.setStyle('display', 'block');
 			}
 			this.setContent(this.textarea.value);
+			if (this.selection.position){
+				this.selection.rangy.deserializeSelection(this.selection.position, null, this.win);
+				delete this.selection.position;
+			}
 			this.textarea.setStyle('display', 'none');
 		} else {
 			this.saveContent();
