@@ -686,7 +686,7 @@ this.MooEditr = new Class({
 			}
 			this.setContent(this.textarea.value);
 			if (this.selection.position){
-				this.selection.rangy.deserializeSelection(this.selection.position, null, this.win);
+				try { this.selection.rangy.deserializeSelection(this.selection.position, null, this.win); } catch(e){ }
 				delete this.selection.position;
 			}
 			this.textarea.setStyle('display', 'none');
