@@ -84,12 +84,23 @@ MooEditr.Selection = new Class({
 			var r = this.getRange();
 			if (!r) throw 'No range could be made';
 			
+			// collapsed or not?
 			if (!r.collapsed){
 				var element = r.getNodes()[0].parentNode;
 			} else {
 				var element = r.commonAncestorContainer.parentNode;
 			}
 			
+			// special case for image selection
+			if (frag = r.cloneContents()){
+				if (frag.childNodes.length == 1){
+					if (frag.childNodes[0].tagName.toUpperCase() == 'IMG'){
+						element = frag.childNodes[0];
+					}
+				}
+			}
+			
+			// mootoolsize and return
 			return document.id(element);
 		
 		} catch(e){
