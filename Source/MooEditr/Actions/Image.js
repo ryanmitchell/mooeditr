@@ -159,7 +159,7 @@ MooEditr.UI.ImageDialog = function(editor){
 					// close window
 					this.close();
 			
-					// create new div and insert
+					// create new div and insert contents
 					var div = new Element('div');
 					new Element('img', {
 						src: this.el.getElement('.dialog-url').get('value').trim(),
